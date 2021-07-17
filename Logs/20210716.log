@@ -1,0 +1,15 @@
+0	08:28:30.290	Script 交易记录 XAUUSD,M5: loaded successfully
+0	08:28:51.524	交易记录 XAUUSD,M5 inputs: fileName=yht_rc_out.csv; hourOffset=-1; 
+0	08:28:51.550	交易记录 XAUUSD,M5: initialized
+0	08:28:53.027	交易记录 XAUUSD,M5: uninit reason 0
+0	08:28:53.029	Script 交易记录 XAUUSD,M5: removed
+0	08:28:56.983	Script 交易记录 XAUUSD,M5: loaded successfully
+0	08:29:29.695	交易记录 XAUUSD,M5 inputs: fileName=yht_rc_out.csv; hourOffset=1; 
+0	08:29:29.721	交易记录 XAUUSD,M5: initialized
+0	08:29:31.176	交易记录 XAUUSD,M5: uninit reason 0
+0	08:29:31.179	Script 交易记录 XAUUSD,M5: removed
+0	08:29:38.163	Script 交易记录 XAUUSD,M5: loaded successfully
+0	08:29:43.119	交易记录 XAUUSD,M5 inputs: fileName=yht_rc_out.csv; hourOffset=0; 
+0	08:29:43.146	交易记录 XAUUSD,M5: initialized
+0	08:29:44.672	交易记录 XAUUSD,M5: uninit reason 0
+0	08:29:44.674	Script 交易记录 XAUUSD,M5: removed
