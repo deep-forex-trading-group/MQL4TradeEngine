@@ -21,6 +21,7 @@ public:
             + order_position);
    }
 };
+
 class OrderManageUtils {
 
 private:
