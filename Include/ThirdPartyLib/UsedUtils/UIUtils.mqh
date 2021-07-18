@@ -13,6 +13,9 @@ class UIUtils {
                       color pressed_clr, color unpressed_clr);
         void laber(string a,color b,int jl);
         void 固定位置标签(string 名称,string 内容,int XX,int YX,color C,int 字体大小,int 固定角内);
+        bool IsButtonPressed(string btn_name);
+        void UnPressButton(string btn_name);
+        void PressButton(string btn_name);
 };
 
 void UIUtils::button(string name,string txt1,string txt2,
@@ -74,4 +77,16 @@ void UIUtils::固定位置标签(string 名称,string 内容,int XX,int YX,color
     ObjectSet(名称,OBJPROP_YDISTANCE,YX);
     ObjectSetText(名称,内容,字体大小,"宋体",C);
     ObjectSet(名称,OBJPROP_CORNER,固定角内);
+}
+
+bool UIUtils::IsButtonPressed(string btn_name) {
+    return (ObjectGetInteger(0,btn_name,OBJPROP_STATE)==1);
+}
+
+void UIUtils::UnPressButton(string btn_name) {
+    ObjectSetInteger(0,btn_name,OBJPROP_STATE,0);
+}
+
+void UIUtils::PressButton(string btn_name) {
+    ObjectSetInteger(0,btn_name,OBJPROP_STATE,1);
 }
