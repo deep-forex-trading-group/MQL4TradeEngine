@@ -11,15 +11,14 @@ public:
    int order_position;
 
 public:
-   OrderInMarket() {}
-   ~OrderInMarket() {}
-   void PrintOrderInMarket() {
-      Print("" + order_lots + ", " + order_open_price + ", "
-            + order_close_price + "," + order_comment + ", "
-            + order_close_time + ", " + order_profit + ", "
-            + order_type + ", " + order_ticket + ", " 
-            + order_position);
-   }
+    OrderInMarket() {}
+    ~OrderInMarket() {}
+    void PrintOrderInMarket() {
+        PrintFormat("OrderInMarket <%s, %s, %s, %s, %s, %s, %s, %s, %s>",
+                    order_lots, order_open_price, order_close_price,
+                    order_comment, order_close_time, order_profit,
+                    order_type, order_ticket, order_position);
+    }
 };
 class OrderManageUtils {
 
@@ -560,7 +559,7 @@ public:
                           && OrderProfit() >= profit) {
              RefreshRates();
              CloseOrderByOrderTicket(OrderTicket(), 1);
-             Print("Activate close: " + OrderTicket());
+             PrintFormat("Activate close: %d", OrderTicket());
           }
        }
        return is_success;
@@ -581,7 +580,7 @@ public:
       cnt = 100;
       while (!is_success && cnt >= 0) {
          // (dir == 0 ? NormalizeDouble(Bid, Digits):NormalizeDouble(Ask, Digits))
-         is_success = OrderClose(order_ticket,OrderLots(),OrderClosePrice(),2*Spread,clrFireBrick);
+         is_success = OrderClose(order_ticket,OrderLots(),OrderClosePrice(),int(2*Spread),clrFireBrick);
          //Print("CloseOrderByOrderTicket Close Order ", order_ticket, " error, Repeat Operations!");
          cnt--;
       }
@@ -695,7 +694,8 @@ public:
     int SendMarketOrder(int Type, double Lots, int TP, int SL, int Magic, string Cmnt, double OpenPrice = 0, string mSymbol = "")
     {
       double Price, Take, Stop;
-      int Ticket, Color, Err;
+      int Ticket = -1;
+      int Color, Err;
       int ErrorCount = 0;
       while(!IsStopped())
       {
@@ -738,9 +738,9 @@ public:
          if(IsTradeAllowed())
          {
             if(mSymbol == "")
-            Ticket = OrderSend(Symbol(), Type, Lots, Price, 2*Spread, 0, 0, Cmnt, Magic, 0, Color); // amended code
+            Ticket = OrderSend(Symbol(), Type, Lots, Price, int(2*Spread), 0, 0, Cmnt, Magic, 0, Color); // amended code
             else
-            Ticket = OrderSend(mSymbol, Type, Lots, Price, 2*Spread, Stop, Take, Cmnt, Magic, 0, Color);
+            Ticket = OrderSend(mSymbol, Type, Lots, Price, int(2*Spread), Stop, Take, Cmnt, Magic, 0, Color);
 
             if(Ticket < 0)
             {

@@ -51,7 +51,7 @@ public:
    }
 
    void 固定位置标签(string 名称,string 内容,int XX,int YX,color C,int 字体大小,int 固定角内) {
-      if(内容==EMPTY)
+      if(sizeof(内容)==0)
          return;
       if(ObjectFind(名称)==-1)
       {
