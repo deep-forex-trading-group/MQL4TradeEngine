@@ -658,15 +658,17 @@ public:
       }
 
       if (direction == 1) {
-         total_orders_num = OrdersTotal();
+         int dir_1_total_orders_num = OrdersTotal();
          double lowest_price = -1;
          int lowest_ticket = -1;
          // if (total_orders_num == 0) {
          //    return CreateSellOrder(Lot,0,0) >= 0;
          // }
-         for (i = total_orders_num - 1; i >= 0; i--) {
+         for (int dir_1_i = dir_1_total_orders_num - 1; dir_1_i >= 0; dir_1_i--) {
             RefreshRates();
-            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol() && OrderType() == OP_SELL) {
+            if (OrderSelect(dir_1_i, SELECT_BY_POS, MODE_TRADES) 
+                  && OrderSymbol() == Symbol() 
+                  && OrderType() == OP_SELL) {
                   RefreshRates();
                   if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
                      lowest_price = OrderOpenPrice();

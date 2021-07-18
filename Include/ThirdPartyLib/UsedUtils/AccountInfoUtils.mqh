@@ -15,8 +15,8 @@ public:
       }
 
       int orders_history_total = OrdersHistoryTotal();
-      for (i = orders_history_total - 1; i >= 0; i--) {
-         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()) {
+      for (int oh_i = orders_history_total - 1; oh_i >= 0; oh_i--) {
+         if (OrderSelect(oh_i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()) {
             TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();;
          }
       }
