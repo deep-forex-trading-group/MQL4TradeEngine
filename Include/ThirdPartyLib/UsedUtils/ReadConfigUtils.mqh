@@ -2,6 +2,12 @@
 #include <ThirdPartyLib/Lang/Script.mqh>
 #include <ThirdPartyLib/Collection/HashMap.mqh>
 
+// Testing Mode and Production Mode switch
+// if Production Mode, comments the code snippets
+//#ifndef TestMode
+//   #define TestMode
+//#endif
+
 class ReadConfigUtils {
     public:
         ReadConfigUtils() {}
@@ -12,6 +18,10 @@ class ReadConfigUtils {
 };
 
 int ReadConfigUtils::ReadConfig(HashMap<string,string>& config_map_out) {
+#ifdef TestMode
+    string terminal_data_path=TerminalInfoString(TERMINAL_DATA_PATH);
+    Print("terminal_data_path: %s", terminal_data_path);
+#endif
     TextFile txt("config.txt", FILE_READ);
 
     if(txt.valid()) {
