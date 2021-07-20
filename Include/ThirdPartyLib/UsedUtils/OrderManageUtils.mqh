@@ -1,13 +1,6 @@
 #include "OrderInMarket.mqh"
 
 class OrderManageUtils {
-
-private:
-   double Spread;
-   // Magic Numbers
-   int MagicNumberBuy;   
-   int MagicNumberSell;
-
 public:
 
     OrderManageUtils() {
@@ -19,6 +12,14 @@ public:
 
     ~OrderManageUtils() {}
 
+// Member Variables and Functions
+private:
+    double Spread;
+    // Magic Numbers
+    int MagicNumberBuy;
+    int MagicNumberSell;
+
+public:
     // 订单信息函数
     int GetNumOfAllOrders();
 
