@@ -15,9 +15,9 @@
 
 // Testing Mode and Production Mode switch
 // if Production Mode, comments the code snippets
-#ifndef TestMode
-   #define TestMode
-#endif
+//#ifndef TestMode
+//   #define TestMode
+//#endif
 
 input string InpFileName="test_conf"; // file name
 input string InpDirectoryName="ExpertsConf"; // directory name

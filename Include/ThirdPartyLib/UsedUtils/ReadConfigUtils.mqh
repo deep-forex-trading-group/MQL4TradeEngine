@@ -4,9 +4,6 @@
 
 #include <ThirdPartyLib/UsedUtils/ErrUtils.mqh>
 
-// Testing Mode and Production Mode switch
-// if Production Mode, comments the code snippets
-
 class ReadConfigUtils {
     public:
         ReadConfigUtils() {}
