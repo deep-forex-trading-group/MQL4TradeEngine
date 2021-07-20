@@ -1,0 +1,2 @@
+pips_factor:21
+act_factor:2019
