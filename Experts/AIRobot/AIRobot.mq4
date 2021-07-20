@@ -1,4 +1,4 @@
-#property  copyright "EU_KILLER_基础模板"
+#property  copyright "AIRobot Basic Template"
 #property  link      "https://www.eahub.cn/thread-737-1-1.html"
 #property description "AIRobot for consistently profits"
 
@@ -36,11 +36,11 @@ int OnInit() {
     AIRobotConfigParams ai_robot_config_params = ai_robot_config.getConfig();
     if(!ai_robot_config_params.is_config_exist) {
       Print("AIRobot Config does not exists!");
-      return -1;
+      return INIT_FAILED;
     }
     ai_robot_config.printConfig();
     ai_robot_ui.InitGraphItems();
-    return 0;
+    return INIT_SUCCEEDED;
 }
 
 void OnTick() {
