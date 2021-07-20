@@ -13,10 +13,12 @@ public:
 public:
     OrderInMarket() {}
     ~OrderInMarket() {}
-    void PrintOrderInMarket() {
-        PrintFormat("OrderInMarket <%s, %s, %s, %s, %s, %s, %s, %s, %s>",
-                    order_lots, order_open_price, order_close_price,
-                    order_comment, order_close_time, order_profit,
-                    order_type, order_ticket, order_position);
-    }
+    void PrintOrderInMarket();
 };
+
+void OrderInMarket::PrintOrderInMarket() {
+    PrintFormat("OrderInMarket <%s, %s, %s, %s, %s, %s, %s, %s, %s>",
+                order_lots, order_open_price, order_close_price,
+                order_comment, order_close_time, order_profit,
+                order_type, order_ticket, order_position);
+}

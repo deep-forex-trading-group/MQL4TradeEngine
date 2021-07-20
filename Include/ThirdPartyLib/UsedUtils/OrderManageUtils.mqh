@@ -431,40 +431,40 @@ bool OrderManageUtils::GetLowestSellOpenPriceOrder(OrderInMarket& res[], int mag
      return true;
   }
 bool OrderManageUtils::GetLowestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number) {
-        int total_orders_num = OrdersTotal();
-        double lowest_price = -1;
-        int lowest_ticket = -1;
-        OrderInMarket oi();
-        for (int i = total_orders_num - 1; i >= 0; i--) {
-          RefreshRates();
-          if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                && OrderMagicNumber() == magic_number && OrderType() == OP_BUY) {
-                RefreshRates();
-                if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
-                   lowest_price = OrderOpenPrice();
-                   lowest_ticket = OrderTicket();
+    int total_orders_num = OrdersTotal();
+    double lowest_price = -1;
+    int lowest_ticket = -1;
+    OrderInMarket oi();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderMagicNumber() == magic_number && OrderType() == OP_BUY) {
+            RefreshRates();
+            if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
+                lowest_price = OrderOpenPrice();
+                lowest_ticket = OrderTicket();
 
-                   oi.order_lots = OrderLots();
-                   oi.order_open_price = OrderOpenPrice();
-                   oi.order_close_price = OrderClosePrice();
-                   oi.order_comment = OrderComment();
-                   oi.order_close_time = OrderCloseTime();
-                   oi.order_profit = OrderProfit();
-                   oi.order_type = OrderType();
-                   oi.order_ticket = OrderTicket();
-                   oi.order_position = i;
-                }
-          }
+                oi.order_lots = OrderLots();
+                oi.order_open_price = OrderOpenPrice();
+                oi.order_close_price = OrderClosePrice();
+                oi.order_comment = OrderComment();
+                oi.order_close_time = OrderCloseTime();
+                oi.order_profit = OrderProfit();
+                oi.order_type = OrderType();
+                oi.order_ticket = OrderTicket();
+                oi.order_position = i;
+            }
         }
-
-        res[0] = oi;
-        ArrayResize(res, 1);
-        return true;
     }
+
+    res[0] = oi;
+    ArrayResize(res, 1);
+    return true;
+}
 void OrderManageUtils::PrintOrderInMarketArray(OrderInMarket& in[]) {
-  for (int i = 0; i < ArraySize(in); i++) {
-     in[i].PrintOrderInMarket();
-  }
+    for (int i = 0; i < ArraySize(in); i++) {
+        in[i].PrintOrderInMarket();
+    }
 }
 
 // 平仓函数
