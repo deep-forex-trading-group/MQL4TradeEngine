@@ -3,7 +3,10 @@
 #property description "AIRobot for consistently profits"
 
 #include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderInMarket.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderManageUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderGetUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderCloseUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderSendUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderPrintUtils.mqh>
 #include <ThirdPartyLib/UsedUtils/HedgeUtilsDual.mqh>
 #include <ThirdPartyLib/UsedUtils/AccountInfoUtils.mqh>
 #include <ThirdPartyLib/UsedUtils/UIUtils.mqh>
@@ -25,7 +28,10 @@ input string InpDirectoryName="ExpertsConf"; // directory name
 
 extern int   magic_number_extern = 1;
 
-OrderManageUtils ou();
+OrderGetUtils ou_get();
+OrderCloseUtils ou_close();
+OrderSendUtils ou_send();
+OrderPrintUtils ou_print();
 AccountInfoUtils ai_utils();
 
 AIRobotUI ai_robot_ui();
@@ -62,9 +68,13 @@ void RefreshButtonStates() {
 #endif
 }
 
-void OnDeinit(const int reason) {
-//   ~ou();
-//   ~ai_utils();
-//   ~ui_utils();
-//   ~read_config_utils();
+void deinit() {
+    delete &ou_get;
+    delete &ou_close;
+    delete &ou_send;
+    delete &ou_print;
+    delete &ai_utils;
+
+    delete &ai_robot_ui;
+    delete &ai_robot_config;
 }

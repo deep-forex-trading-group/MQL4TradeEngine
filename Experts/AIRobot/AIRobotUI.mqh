@@ -1,5 +1,8 @@
 #include <ThirdPartyLib/UsedUtils/UIUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderManageUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderGetUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderCloseUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderSendUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderPrintUtils.mqh>
 
 #include "AIRobotConfig.mqh"
 
@@ -25,7 +28,11 @@ class AIRobotUI {
         RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
     private:
         UIUtils ui_utils;
-        OrderManageUtils ou;
+        OrderGetUtils ou_get;
+        OrderCloseUtils ou_close;
+        OrderSendUtils ou_send;
+        OrderPrintUtils ou_print;
+        
         ENUM_BASE_CORNER button_section_set_pos;
 };
 
@@ -68,27 +75,27 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
     // ObjectGetInteger(0,"[button_name]",OBJPROP_STATE)==1 表示button为按下状态
     // ObjectSetInteger(0,"[button_name]",OBJPROP_STATE,0) 表示将button设置为弹起状态
     if(ui_utils.IsButtonPressed("平多按钮")) {
-        ou.CloseAllBuyOrders(magic_number);
+        ou_close.CloseAllBuyOrders(magic_number);
         ui_utils.UnPressButton("平多按钮");
     }
 
     if(ui_utils.IsButtonPressed("平空按钮")) {
-        ou.CloseAllSellOrders(magic_number);
+        ou_close.CloseAllSellOrders(magic_number);
         ui_utils.UnPressButton("平空按钮");
     }
 
     if(ui_utils.IsButtonPressed("平盈利多按钮")) {
-        ou.CloseAllBuyProfitOrders(magic_number, 0.1);
+        ou_close.CloseAllBuyProfitOrders(magic_number, 0.1);
         ui_utils.UnPressButton("平盈利多按钮");
     }
 
     if(ui_utils.IsButtonPressed("平盈利空按钮")) {
-        ou.CloseAllSellProfitOrders(magic_number, 0.1);
+        ou_close.CloseAllSellProfitOrders(magic_number, 0.1);
         ui_utils.UnPressButton("平盈利空按钮");
     }
 
     if(ui_utils.IsButtonPressed("全平按钮")) {
-        ou.CloseAllOrders(magic_number);
+        ou_close.CloseAllOrders(magic_number);
         ui_utils.UnPressButton("全平按钮");
     }
 

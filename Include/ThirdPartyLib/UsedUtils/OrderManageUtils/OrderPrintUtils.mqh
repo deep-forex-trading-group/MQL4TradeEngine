@@ -4,7 +4,7 @@
 class OrderPrintUtils : public OrderManageUtils {
     public:
         OrderPrintUtils():OrderManageUtils() {}
-        virtual ~OrderPrintUtils() {}
+        ~OrderPrintUtils() {}
     public:
         // 打印函数
         void PrintAllOrders();

@@ -4,7 +4,7 @@
 class OrderSendUtils : public OrderManageUtils {
     public:
         OrderSendUtils():OrderManageUtils() {}
-        virtual ~OrderSendUtils() {}
+        ~OrderSendUtils() {}
     public:
         // 下单函数
         bool AddOneOrderByStepPip(int direction, double StepPip, double Lot);

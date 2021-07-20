@@ -4,7 +4,7 @@
 class OrderGetUtils : OrderManageUtils {
     public:
         OrderGetUtils():OrderManageUtils() {}
-        virtual ~OrderGetUtils() {}
+        ~OrderGetUtils() {}
     public:
         // 订单信息函数
         int GetNumOfAllOrders();

@@ -4,7 +4,7 @@
 class OrderCloseUtils : public OrderManageUtils {
     public:
         OrderCloseUtils():OrderManageUtils() {}
-        virtual ~OrderCloseUtils() {}
+        ~OrderCloseUtils() {}
     public:
         // 平仓函数
         bool CloseAllOrders(int magic_number);
