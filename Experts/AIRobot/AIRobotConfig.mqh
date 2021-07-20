@@ -58,6 +58,7 @@ int AIRobotConfig::refreshConfig() {
             this.ai_robot_config_params.act_factor = act_factor_val;
         }
     }
+    delete &config_map;
     this.ai_robot_config_params.is_config_exist = true;
     return 0;
 }
