@@ -21,8 +21,8 @@ class AIRobotUI {
         ~AIRobotUI() {}
         
     public:
-      void InitGraphItems();
-      RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
+        void InitGraphItems();
+        RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
     private:
         UIUtils ui_utils;
         OrderManageUtils ou;
