@@ -1,71 +1,71 @@
 #include "OrderInMarket.mqh"
 
 class OrderManageUtils {
-public:
+    public:
 
-    OrderManageUtils() {
-        Spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
+        OrderManageUtils() {
+            Spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
+            // Magic Numbers
+            MagicNumberBuy        = 123456789;
+            MagicNumberSell       = 987654321;
+        }
+
+        ~OrderManageUtils() {}
+
+    // Member Variables and Functions
+    private:
+        double Spread;
         // Magic Numbers
-        MagicNumberBuy        = 123456789;
-        MagicNumberSell       = 987654321;
-    }
+        int MagicNumberBuy;
+        int MagicNumberSell;
 
-    ~OrderManageUtils() {}
+    public:
+        // 订单信息函数
+        int GetNumOfAllOrders();
 
-// Member Variables and Functions
-private:
-    double Spread;
-    // Magic Numbers
-    int MagicNumberBuy;
-    int MagicNumberSell;
+        // 订单信息函数
+        int GetNumOfAllOrders(int magic_number);
+        int GetNumOfBuyOrders();
+        int GetNumOfSellOrders();
+        int GetNumOfLossOrders();
+        bool GetBuyOrdersReverse(OrderInMarket& res[], int total_get_cnt);
+        bool GetBuyProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt);
+        bool GetBuyLossOrdersReverse(OrderInMarket& res[], int total_get_cnt);
+        bool GetSellOrdersReverse(OrderInMarket& res[], int total_get_cnt);
+        bool GetSellProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt);
+        bool GetSellLossOrdersReverse(OrderInMarket& res[], int total_get_cnt);
+        bool GetHighestOpenPriceOrder(OrderInMarket& res[]);
+        bool GetHighestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number);
+        bool GetHighestSellOpenPriceOrder(OrderInMarket& res[], int magic_number);
+        bool GetLowestOpenPriceOrder(OrderInMarket& res[]);
+        bool GetLowestSellOpenPriceOrder(OrderInMarket& res[], int magic_number);
+        bool GetLowestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number);
+        void PrintOrderInMarketArray(OrderInMarket& in[]);
 
-public:
-    // 订单信息函数
-    int GetNumOfAllOrders();
+        // 平仓函数
+        bool CloseAllOrders(int magic_number);
+        bool CloseAllBuyOrders();
+        bool CloseAllBuyOrders(int magic_number);
+        bool CloseAllBuyProfitOrders(int magic_number, double profit);
+        bool CloseAllSellOrders();
+        bool CloseAllSellOrders(int magic_number);
+        bool CloseAllSellProfitOrders(int magic_number, double profit);
+        bool CloseOrderByOrderTicket(int order_ticket, int dir);
+        bool CloseSingleOrderByProfit(double profit);
+        bool CloseSingleOrderByLoss(double loss);
 
-    // 订单信息函数
-    int GetNumOfAllOrders(int magic_number);
-    int GetNumOfBuyOrders();
-    int GetNumOfSellOrders();
-    int GetNumOfLossOrders();
-    bool GetBuyOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-    bool GetBuyProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-    bool GetBuyLossOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-    bool GetSellOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-    bool GetSellProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-    bool GetSellLossOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-    bool GetHighestOpenPriceOrder(OrderInMarket& res[]);
-    bool GetHighestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number);
-    bool GetHighestSellOpenPriceOrder(OrderInMarket& res[], int magic_number);
-    bool GetLowestOpenPriceOrder(OrderInMarket& res[]);
-    bool GetLowestSellOpenPriceOrder(OrderInMarket& res[], int magic_number);
-    bool GetLowestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number);
-    void PrintOrderInMarketArray(OrderInMarket& in[]);
+        // 下单函数
+        bool AddOneOrderByStepPip(int direction, double StepPip, double Lot);
+        int CreateBuyOrder(double Lots, int TP, int SL);
+        int CreateSellOrder(double Lots, int TP, int SL);
+        int SendMarketOrder(int Type, double Lots, int TP, int SL,
+                            int Magic, string Cmnt, double OpenPrice = 0, string mSymbol = "");
 
-    // 平仓函数
-    bool CloseAllOrders(int magic_number);
-    bool CloseAllBuyOrders();
-    bool CloseAllBuyOrders(int magic_number);
-    bool CloseAllBuyProfitOrders(int magic_number, double profit);
-    bool CloseAllSellOrders();
-    bool CloseAllSellOrders(int magic_number);
-    bool CloseAllSellProfitOrders(int magic_number, double profit);
-    bool CloseOrderByOrderTicket(int order_ticket, int dir);
-    bool CloseSingleOrderByProfit(double profit);
-    bool CloseSingleOrderByLoss(double loss);
+        // 打印函数
+        void PrintAllOrders();
 
-    // 下单函数
-    bool AddOneOrderByStepPip(int direction, double StepPip, double Lot);
-    int CreateBuyOrder(double Lots, int TP, int SL);
-    int CreateSellOrder(double Lots, int TP, int SL);
-    int SendMarketOrder(int Type, double Lots, int TP, int SL,
-                        int Magic, string Cmnt, double OpenPrice = 0, string mSymbol = "");
-
-    // 打印函数
-    void PrintAllOrders();
-
-    // ---------------------------- 逻辑辅助函数区域 ----------------------------
-    double IIFd(bool condition, double ifTrue, double ifFalse);
+        // ---------------------------- 逻辑辅助函数区域 ----------------------------
+        double IIFd(bool condition, double ifTrue, double ifFalse);
 };
 
 // 订单信息函数
