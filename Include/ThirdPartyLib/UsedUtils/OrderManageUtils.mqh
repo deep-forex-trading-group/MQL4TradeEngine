@@ -11,10 +11,10 @@ private:
 public:
 
     OrderManageUtils() {
-      Spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
-      // Magic Numbers
-      MagicNumberBuy        = 123456789;
-      MagicNumberSell       = 987654321;
+        Spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
+        // Magic Numbers
+        MagicNumberBuy        = 123456789;
+        MagicNumberSell       = 987654321;
     }
 
     ~OrderManageUtils() {}
