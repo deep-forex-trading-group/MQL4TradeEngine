@@ -62,10 +62,10 @@ void RefreshButtonStates() {
 
     RefreshButtonsStatesRet rt = ai_robot_ui.RefreshButtonsStates(refresh_button_states_params);
     is_testing_ok = rt.is_testing_ok;
-#ifdef TestMode
-    Print("config in main");
-    ai_robot_config.printConfig();
-#endif
+    #ifdef TestMode
+        Print("config in main");
+        ai_robot_config.printConfig();
+    #endif
 }
 
 void deinit() {

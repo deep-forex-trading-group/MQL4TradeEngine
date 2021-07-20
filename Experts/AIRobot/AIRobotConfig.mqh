@@ -18,7 +18,9 @@ class AIRobotConfig {
             // Refreshes the config params firstly
             this.refreshConfig();
         }
-        ~AIRobotConfig() {}
+        ~AIRobotConfig() {
+            delete &read_config_utils;
+        }
     private:
         ReadConfigUtils read_config_utils;
         AIRobotConfigParams ai_robot_config_params;

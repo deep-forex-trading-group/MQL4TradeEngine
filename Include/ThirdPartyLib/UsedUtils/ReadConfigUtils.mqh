@@ -7,7 +7,9 @@
 class ReadConfigUtils {
     public:
         ReadConfigUtils() {}
-        ~ReadConfigUtils() {}
+        ~ReadConfigUtils() {
+            delete &err_utils;
+        }
 
     public:
         int ReadConfigUtils::ReadConfig(HashMap<string,string>& config_map_out);

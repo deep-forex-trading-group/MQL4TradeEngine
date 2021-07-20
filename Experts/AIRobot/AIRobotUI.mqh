@@ -21,7 +21,13 @@ class AIRobotUI {
         AIRobotUI() {
             this.button_section_set_pos = CORNER_RIGHT_LOWER;
         }
-        ~AIRobotUI() {}
+        ~AIRobotUI() {
+            delete &ui_utils;
+            delete &ou_get;
+            delete &ou_close;
+            delete &ou_send;
+            delete &ou_print;
+        }
         
     public:
         void InitGraphItems();

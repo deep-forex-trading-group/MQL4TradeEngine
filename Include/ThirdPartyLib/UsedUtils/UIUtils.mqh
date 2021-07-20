@@ -1,5 +1,8 @@
 class UIUtils {
     public:
+        UIUtils() {};
+        ~UIUtils() {};
+    public:
        // 按钮名称，按下时显示的文字, 抬起时显示的文字
        // 按钮离X轴的距离, 按钮离Y轴的距离
        // 按钮长度, 按钮高度
