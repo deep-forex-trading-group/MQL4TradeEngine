@@ -1,20 +1,20 @@
 class OrderInMarket {
-public:
-   double order_lots;
-   double order_open_price;
-   double order_close_price;
-   string order_comment;
-   datetime order_close_time;
-   double order_profit;
-   int order_type;
-   int order_ticket;
-   int order_position;
+    public:
+       double order_lots;
+       double order_open_price;
+       double order_close_price;
+       string order_comment;
+       datetime order_close_time;
+       double order_profit;
+       int order_type;
+       int order_ticket;
+       int order_position;
 
-public:
-    OrderInMarket() {}
-    ~OrderInMarket() {}
-    void PrintOrderInMarket();
-    int copyOrder(OrderInMarket& dst[]);
+    public:
+        OrderInMarket() {}
+        ~OrderInMarket() {}
+        void PrintOrderInMarket();
+        int copyOrder(OrderInMarket& dst[]);
 };
 
 void OrderInMarket::PrintOrderInMarket() {
