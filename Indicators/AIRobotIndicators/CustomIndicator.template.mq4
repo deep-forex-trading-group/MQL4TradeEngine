@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                      CustomIndicatorTemplate.mq4 |
+//|                                      CustomIndicator.template.mq4 |
 //|                        Copyright 2019, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
