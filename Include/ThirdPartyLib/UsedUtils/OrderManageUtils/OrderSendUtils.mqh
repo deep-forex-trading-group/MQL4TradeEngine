@@ -72,10 +72,10 @@ bool OrderSendUtils::AddOneOrderByStepPip(int direction, double StepPip, double 
     return false;
 }
 int OrderSendUtils::CreateBuyOrder(double Lots, int TP, int SL) {
-  return SendMarketOrder(OP_BUY, Lots, 0, 0, MagicNumberBuy, "Buy Order");
+    return SendMarketOrder(OP_BUY, Lots, 0, 0, MagicNumberBuy, "Buy Order");
 }
 int OrderSendUtils::CreateSellOrder(double Lots, int TP, int SL) {
-  return SendMarketOrder(OP_SELL, Lots, 0, 0, MagicNumberSell, "Sell Order");
+    return SendMarketOrder(OP_SELL, Lots, 0, 0, MagicNumberSell, "Sell Order");
 }
 int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
                                     int Magic, string Cmnt,
@@ -161,5 +161,5 @@ int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
 
 // ---------------------------- 逻辑辅助函数区域 ----------------------------
 double OrderSendUtils::IIFd(bool condition, double ifTrue, double ifFalse) {
-  if (condition) return(ifTrue); else return(ifFalse);
+    if (condition) return(ifTrue); else return(ifFalse);
 }
