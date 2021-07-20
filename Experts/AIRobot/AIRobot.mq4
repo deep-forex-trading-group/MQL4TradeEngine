@@ -35,7 +35,6 @@ bool is_testing_ok = False;
 int OnInit() {
     AIRobotConfigParams ai_robot_config_params = ai_robot_config.getConfig();
     if(!ai_robot_config_params.is_config_exist) {
-      Print("AIRobot Config does not exists!");
       return INIT_FAILED;
     }
     ai_robot_config.printConfig();
