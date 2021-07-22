@@ -1,12 +1,10 @@
 #include <ThirdPartyLib/UsedUtils/UIUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderGetUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderCloseUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderSendUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderPrintUtils.mqh>
+#include <ThirdPartyLib/UsedUtils/OrderManageUtils/all.mqh>
 
 #include <ThirdPartyLib/UsedUtils/Strategy/StrategyContext.mqh>
 #include <ThirdPartyLib/UsedUtils/Strategy/Strategies/all.mqh>
 
+#include <ThirdPartyLib/UsedUtils/OrderGroupManager/all.mqh>
 #include "AIRobotConfig.mqh"
 
 struct RefreshButtonsStatesParams {
@@ -43,10 +41,12 @@ class AIRobotUI {
     public:
         void InitGraphItems();
         RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
+
+// Some test cases for the functions in project.
     private:
         void testRefreshConfig(bool ui_is_testing_ok, RefreshButtonsStatesParams& params);
         void testExecuteStrategy();
-
+        void testOrderGroupCenter();
 };
 
 void AIRobotUI::InitGraphItems() {
@@ -114,7 +114,7 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        testExecuteStrategy();
+        testOrderGroupCenter();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -136,5 +136,34 @@ void AIRobotUI::testExecuteStrategy() {
     StrategyParams ts_params = new TestingStrategyParams();
     StrategyContext *st_ctx = new StrategyContext(new TestingStrategy());
     st_ctx.executeStrategy(ts_params);
+}
+
+void AIRobotUI::testOrderGroupCenter() {
+    PrintFormat("---------- Testing for the group center %s ----------", "order_group_center");
+    OrderGroupCenter* order_group_center = new OrderGroupCenter();
+    order_group_center.setName("Central Center");
+    order_group_center.printInfo();
+    PrintFormat("--------------- Init og1 ----------------------");
+    OrderGroup* og1 = new OrderGroup(order_group_center);
+    order_group_center.printInfo();
+    PrintFormat("--------------- Init og2 ----------------------");
+    OrderGroup* og2 = new OrderGroup(order_group_center);
+    order_group_center.printInfo();
+
+    order_group_center.createMsg("Hello World");
+    order_group_center.unRegister(og1);
+
+    PrintFormat("---------------- After unRegistered %s -------------", "og1");
+    order_group_center.createMsg("After unRegitstered og1");
+
+    order_group_center.unRegister(og2);
+
+    PrintFormat("---------------- After unRegistered %s -------------", "og2");
+    order_group_center.createMsg("After unRegitstered og2");
+
+
+    delete og1;
+    delete og2;
+    delete order_group_center;
 }
 
