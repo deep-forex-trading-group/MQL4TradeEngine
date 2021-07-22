@@ -4,6 +4,9 @@
 #include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderSendUtils.mqh>
 #include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderPrintUtils.mqh>
 
+#include <ThirdPartyLib/UsedUtils/Strategy/StrategyContext.mqh>
+#include <ThirdPartyLib/UsedUtils/Strategy/Strategies/all.mqh>
+
 #include "AIRobotConfig.mqh"
 
 struct RefreshButtonsStatesParams {
@@ -28,18 +31,22 @@ class AIRobotUI {
             delete &ou_send;
             delete &ou_print;
         }
-        
-    public:
-        void InitGraphItems();
-        RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
     private:
         UIUtils ui_utils;
         OrderGetUtils ou_get;
         OrderCloseUtils ou_close;
         OrderSendUtils ou_send;
         OrderPrintUtils ou_print;
-        
+
         ENUM_BASE_CORNER button_section_set_pos;
+
+    public:
+        void InitGraphItems();
+        RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
+    private:
+        void testRefreshConfig(bool ui_is_testing_ok, RefreshButtonsStatesParams& params);
+        void testExecuteStrategy();
+
 };
 
 void AIRobotUI::InitGraphItems() {
@@ -107,9 +114,7 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        PrintFormat("ui_is_testing_ok: %s", ui_is_testing_ok ? "true" : "false");
-        params.ai_robot_config.refreshConfig();
-        params.ai_robot_config.printConfig();
+        testExecuteStrategy();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -119,5 +124,17 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
     rb_states_ret.is_testing_ok = ui_is_testing_ok;
 
     return rb_states_ret;
+}
+
+void AIRobotUI::testRefreshConfig(bool ui_is_testing_ok, RefreshButtonsStatesParams& params) {
+    PrintFormat("ui_is_testing_ok: %s", ui_is_testing_ok ? "true" : "false");
+    params.ai_robot_config.refreshConfig();
+    params.ai_robot_config.printConfig();
+}
+
+void AIRobotUI::testExecuteStrategy() {
+    StrategyParams ts_params = new TestingStrategyParams();
+    StrategyContext *st_ctx = new StrategyContext(new TestingStrategy());
+    st_ctx.executeStrategy(ts_params);
 }
 

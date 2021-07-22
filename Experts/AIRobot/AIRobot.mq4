@@ -11,7 +11,8 @@
 #include <ThirdPartyLib/UsedUtils/AccountInfoUtils.mqh>
 #include <ThirdPartyLib/UsedUtils/UIUtils.mqh>
 #include <ThirdPartyLib/UsedUtils/OrderGroupManager/OrderGroup.mqh>
-
+#include <ThirdPartyLib/UsedUtils/Strategy/StrategyContext.mqh>
+#include <ThirdPartyLib/UsedUtils/Strategy/Strategies/all.mqh>
 #include <ThirdPartyLib/Collection/HashMap.mqh>
 
 #include "AIRobotUI.mqh"
