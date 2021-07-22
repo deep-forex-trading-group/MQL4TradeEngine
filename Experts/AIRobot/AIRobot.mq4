@@ -2,18 +2,18 @@
 #property  link      "https://www.eahub.cn/thread-737-1-1.html"
 #property description "AIRobot for consistently profits"
 
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderInMarket.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderGetUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderCloseUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderSendUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderPrintUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/HedgeUtilsDual.mqh>
-#include <ThirdPartyLib/UsedUtils/AccountInfoUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/UIUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderGroupManager/OrderGroup.mqh>
-#include <ThirdPartyLib/UsedUtils/Strategy/StrategyContext.mqh>
-#include <ThirdPartyLib/UsedUtils/Strategy/Strategies/all.mqh>
-#include <ThirdPartyLib/Collection/HashMap.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderInMarket.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderGetUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderCloseUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderSendUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderPrintUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/HedgeUtilsDual.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/AccountInfoUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/OrderGroup.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
 
 #include "AIRobotUI.mqh"
 #include "AIRobotConfig.mqh"

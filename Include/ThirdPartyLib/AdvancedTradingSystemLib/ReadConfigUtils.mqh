@@ -1,8 +1,8 @@
-#include <ThirdPartyLib/Utils/File.mqh>
-#include <ThirdPartyLib/Lang/Script.mqh>
-#include <ThirdPartyLib/Collection/HashMap.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Utils/File.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Lang/Script.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
 
-#include <ThirdPartyLib/UsedUtils/ErrUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ErrUtils.mqh>
 
 class ReadConfigUtils {
     public:

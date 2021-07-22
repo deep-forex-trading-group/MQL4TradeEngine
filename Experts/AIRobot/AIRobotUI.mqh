@@ -1,10 +1,10 @@
-#include <ThirdPartyLib/UsedUtils/UIUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 
-#include <ThirdPartyLib/UsedUtils/Strategy/StrategyContext.mqh>
-#include <ThirdPartyLib/UsedUtils/Strategy/Strategies/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
 
-#include <ThirdPartyLib/UsedUtils/OrderGroupManager/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/all.mqh>
 #include "AIRobotConfig.mqh"
 
 struct RefreshButtonsStatesParams {

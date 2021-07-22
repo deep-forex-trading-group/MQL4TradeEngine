@@ -1,5 +1,5 @@
-#include <ThirdPartyLib/UsedUtils/ReadConfigUtils.mqh>
-#include <ThirdPartyLib/Collection/HashMap.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ReadConfigUtils.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
 
 struct AIRobotConfigParams {
     int pips_factor;

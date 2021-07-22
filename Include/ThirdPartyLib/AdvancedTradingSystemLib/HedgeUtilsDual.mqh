@@ -1,7 +1,7 @@
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderManageUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderGetUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderCloseUtils.mqh>
-#include <ThirdPartyLib/UsedUtils/OrderManageUtils/OrderSendUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderManageUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderGetUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderCloseUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderSendUtils.mqh>
 
 // #ifndef TestModeOrderManage1
 //    #define TestModeOrderManage1
