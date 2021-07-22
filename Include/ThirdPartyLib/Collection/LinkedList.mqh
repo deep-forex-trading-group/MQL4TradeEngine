@@ -82,6 +82,10 @@ public:
 template<typename T>
 LinkedListBase::~LinkedListBase()
   {
+  if (CheckPointer(m_head)==POINTER_INVALID) {
+    SafeDelete(m_head);
+    return;
+  }
    LinkedNode<T>*n=m_head.next();
    while(n!=m_tail)
      {
