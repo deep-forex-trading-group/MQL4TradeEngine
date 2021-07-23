@@ -12,7 +12,12 @@ class ReadConfigUtils {
         }
 
     public:
-        int ReadConfigUtils::ReadConfig(HashMap<string,string>& config_map_out);
+        int ReadConfig(HashMap<string,string>& config_map_out);
+    private:
+        bool IsTitleString(const string line);
+        string ProcessTitleString(const string line);
+        bool IsFieldString(const string line);
+        int ProcessFiledString(const string line, HashMap<string, string>& config_map_out);
 
     private:
         ErrUtils err_utils;
@@ -29,23 +34,51 @@ int ReadConfigUtils::ReadConfig(HashMap<string,string>& config_map_out) {
     }
 
     if(txt.valid()) {
+        int line_idx = 0;
         while(!txt.end() && !IsStopped()) {
             string line= txt.readLine();
-            string words[];
-            StringSplit(line,':',words);
-            int len=ArraySize(words);
-            if (len != 2) {
-                string err_msg = StringFormat("The config file record length is %d which is not valid!", len);
-                Print(err_msg);
-                Alert(err_msg);
-                return -1;
+            if (this.IsTitleString(line)) {
+                PrintFormat("Line {%s} is title string", line);
+                string title = this.ProcessTitleString(line);
+                if (StringLen(title) == 0) {
+                    PrintFormat("String in line <%d:%s> is empty string", line_idx+1, title);
+                }
+            } else if (this.IsFieldString(line)) {
+                PrintFormat("Line {%s} is field string", line);
+                if (this.ProcessFiledString(line, config_map_out) == 1) {
+                    return -1;
+                }
             }
-            config_map_out.set(words[0], words[1]);
+            line_idx++;
         }
         return 0;
      }
 
     return -1;
+}
+bool ReadConfigUtils::IsTitleString(const string line) {
+    return (StringFind(line, "[") != -1) && (StringFind(line, "]") != -1);
+}
+string ReadConfigUtils::ProcessTitleString(const string line) {
+    string title = StringSubstr(line, StringFind(line, "[") + 1, StringFind(line, "]") - 1);
+    return title;
+}
+bool ReadConfigUtils::IsFieldString(const string line) {
+    return StringFind(line , ":") != -1;
+}
+int ReadConfigUtils::ProcessFiledString(const string line,
+                                        HashMap<string, string>& config_map_out) {
+    string words[];
+    StringSplit(line,':',words);
+    int len=ArraySize(words);
+    if (len != 2) {
+        string err_msg = StringFormat("The config file record length is %d which is not valid!", len);
+        Print(err_msg);
+        Alert(err_msg);
+        return -1;
+    }
+    config_map_out.set(words[0], words[1]);
+    return 0;
 }
 
 

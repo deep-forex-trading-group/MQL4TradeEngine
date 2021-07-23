@@ -35,7 +35,7 @@ class AIRobotUI {
         OrderCloseUtils ou_close;
         OrderSendUtils ou_send;
         OrderPrintUtils ou_print;
-
+        AIRobotConfig ai_robot_config;
         ENUM_BASE_CORNER button_section_set_pos;
 
     public:
@@ -44,7 +44,7 @@ class AIRobotUI {
 
 // Some test cases for the functions in project.
     private:
-        void testRefreshConfig(bool ui_is_testing_ok, RefreshButtonsStatesParams& params);
+        void testRefreshConfig();
         void testExecuteStrategy();
         void testOrderGroupCenter();
 };
@@ -114,7 +114,8 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        testOrderGroupCenter();
+        this.testRefreshConfig();
+//        this.testOrderGroupCenter();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -126,10 +127,9 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
     return rb_states_ret;
 }
 
-void AIRobotUI::testRefreshConfig(bool ui_is_testing_ok, RefreshButtonsStatesParams& params) {
-    PrintFormat("ui_is_testing_ok: %s", ui_is_testing_ok ? "true" : "false");
-    params.ai_robot_config.refreshConfig();
-    params.ai_robot_config.printConfig();
+void AIRobotUI::testRefreshConfig() {
+    this.ai_robot_config.refreshConfig();
+    this.ai_robot_config.printConfig();
 }
 
 void AIRobotUI::testExecuteStrategy() {
