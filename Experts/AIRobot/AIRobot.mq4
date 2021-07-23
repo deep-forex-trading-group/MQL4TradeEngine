@@ -33,7 +33,7 @@ OrderGetUtils ou_get();
 OrderCloseUtils ou_close();
 OrderSendUtils ou_send();
 OrderPrintUtils ou_print();
-AccountInfoUtils ai_utils();
+AccountInfoUtils* ai_utils;
 
 AIRobotUI ai_robot_ui();
 AIRobotConfig ai_robot_config();
@@ -41,6 +41,7 @@ AIRobotConfig ai_robot_config();
 bool is_testing_ok = False;
 
 int OnInit() {
+    ai_utils = new AccountInfoUtils();
     AIRobotConfigParams ai_robot_config_params = ai_robot_config.getConfig();
     if(!ai_robot_config_params.is_config_exist) {
       return INIT_FAILED;
@@ -69,12 +70,13 @@ void RefreshButtonStates() {
     #endif
 }
 
-void deinit() {
+void OnDeinit(const int reason) {
+    Print("Deinitialize the AIRobot EA.");
     delete &ou_get;
     delete &ou_close;
     delete &ou_send;
     delete &ou_print;
-    delete &ai_utils;
+    delete ai_utils;
 
     delete &ai_robot_ui;
     delete &ai_robot_config;
