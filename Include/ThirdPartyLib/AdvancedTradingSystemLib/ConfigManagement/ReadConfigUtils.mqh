@@ -38,13 +38,11 @@ int ReadConfigUtils::ReadConfig(HashMap<string,string>& config_map_out) {
         while(!txt.end() && !IsStopped()) {
             string line= txt.readLine();
             if (this.IsTitleString(line)) {
-                PrintFormat("Line {%s} is title string", line);
                 string title = this.ProcessTitleString(line);
                 if (StringLen(title) == 0) {
                     PrintFormat("String in line <%d:%s> is empty string", line_idx+1, title);
                 }
             } else if (this.IsFieldString(line)) {
-                PrintFormat("Line {%s} is field string", line);
                 if (this.ProcessFiledString(line, config_map_out) == 1) {
                     return -1;
                 }

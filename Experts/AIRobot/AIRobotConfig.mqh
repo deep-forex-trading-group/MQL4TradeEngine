@@ -1,4 +1,4 @@
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ReadConfigUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/ReadConfigUtils.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
 
 struct AIRobotConfigParams {
