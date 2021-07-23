@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                          AIRobotSampleSignalSampleUsage.mq4 |
+//|                               AIRobotSampleSignalSampleUsage.mq4 |
 //|                        Copyright 2019, MetaQuotes Software Corp. |
 //|                                             https://www.mql5.com |
 //+------------------------------------------------------------------+
