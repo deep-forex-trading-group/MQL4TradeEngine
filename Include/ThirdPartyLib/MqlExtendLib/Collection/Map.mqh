@@ -87,5 +87,7 @@ public:
   };
 
 #define foreachm(KeyType,KeyName,ValueType,ValueName,Map) \
-for(MapIter<KeyType,ValueType>it(Map);it.testTrue();) for(ValueType ValueName;it.testTrue();) for(KeyType KeyName;(!it.end()) && it.assignKey(KeyName) && it.assignValue(ValueName);it.next())
+for(MapIter<KeyType,ValueType>it(Map);it.testTrue();) \
+for(ValueType ValueName;it.testTrue();) \
+for(KeyType KeyName;(!it.end()) && it.assignKey(KeyName) && it.assignValue(ValueName);it.next())
    //+------------------------------------------------------------------+
