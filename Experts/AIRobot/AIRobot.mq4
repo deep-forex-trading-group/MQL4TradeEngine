@@ -11,7 +11,6 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
 
 #include "AIRobotUI.mqh"
-#include "AIRobotConfig.mqh"
 
 // Testing Mode and Production Mode switch
 // if Production Mode, comments the code snippets
@@ -31,17 +30,11 @@ OrderPrintUtils ou_print();
 AccountInfoUtils* ai_utils;
 
 AIRobotUI ai_robot_ui();
-AIRobotConfig ai_robot_config();
 
 bool is_testing_ok = False;
 
 int OnInit() {
     ai_utils = new AccountInfoUtils();
-    AIRobotConfigParams ai_robot_config_params = ai_robot_config.getConfig();
-    if(!ai_robot_config_params.is_config_exist) {
-      return INIT_FAILED;
-    }
-    ai_robot_config.printConfig();
     ai_robot_ui.InitGraphItems();
     return INIT_SUCCEEDED;
 }
@@ -55,7 +48,6 @@ void RefreshButtonStates() {
     RefreshButtonsStatesParams refresh_button_states_params;
     refresh_button_states_params.magic_number = magic_number_extern;
     refresh_button_states_params.is_testing_ok = is_testing_ok;
-    refresh_button_states_params.ai_robot_config = &ai_robot_config;
 
     RefreshButtonsStatesRet rt = ai_robot_ui.RefreshButtonsStates(refresh_button_states_params);
     is_testing_ok = rt.is_testing_ok;
@@ -74,5 +66,4 @@ void OnDeinit(const int reason) {
     delete ai_utils;
 
     delete &ai_robot_ui;
-    delete &ai_robot_config;
 }
