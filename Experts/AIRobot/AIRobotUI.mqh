@@ -116,9 +116,9 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-//        this.testRefreshConfig();
+        this.testRefreshConfig();
 //        this.testOrderGroupCenter();
-        this.testCopyMap();
+//        this.testCopyMap();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -132,7 +132,6 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
 void AIRobotUI::testRefreshConfig() {
     this.ai_robot_config.refreshConfig();
-    this.ai_robot_config.printConfig();
 }
 
 void AIRobotUI::testExecuteStrategy() {
