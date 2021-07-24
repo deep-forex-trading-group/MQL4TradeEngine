@@ -21,7 +21,6 @@ class ConfigSection : public ConfigSectionBase {
 
     public:
         string GetConfigTitle();
-        HashMap<string, string>* GetConfigMap();
         void AddConfigField(string key, string value);
         string GetConfigField(string key);
         void CopyConfigMap(HashMap<string, string>& config_map_out);
@@ -36,9 +35,6 @@ void ConfigSection::PrintAllParams() {
 }
 string ConfigSection::GetConfigTitle() {
     return this.config_title_;
-}
-HashMap<string, string>* ConfigSection::GetConfigMap() {
-    return this.config_map_;
 }
 void ConfigSection::CopyConfigMap(HashMap<string, string>& config_map_out) {
     this.collection_copy_utils.CopyMap(this.config_map_, config_map_out);
