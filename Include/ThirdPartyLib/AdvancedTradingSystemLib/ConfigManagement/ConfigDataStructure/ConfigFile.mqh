@@ -4,14 +4,14 @@
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ErrUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
-#include "ConfigDataStructure/all.mqh"
+#include "ConfigSection.mqh"
 
-class ReadConfigUtils {
+class ConfigFile {
     public:
-        ReadConfigUtils() {
+        ConfigFile() {
             this.config_sections_map_ = new HashMap<string, ConfigSection*>;
         }
-        ~ReadConfigUtils() {
+        ~ConfigFile() {
             this.DeleteConfigMap();
             delete &err_utils;
         }
@@ -32,7 +32,7 @@ class ReadConfigUtils {
         ErrUtils err_utils;
 };
 
-int ReadConfigUtils::RefreshConfig() {
+int ConfigFile::RefreshConfig() {
     TextFile txt("config.txt", FILE_READ);
     string terminal_data_path = TerminalInfoString(TERMINAL_DATA_PATH);
     if (!txt.valid()) {
@@ -70,13 +70,13 @@ int ReadConfigUtils::RefreshConfig() {
 
     return 0;
 }
-HashMap<string, ConfigSection*>* ReadConfigUtils::GetConfigMap() {
+HashMap<string, ConfigSection*>* ConfigFile::GetConfigMap() {
     if (IsPtrInvalid(this.config_sections_map_)) {
         PrintFormat("config_sections_map_ invalid");
     }
     return this.config_sections_map_;
 }
-void ReadConfigUtils::PrintAllConfigItems() {
+void ConfigFile::PrintAllConfigItems() {
     Print("---------------------- Config Section Map Start -------------------------");
     foreachm(string, title, ConfigSection*, c_sec, this.config_sections_map_) {
         PrintFormat("<ConfigSection>: config_section For Title: %s Start", title);
@@ -86,19 +86,19 @@ void ReadConfigUtils::PrintAllConfigItems() {
     Print("---------------------- Config Section Map End -------------------------\n");
 }
 
-bool ReadConfigUtils::IsTitleString(const string line) {
+bool ConfigFile::IsTitleString(const string line) {
     return (StringFind(line, "[") != -1) && (StringFind(line, "]") != -1) &&
             // Except the case "[]" with empty title
             (StringFind(line, "]") != 1);
 }
-string ReadConfigUtils::ProcessTitleString(const string line) {
+string ConfigFile::ProcessTitleString(const string line) {
     string title = StringSubstr(line, StringFind(line, "[") + 1, StringFind(line, "]") - 1);
     return title;
 }
-bool ReadConfigUtils::IsFieldString(const string line) {
+bool ConfigFile::IsFieldString(const string line) {
     return StringFind(line , ":") != -1;
 }
-KVPair ReadConfigUtils::ProcessFiledString(const string line) {
+KVPair ConfigFile::ProcessFiledString(const string line) {
     KVPair kv_pair;
     string words[];
     StringSplit(line,':',words);
@@ -114,7 +114,7 @@ KVPair ReadConfigUtils::ProcessFiledString(const string line) {
     kv_pair.value = words[1];
     return kv_pair;
 }
-void ReadConfigUtils::DeleteConfigMap() {
+void ConfigFile::DeleteConfigMap() {
     foreachm(string, title, ConfigSection*, c_sec, config_sections_map_) {
         delete c_sec;
     }

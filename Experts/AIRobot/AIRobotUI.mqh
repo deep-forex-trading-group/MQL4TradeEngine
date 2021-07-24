@@ -7,7 +7,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/ReadConfigUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/ConfigDataStructure/all.mqh>
 
 struct RefreshButtonsStatesParams {
     int magic_number;
@@ -36,7 +36,7 @@ class AIRobotUI {
         OrderCloseUtils ou_close;
         OrderSendUtils ou_send;
         OrderPrintUtils ou_print;
-        ReadConfigUtils read_config_utils;
+        ConfigFile config_file;
         ENUM_BASE_CORNER button_section_set_pos;
 
     public:
@@ -132,17 +132,17 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
 void AIRobotUI::testRefreshConfig() {
 //    this.ai_robot_config.refreshConfig();
-    read_config_utils.RefreshConfig();
-    HashMap<string, ConfigSection*>* config_map = read_config_utils.GetConfigMap();
-    PrintFormat("---------- testing for read_config_utils.GetConfigField() --------------");
+    config_file.RefreshConfig();
+    HashMap<string, ConfigSection*>* config_map = config_file.GetConfigMap();
+    PrintFormat("---------- testing for config_file.GetConfigField() --------------");
     PrintFormat("config_field: config_map[\"title_1\"].GetConfigField(\"pips_factor\") = %s",
                 config_map["title_1"].GetConfigField("pips_factor"));
-    PrintFormat("---------- testing for read_config_utils.GetConfigMap() --------------");
+    PrintFormat("---------- testing for config_file.GetConfigMap() --------------");
     foreachm(string, title, ConfigSection*, cs_section, config_map) {
         PrintFormat("<title = %s, cs_section = %s (IsPtrInvalid)>",
                       title, BoolStr(IsPtrInvalid(cs_section)));
     }
-    read_config_utils.PrintAllConfigItems();
+    config_file.PrintAllConfigItems();
 }
 
 void AIRobotUI::testExecuteStrategy() {
