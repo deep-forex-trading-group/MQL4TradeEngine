@@ -45,7 +45,3 @@ void ConfigSection::CopyConfigMap(HashMap<string, string>& config_map_out) {
 void ConfigSection::AddConfigField(string key, string value) {
     this.config_map_.set(key, value);
 }
-
-
-
-

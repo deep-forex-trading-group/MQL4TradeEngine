@@ -125,8 +125,3 @@ void ReadConfigUtils::DeleteConfigMap() {
     }
     delete this.config_sections_map_;
 }
-
-
-
-
-

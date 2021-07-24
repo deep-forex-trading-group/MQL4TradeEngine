@@ -20,6 +20,3 @@ class OrderManageUtils {
         int MagicNumberBuy;
         int MagicNumberSell;
 };
-
-
-
