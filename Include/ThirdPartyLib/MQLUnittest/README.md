@@ -19,7 +19,8 @@ the source code is in the Samples Directory.
 
 Usage Sample
 --------------
-
+The sample usage code is in the  
+Experts/ThirdPartyLib.MQLUnittest directory.
 ```cpp
 #property strict
 
