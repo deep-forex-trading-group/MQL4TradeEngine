@@ -23,6 +23,7 @@ class ConfigSection : public ConfigSectionBase {
         string GetConfigTitle();
         HashMap<string, string>* GetConfigMap();
         void AddConfigField(string key, string value);
+        string GetConfigField(string key);
         void CopyConfigMap(HashMap<string, string>& config_map_out);
         void PrintAllParams();
 };
@@ -44,4 +45,11 @@ void ConfigSection::CopyConfigMap(HashMap<string, string>& config_map_out) {
 }
 void ConfigSection::AddConfigField(string key, string value) {
     this.config_map_.set(key, value);
+}
+string ConfigSection::GetConfigField(string key) {
+    if (!this.config_map_.contains(key)) {
+        PrintFormat("config_map_ does not contain the key: <%s>", key);
+        return "";
+    }
+    return this.config_map_[key];
 }

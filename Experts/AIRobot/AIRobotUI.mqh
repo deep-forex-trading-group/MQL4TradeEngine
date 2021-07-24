@@ -134,6 +134,9 @@ void AIRobotUI::testRefreshConfig() {
 //    this.ai_robot_config.refreshConfig();
     read_config_utils.RefreshConfig();
     HashMap<string, ConfigSection*>* config_map = read_config_utils.GetConfigMap();
+    PrintFormat("---------- testing for read_config_utils.GetConfigField() --------------");
+    PrintFormat("config_field: config_map[\"title_1\"].GetConfigField(\"pips_factor\") = %s",
+                config_map["title_1"].GetConfigField("pips_factor"));
     PrintFormat("---------- testing for read_config_utils.GetConfigMap() --------------");
     foreachm(string, title, ConfigSection*, cs_section, config_map) {
         PrintFormat("<title = %s, cs_section = %s (IsPtrInvalid)>",
