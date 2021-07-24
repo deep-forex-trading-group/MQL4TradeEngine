@@ -1,7 +1,6 @@
 /* -*- coding: utf-8 -*-
  *
  * This indicator is licensed under GNU GENERAL PUBLIC LICENSE Version 3.
- * See a LICENSE file for detail of the license.
  */
 
 #property copyright "Copyright 2014, micclly."
