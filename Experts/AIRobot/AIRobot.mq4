@@ -9,7 +9,6 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/OrderGroup.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
-#include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
 
 #include "AIRobotUI.mqh"
 #include "AIRobotConfig.mqh"
