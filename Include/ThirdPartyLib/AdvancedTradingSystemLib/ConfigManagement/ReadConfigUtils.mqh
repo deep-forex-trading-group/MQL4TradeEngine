@@ -6,11 +6,6 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include "ConfigDataStructure/all.mqh"
 
-struct KVPair {
-    string key;
-    string value;
-};
-
 class ReadConfigUtils {
     public:
         ReadConfigUtils() {
