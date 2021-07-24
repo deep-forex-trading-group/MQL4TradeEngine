@@ -1,0 +1,1 @@
+#include "CommonConstant.mqh"
