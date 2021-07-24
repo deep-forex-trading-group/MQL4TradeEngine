@@ -1,6 +1,5 @@
 #include "../ConfigBase/all.mqh"
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
-#include <ThirdPartyLib/MqlExtendLib/Collection/Map.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/Copy.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 
@@ -29,6 +28,7 @@ class ConfigSection : public ConfigSectionBase {
 };
 
 void ConfigSection::PrintAllParams() {
+    PrintFormat("config_title : <%s>", this.config_title_);
     foreachm(string, key, string, val, this.config_map_) {
         PrintFormat("config_item_<%s : %s>", key, val);
     }
