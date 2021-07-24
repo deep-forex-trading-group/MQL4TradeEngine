@@ -1,1 +1,1 @@
-#include "CommonConstant.mqh"
+#include "CommonDefineFunctions.mqh"
