@@ -1,6 +1,4 @@
 /* -*- coding: utf-8 -*-
- *
- * This indicator is licensed under GNU GENERAL PUBLIC LICENSE Version 3.
  */
 
 #property copyright "Copyright 2014, micclly."
@@ -13,7 +11,7 @@ input bool paramUnitTesting = true;
 
 input int paramMAPeriod = 13;
 
-#include "../UnitTest.mqh"
+#include <ThirdPartyLib/MQLUnittest/UnitTest.mqh>
 
 UnitTest* unittest;
 
