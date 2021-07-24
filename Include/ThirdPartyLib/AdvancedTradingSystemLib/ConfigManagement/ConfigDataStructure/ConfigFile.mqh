@@ -8,7 +8,9 @@
 
 class ConfigFile {
     public:
-        ConfigFile() {
+        ConfigFile(string file_path_in) {
+            PrintFormat("Initializing the ConfigFile(file_path_in=%s)", file_path_in);
+            this.file_path = file_path_in;
             this.config_titles_map_ = new HashMap<string, ConfigSection*>;
         }
         ~ConfigFile() {
@@ -28,12 +30,13 @@ class ConfigFile {
         void DeleteConfigMap();
 
     private:
+        string file_path;
         HashMap<string, ConfigSection*>* config_titles_map_;
         ErrUtils err_utils;
 };
 
 int ConfigFile::RefreshConfigFile() {
-    TextFile txt("config.txt", FILE_READ);
+    TextFile txt(this.file_path, FILE_READ);
     string terminal_data_path = TerminalInfoString(TERMINAL_DATA_PATH);
     if (!txt.valid()) {
         Print("The config file is not valid.");

@@ -11,3 +11,10 @@ if (CheckPointer(ptr) == POINTER_DYNAMIC) { \
 }
 
 #define BoolStr(bool_val) (bool_val ? "true" : "false")
+//
+//#define HandleLastError err_prefix_msg \
+//int ErrCode = GetLastError(); \
+//string ErrDesc = ErrorDescription(ErrCode); \
+//string ErrMsg = StringConcatenate(err_prefix_msg, ": ", ErrCode, " : ", ErrDesc); \
+//Alert(ErrMsg); \
+//Print(ErrMsg);

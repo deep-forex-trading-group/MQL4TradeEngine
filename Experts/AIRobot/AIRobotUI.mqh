@@ -22,6 +22,7 @@ class AIRobotUI {
     public:
         AIRobotUI() {
             this.button_section_set_pos = CORNER_RIGHT_LOWER;
+            this.config_file = new ConfigFile("config.txt");
         }
         ~AIRobotUI() {
             delete &ui_utils;
@@ -29,6 +30,7 @@ class AIRobotUI {
             delete &ou_close;
             delete &ou_send;
             delete &ou_print;
+            delete config_file;
         }
     private:
         UIUtils ui_utils;
@@ -36,7 +38,7 @@ class AIRobotUI {
         OrderCloseUtils ou_close;
         OrderSendUtils ou_send;
         OrderPrintUtils ou_print;
-        ConfigFile config_file;
+        ConfigFile* config_file;
         ENUM_BASE_CORNER button_section_set_pos;
 
     public:
