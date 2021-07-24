@@ -133,15 +133,14 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 void AIRobotUI::testRefreshConfig() {
 //    this.ai_robot_config.refreshConfig();
     config_file.RefreshConfig();
-    HashMap<string, ConfigSection*>* config_map = config_file.GetConfigMap();
-    PrintFormat("---------- testing for config_file.GetConfigField() --------------");
-    PrintFormat("config_field: config_map[\"title_1\"].GetConfigField(\"pips_factor\") = %s",
-                config_map["title_1"].GetConfigField("pips_factor"));
-    PrintFormat("---------- testing for config_file.GetConfigMap() --------------");
-    foreachm(string, title, ConfigSection*, cs_section, config_map) {
-        PrintFormat("<title = %s, cs_section = %s (IsPtrInvalid)>",
-                      title, BoolStr(IsPtrInvalid(cs_section)));
-    }
+    PrintFormat("---------- testing for config_file.GetConfigFieldByTitleAndFieldName() --------------");
+    PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"title_1\", \"pips_factor\") = %s",
+                config_file.GetConfigFieldByTitleAndFieldName("title_1", "pips_factor"));
+    PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"2011\", \"act_factor\") = %s",
+                config_file.GetConfigFieldByTitleAndFieldName("2011", "act_factor"));
+    PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"new title 2\", \"pips_factor\") = %s",
+                config_file.GetConfigFieldByTitleAndFieldName("new title 2", "pips_factor"));
+    PrintFormat("---------- testing for config_file.PrintAllConfigItems() --------------");
     config_file.PrintAllConfigItems();
 }
 

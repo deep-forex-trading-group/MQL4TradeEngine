@@ -9,7 +9,7 @@
 class ConfigFile {
     public:
         ConfigFile() {
-            this.config_sections_map_ = new HashMap<string, ConfigSection*>;
+            this.config_titles_map_ = new HashMap<string, ConfigSection*>;
         }
         ~ConfigFile() {
             this.DeleteConfigMap();
@@ -18,7 +18,7 @@ class ConfigFile {
 
     public:
         int RefreshConfig();
-        HashMap<string, ConfigSection*>* GetConfigMap();
+        string GetConfigFieldByTitleAndFieldName(string title, string field_name);
         void PrintAllConfigItems();
     private:
         bool IsTitleString(const string line);
@@ -28,7 +28,7 @@ class ConfigFile {
         void DeleteConfigMap();
 
     private:
-        HashMap<string, ConfigSection*>* config_sections_map_;
+        HashMap<string, ConfigSection*>* config_titles_map_;
         ErrUtils err_utils;
 };
 
@@ -42,9 +42,9 @@ int ConfigFile::RefreshConfig() {
         return -1;
     }
 
-    // Reinitialize the config_sections_map_
+    // Reinitialize the config_titles_map_
     this.DeleteConfigMap();
-    this.config_sections_map_ = new HashMap<string, ConfigSection*>;
+    this.config_titles_map_ = new HashMap<string, ConfigSection*>;
 
     int line_idx = 0;
     string cur_title;
@@ -58,27 +58,34 @@ int ConfigFile::RefreshConfig() {
         if (this.IsTitleString(line)) {
             cur_title = this.ProcessTitleString(line);
             ConfigSection* config_section = new ConfigSection(cur_title);
-            config_sections_map_.set(cur_title, config_section);
+            config_titles_map_.set(cur_title, config_section);
         }
-        if (config_sections_map_.contains(cur_title) && this.IsFieldString(line)) {
+        if (config_titles_map_.contains(cur_title) && this.IsFieldString(line)) {
 
             KVPair kv_pair = this.ProcessFiledString(line);
-            config_sections_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
+            config_titles_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
         }
         line_idx++;
     }
 
     return 0;
 }
-HashMap<string, ConfigSection*>* ConfigFile::GetConfigMap() {
-    if (IsPtrInvalid(this.config_sections_map_)) {
-        PrintFormat("config_sections_map_ invalid");
+string ConfigFile::GetConfigFieldByTitleAndFieldName(string title, string field_name) {
+    if (!this.config_titles_map_.contains(title)) {
+        PrintFormat("title %s is not in config_titles_map_", title);
+        return "";
     }
-    return this.config_sections_map_;
+    ConfigSection* c_sec = this.config_titles_map_[title];
+    string field_value = c_sec.GetConfigField(field_name);
+    if (field_value == "") {
+        PrintFormat("title %s, field_name: %s is not in the config_section_map_.", title, field_name);
+        return "";
+    }
+    return field_value;
 }
 void ConfigFile::PrintAllConfigItems() {
     Print("---------------------- Config Section Map Start -------------------------");
-    foreachm(string, title, ConfigSection*, c_sec, this.config_sections_map_) {
+    foreachm(string, title, ConfigSection*, c_sec, this.config_titles_map_) {
         PrintFormat("<ConfigSection>: config_section For Title: %s Start", title);
         c_sec.PrintAllParams();
         PrintFormat("</ConfigSection>: config_section For Title: %s End", title);
@@ -115,8 +122,8 @@ KVPair ConfigFile::ProcessFiledString(const string line) {
     return kv_pair;
 }
 void ConfigFile::DeleteConfigMap() {
-    foreachm(string, title, ConfigSection*, c_sec, config_sections_map_) {
+    foreachm(string, title, ConfigSection*, c_sec, config_titles_map_) {
         delete c_sec;
     }
-    delete this.config_sections_map_;
+    delete this.config_titles_map_;
 }
