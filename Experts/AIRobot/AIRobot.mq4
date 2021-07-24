@@ -2,11 +2,7 @@
 #property  link      "https://www.eahub.cn/thread-737-1-1.html"
 #property description "AIRobot for consistently profits"
 
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderInMarket.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderGetUtils.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderCloseUtils.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderSendUtils.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderPrintUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/HedgeUtilsDual.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/AccountInfoUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils.mqh>
