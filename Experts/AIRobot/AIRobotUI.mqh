@@ -6,6 +6,7 @@
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/all.mqh>
 #include "AIRobotConfig.mqh"
+#include <ThirdPartyLib/MqlExtendLib/Collection/all.mqh>
 
 struct RefreshButtonsStatesParams {
     int magic_number;
@@ -47,6 +48,7 @@ class AIRobotUI {
         void testRefreshConfig();
         void testExecuteStrategy();
         void testOrderGroupCenter();
+        void testCopyMap();
 };
 
 void AIRobotUI::InitGraphItems() {
@@ -114,8 +116,9 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        this.testRefreshConfig();
+//        this.testRefreshConfig();
 //        this.testOrderGroupCenter();
+        this.testCopyMap();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -165,5 +168,24 @@ void AIRobotUI::testOrderGroupCenter() {
     delete og1;
     delete og2;
     delete order_group_center;
+}
+
+void AIRobotUI::testCopyMap() {
+    CollectionCopyUtils<string, string>* collection_copy_utils = CollectionCopyUtils<string, string>::GetInstance();
+    HashMap<string, string>* map_src = new HashMap<string, string>();
+    map_src.set("k1", "12");
+    map_src.set("k2", "16");
+    HashMap<string, string>* map_dst = new HashMap<string, string>();
+    foreachm(string, key, string, val, map_src) {
+        PrintFormat("<%s, %s>", key, val);
+    }
+    collection_copy_utils.CopyMap(map_src, map_dst);
+    foreachm(string, key, string, val, map_dst) {
+        PrintFormat("<%s, %s>", key, val);
+    }
+
+    delete collection_copy_utils;
+    delete map_src;
+    delete map_dst;
 }
 
