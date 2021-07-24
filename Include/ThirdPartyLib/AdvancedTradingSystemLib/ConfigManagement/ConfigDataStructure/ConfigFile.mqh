@@ -17,7 +17,7 @@ class ConfigFile {
         }
 
     public:
-        int RefreshConfig();
+        int RefreshConfigFile();
         string GetConfigFieldByTitleAndFieldName(string title, string field_name);
         void PrintAllConfigItems();
     private:
@@ -32,7 +32,7 @@ class ConfigFile {
         ErrUtils err_utils;
 };
 
-int ConfigFile::RefreshConfig() {
+int ConfigFile::RefreshConfigFile() {
     TextFile txt("config.txt", FILE_READ);
     string terminal_data_path = TerminalInfoString(TERMINAL_DATA_PATH);
     if (!txt.valid()) {

@@ -45,7 +45,7 @@ class AIRobotUI {
 
 // Some test cases for the functions in project.
     private:
-        void testRefreshConfig();
+        void testRefreshConfigFile();
         void testExecuteStrategy();
         void testOrderGroupCenter();
         void testCopyMap();
@@ -116,7 +116,7 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        this.testRefreshConfig();
+        this.testRefreshConfigFile();
 //        this.testOrderGroupCenter();
 //        this.testCopyMap();
         ui_utils.UnPressButton("测试按钮");
@@ -130,9 +130,9 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
     return rb_states_ret;
 }
 
-void AIRobotUI::testRefreshConfig() {
+void AIRobotUI::testRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
-    config_file.RefreshConfig();
+    config_file.RefreshConfigFile();
     PrintFormat("---------- testing for config_file.GetConfigFieldByTitleAndFieldName() --------------");
     PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"title_1\", \"pips_factor\") = %s",
                 config_file.GetConfigFieldByTitleAndFieldName("title_1", "pips_factor"));
