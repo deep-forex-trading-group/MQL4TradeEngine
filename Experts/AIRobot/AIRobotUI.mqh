@@ -199,4 +199,3 @@ void AIRobotUI::testCopyMap() {
     delete map_src;
     delete map_dst;
 }
-
