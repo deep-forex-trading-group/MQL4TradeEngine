@@ -1,0 +1,3 @@
+[submodule "MQLUNIT"]
+	path = MQLUNIT
+	url = https://github.com/MQLLAB/MQLUNIT.git
