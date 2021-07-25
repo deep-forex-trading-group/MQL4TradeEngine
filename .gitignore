@@ -4,3 +4,4 @@ Logs/*
 *.ex4
 *.dat
 Logs*
+Files/MQLUNIT/*

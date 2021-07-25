@@ -29,7 +29,7 @@
 #ifndef MQLUNIT_TEXTFILETESTRUNNER_MQH
 #define MQLUNIT_TEXTFILETESTRUNNER_MQH
 
-#include <MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
 #include <Files/FileTxt.mqh>
 
 #include "Constants.mqh"

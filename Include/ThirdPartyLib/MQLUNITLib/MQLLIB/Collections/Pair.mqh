@@ -29,7 +29,7 @@
 #ifndef MQLLIB_COLLECTION_PAIR_MQH
 #define MQLLIB_COLLECTION_PAIR_MQH
 
-#include <MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
 
 //-----------------------------------------------------------------------------
 

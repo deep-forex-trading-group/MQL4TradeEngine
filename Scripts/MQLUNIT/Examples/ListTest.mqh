@@ -31,8 +31,8 @@
 
 #include <Object.mqh>
 #include <Arrays/List.mqh>
-#include <MQLLIB/Lang/Pointer.mqh>
-#include <MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
 
 //-----------------------------------------------------------------------------
 

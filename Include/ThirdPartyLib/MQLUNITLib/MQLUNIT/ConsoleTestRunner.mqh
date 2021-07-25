@@ -29,8 +29,8 @@
 #ifndef MQLUNIT_CONSOLETESTRUNNER_MQH
 #define MQLUNIT_CONSOLETESTRUNNER_MQH
 
-#include <MQLLIB/Collections/Vector.mqh>
-#include <MQLLIB/Utils/Console.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Utils/Console.mqh>
 
 #include "Constants.mqh"
 #include "TestFailure.mqh"

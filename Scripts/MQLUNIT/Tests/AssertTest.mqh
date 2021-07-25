@@ -29,8 +29,8 @@
 #ifndef SCRIPTS_MQLUNIT_TESTS_ASSERTTEST_MQH
 #define SCRIPTS_MQLUNIT_TESTS_ASSERTTEST_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
-#include <MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
 
 #include "TestData.mqh"
 

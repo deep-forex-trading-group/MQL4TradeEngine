@@ -29,7 +29,7 @@
 #ifndef SCRIPTS_MQLUNIT_TESTS_TESTDATA_MQH
 #define SCRIPTS_MQLUNIT_TESTS_TESTDATA_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
 
 //-----------------------------------------------------------------------------
 class __Object__ {

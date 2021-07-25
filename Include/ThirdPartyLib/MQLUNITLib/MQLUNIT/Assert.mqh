@@ -28,8 +28,9 @@
 
 #ifndef MQLUNIT_ASSERT_MQH
 #define MQLUNIT_ASSERT_MQH
-
-#include <MQLLIB/Lang/Number.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Number.mqh>
 
 #include "Constants.mqh"
 #include "ComparisonCompactor.mqh"

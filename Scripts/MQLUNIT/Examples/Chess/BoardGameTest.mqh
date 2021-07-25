@@ -29,8 +29,8 @@
 #ifndef SCRIPTS_MQLUNIT_EXAMPLES_CHESS_BOARDGAMETEST_MQH
 #define SCRIPTS_MQLUNIT_EXAMPLES_CHESS_BOARDGAMETEST_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
-#include <MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB//Lang/Pointer.mqh>
 
 //-----------------------------------------------------------------------------
 

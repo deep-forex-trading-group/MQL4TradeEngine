@@ -29,7 +29,7 @@
 #property version   "1.0"
 #property strict
 
-#include <MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
 
 #include "SimpleTest.mqh"
 #include "ListTest.mqh"

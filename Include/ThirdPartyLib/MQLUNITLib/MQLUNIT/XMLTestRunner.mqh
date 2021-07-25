@@ -29,9 +29,9 @@
 #ifndef MQLUNIT_XMLTESTRUNNER_MQH
 #define MQLUNIT_XMLTESTRUNNER_MQH
 
-#include <MQLLIB/Collections/Vector.mqh>
-#include <MQLLIB/XML/Element.mqh>
-#include <MQLLIB/XML/Document.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/XML/Element.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/XML/Document.mqh>
 
 #include <Files/FileTxt.mqh>
 

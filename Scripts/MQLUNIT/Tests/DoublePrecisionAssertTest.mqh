@@ -29,8 +29,8 @@
 #ifndef SCRIPTS_MQLUNIT_TESTS_DOUBLEPRECISIONASSERTTEST_MQH
 #define SCRIPTS_MQLUNIT_TESTS_DOUBLEPRECISIONASSERTTEST_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
-#include <MQLLIB/Lang/Number.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Number.mqh>
 
 //-----------------------------------------------------------------------------
 

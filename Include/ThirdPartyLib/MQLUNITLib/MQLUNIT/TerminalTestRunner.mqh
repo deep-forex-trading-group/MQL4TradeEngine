@@ -29,7 +29,7 @@
 #ifndef MQLUNIT_TERMINALTESTRUNNER_MQH
 #define MQLUNIT_TERMINALTESTRUNNER_MQH
 
-#include <MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
 
 #include "Constants.mqh"
 #include "TestFailure.mqh"

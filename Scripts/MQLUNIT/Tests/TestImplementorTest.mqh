@@ -29,8 +29,8 @@
 #ifndef SCRIPTS_MQLUNIT_TESTS_TESTIMPLEMENTORTEST_MQH
 #ifndef SCRIPTS_MQLUNIT_TESTS_TESTIMPLEMENTORTEST_MQH
 
-#include <MQLLIB/Lang/Pointer.mqh>
-#include <MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
 
 #include "TestData.mqh"
 

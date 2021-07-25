@@ -29,8 +29,8 @@
 #ifndef SCRIPTS_MQLUNIT_EXAMPLES_MONEY_MONEY_MQH
 #define SCRIPTS_MQLUNIT_EXAMPLES_MONEY_MONEY_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
-#include <MQLLIB/Lang/Exception.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB//Lang/Exception.mqh>
 
 #define MQLUNIT_INCOMPATIBLE_MONIES 1331
 

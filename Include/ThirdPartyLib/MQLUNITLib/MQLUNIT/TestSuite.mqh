@@ -29,10 +29,10 @@
 #ifndef MQLUNIT_TESTSUITE_MQH
 #define MQLUNIT_TESTSUITE_MQH
 
-#include <MQLLIB/Collections/Collection.mqh>
-#include <MQLLIB/Collections/Vector.mqh>
-#include <MQLLIB/Lang/Pointer.mqh>
-#include <MQLLIB/Utils/Console.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Collection.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Utils/Console.mqh>
 
 #include "Test.mqh"
 #include "TestCase.mqh"

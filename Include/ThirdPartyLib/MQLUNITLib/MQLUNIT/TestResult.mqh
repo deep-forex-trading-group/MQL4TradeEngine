@@ -29,7 +29,7 @@
 #ifndef MQLUNIT_TESTRESULT_MQH
 #define MQLUNIT_TESTRESULT_MQH
 
-#include <MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
 
 #include "Test.mqh"
 #include "TestFailure.mqh"

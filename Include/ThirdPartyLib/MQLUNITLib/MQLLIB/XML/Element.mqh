@@ -29,11 +29,11 @@
 #ifndef MQLLIB_XML_ELEMENT_MQH
 #define MQLLIB_XML_ELEMENT_MQH
 
-#include <MQLLIB/Collections/Pair.mqh>
-#include <MQLLIB/Collections/Vector.mqh>
-#include <MQLLIB/Collections/Iterator.mqh>
-#include <MQLLIB/Lang/Pointer.mqh>
-#include <MQLLIB/Lang/Exception.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Pair.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Vector.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Collections/Iterator.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Exception.mqh>
 
 //-----------------------------------------------------------------------------
 

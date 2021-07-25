@@ -29,7 +29,7 @@
 #ifndef SCRIPTS_MQLUNIT_EXAMPLES_SIMPLETEST_MQH
 #define SCRIPTS_MQLUNIT_EXAMPLES_SIMPLETEST_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
 
 //-----------------------------------------------------------------------------
 

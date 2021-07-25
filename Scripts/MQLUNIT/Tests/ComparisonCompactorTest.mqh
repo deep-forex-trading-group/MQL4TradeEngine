@@ -29,7 +29,7 @@
 #ifndef SCRIPTS_MQLUNIT_TESTS_COMPARIONCOMPARATORTEST_MQH
 #define SCRIPTS_MQLUNIT_TESTS_COMPARIONCOMPARATORTEST_MQH
 
-#include <MQLUNIT/MQLUNIT.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLUNIT/MQLUNIT.mqh>
 
 //-----------------------------------------------------------------------------
 

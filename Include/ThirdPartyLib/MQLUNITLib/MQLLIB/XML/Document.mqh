@@ -29,7 +29,7 @@
 #ifndef MQLLIB_XML_DOCUMENT_MQH
 #define MQLLIB_XML_DOCUMENT_MQH
 
-#include <MQLLIB/Lang/Pointer.mqh>
+#include <ThirdPartyLib/MQLUNITLib/MQLLIB/Lang/Pointer.mqh>
 #include "Element.mqh"
 
 //-----------------------------------------------------------------------------
