@@ -7,7 +7,7 @@ class UIUtils {
        // 按钮离X轴的距离, 按钮离Y轴的距离
        // 按钮长度, 按钮高度
        // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
-        void button(string name,string txt1,string txt2,
+        void Button(string name,string txt1,string txt2,
                     int XX,int YX,
                     int XL,int YL,
                     int WZ,color A,color B);
@@ -21,7 +21,7 @@ class UIUtils {
         void PressButton(string btn_name);
 };
 
-void UIUtils::void button(string name,string txt1,string txt2,
+void UIUtils::Button(string name,string txt1,string txt2,
                             int XX,int YX,
                             int XL,int YL,
                             int WZ,color A,color B) {
