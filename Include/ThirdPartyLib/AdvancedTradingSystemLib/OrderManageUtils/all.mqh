@@ -3,3 +3,4 @@
 #include "OrderPrintUtils.mqh"
 #include "OrderSendUtils.mqh"
 #include "OrderInMarket.mqh"
+#include "OrderArrayUtils.mqh"
