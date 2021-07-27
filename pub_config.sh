@@ -1,3 +1,7 @@
-cp config.txt ../tester/files/.
-cp config.txt ../Files/.
-cp config.txt ./Files/.
+mkdir -p ../tester/files/config
+mkdir -p ../Files/config
+mkdir -p ./Files/config
+
+cp config/* ../tester/files/config/.
+cp config/* ../Files/config/.
+cp config/* ./Files/config/.
