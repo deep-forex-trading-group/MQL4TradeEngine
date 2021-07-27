@@ -11,6 +11,7 @@ class TestingStrategy : public Strategy {
     public:
         int ExecuteStrategy(StrategyParams& params) const;
         int ExecuteStrategy(ConfigFile* config_file) const;
+        void PrintStrategyInfo() const;
 
     private:
         string strategy_name_;
@@ -25,4 +26,8 @@ int TestingStrategy::ExecuteStrategy(ConfigFile* config_file) const {
     PrintFormat("Execute TestingStrategy {%s} with ConfigFile successed!", this.strategy_name_);
     config_file.PrintAllConfigItems();
     return SUCCEEDED;
+}
+
+void TestingStrategy::PrintStrategyInfo() const {
+    PrintFormat("This is strategy -> {%s}", this.strategy_name_);
 }
