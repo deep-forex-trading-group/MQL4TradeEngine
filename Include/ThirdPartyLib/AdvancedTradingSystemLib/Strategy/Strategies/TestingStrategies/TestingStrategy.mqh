@@ -9,19 +9,19 @@ class TestingStrategy : public Strategy {
 
 // Member Variables and Functions
     public:
-        int executeStrategy(StrategyParams& params) const;
-        int executeStrategy(ConfigFile* config_file) const;
+        int ExecuteStrategy(StrategyParams& params) const;
+        int ExecuteStrategy(ConfigFile* config_file) const;
 
     private:
         string strategy_name_;
 };
 
-int TestingStrategy::executeStrategy(StrategyParams& params) const {
+int TestingStrategy::ExecuteStrategy(StrategyParams& params) const {
     PrintFormat("Execute TestingStrategy {%s} with StrategyParams successed!", this.strategy_name_);
     return SUCCEEDED;
 }
 
-int TestingStrategy::executeStrategy(ConfigFile* config_file) const {
+int TestingStrategy::ExecuteStrategy(ConfigFile* config_file) const {
     PrintFormat("Execute TestingStrategy {%s} with ConfigFile successed!", this.strategy_name_);
     config_file.PrintAllConfigItems();
     return SUCCEEDED;

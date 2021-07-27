@@ -49,8 +49,8 @@ class AIRobotUI {
 
 // Some test cases for the functions in project.
     private:
-        void testRefreshConfigFile();
-        void testExecuteStrategy();
-        void testOrderGroupCenter();
-        void testCopyMap();
+        void TestRefreshConfigFile();
+        void TestExecuteStrategy();
+        void TestOrderGroupCenter();
+        void TestCopyMap();
 };

@@ -64,10 +64,10 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-//        this.testRefreshConfigFile();
-//        this.testOrderGroupCenter();
-//        this.testCopyMap();
-        this.testExecuteStrategy();
+        this.TestRefreshConfigFile();
+        this.TestOrderGroupCenter();
+        this.TestCopyMap();
+        this.TestExecuteStrategy();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -79,7 +79,7 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
     return rb_states_ret;
 }
 
-void AIRobotUI::testRefreshConfigFile() {
+void AIRobotUI::TestRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
     config_file.RefreshConfigFile();
     PrintFormat("---------- testing for config_file.GetConfigFieldByTitleAndFieldName() --------------");
@@ -93,7 +93,7 @@ void AIRobotUI::testRefreshConfigFile() {
     config_file.PrintAllConfigItems();
 }
 
-void AIRobotUI::testExecuteStrategy() {
+void AIRobotUI::TestExecuteStrategy() {
     StrategyParams* ts_params = new TestingStrategyParams();
     TestingStrategy* ts_1 = new TestingStrategy("ts_1");
     TestingStrategy* ts_2 = new TestingStrategy("ts_2");
@@ -101,15 +101,15 @@ void AIRobotUI::testExecuteStrategy() {
     StrategyContext *st_ctx = new StrategyContext(ts_1);
     PrintFormat("------------ testing TestingStrategy for ts_1 ------------------");
 
-    st_ctx.executeStrategy(ts_params);
+    st_ctx.ExecuteStrategy(ts_params);
     ConfigFile* config_file_testing = new ConfigFile("config.txt");
-    st_ctx.executeStrategy(config_file_testing);
+    st_ctx.ExecuteStrategy(config_file_testing);
 
     PrintFormat("------------ testing TestingStrategy for ts_2 ------------------");
-    st_ctx.set_strategy(ts_2);
-    st_ctx.executeStrategy(ts_params);
+    st_ctx.SetStrategy(ts_2);
+    st_ctx.ExecuteStrategy(ts_params);
     ConfigFile* config_file_testing_2 = new ConfigFile("config.txt");
-    st_ctx.executeStrategy(config_file_testing_2);
+    st_ctx.ExecuteStrategy(config_file_testing_2);
 
     delete config_file_testing_2;
     delete config_file_testing;
@@ -119,7 +119,7 @@ void AIRobotUI::testExecuteStrategy() {
     delete st_ctx;
 }
 
-void AIRobotUI::testOrderGroupCenter() {
+void AIRobotUI::TestOrderGroupCenter() {
     PrintFormat("---------- Testing for the group center %s ----------", "order_group_center");
     OrderGroupCenter* order_group_center = new OrderGroupCenter();
     order_group_center.setName("Central Center");
@@ -148,7 +148,7 @@ void AIRobotUI::testOrderGroupCenter() {
     delete order_group_center;
 }
 
-void AIRobotUI::testCopyMap() {
+void AIRobotUI::TestCopyMap() {
     CollectionCopyUtils<string, string>* collection_copy_utils = CollectionCopyUtils<string, string>::GetInstance();
     HashMap<string, string>* map_src = new HashMap<string, string>();
     map_src.set("k1", "12");
