@@ -8,9 +8,9 @@ class UIUtils {
        // 按钮长度, 按钮高度
        // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
         void button(string name,string txt1,string txt2,
-                            int XX,int YX,
-                            int XL,int YL,
-                            int WZ,color A,color B);
+                    int XX,int YX,
+                    int XL,int YL,
+                    int WZ,color A,color B);
 
         void CheckButtonState(string name, string pressed_txt, string unpressed_txt,
                       color pressed_clr, color unpressed_clr);
@@ -21,7 +21,7 @@ class UIUtils {
         void PressButton(string btn_name);
 };
 
-void UIUtils::button(string name,string txt1,string txt2,
+void UIUtils::void button(string name,string txt1,string txt2,
                             int XX,int YX,
                             int XL,int YL,
                             int WZ,color A,color B) {
