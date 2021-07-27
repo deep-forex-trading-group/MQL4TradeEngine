@@ -1,4 +1,5 @@
 #include "AIRobotUI.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 
 void AIRobotUI::InitGraphItems() {
 
@@ -63,9 +64,10 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        this.testRefreshConfigFile();
+//        this.testRefreshConfigFile();
 //        this.testOrderGroupCenter();
 //        this.testCopyMap();
+        this.testExecuteStrategy();
         ui_utils.UnPressButton("测试按钮");
     } else {
         ui_is_testing_ok = false;
@@ -95,6 +97,8 @@ void AIRobotUI::testExecuteStrategy() {
     StrategyParams ts_params = new TestingStrategyParams();
     StrategyContext *st_ctx = new StrategyContext(new TestingStrategy());
     st_ctx.executeStrategy(ts_params);
+    ConfigFile* config_file_testing = new ConfigFile("config.txt");
+    st_ctx.executeStrategy(config_file_testing);
 }
 
 void AIRobotUI::testOrderGroupCenter() {

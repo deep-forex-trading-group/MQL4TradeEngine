@@ -12,6 +12,6 @@ new_heading_rule:2311
 
 
 
-[new title 2]
-pips_factor:2381
-act_factor:3841
+[tt_2]
+pips_factor:21120
+act_factor:21120
