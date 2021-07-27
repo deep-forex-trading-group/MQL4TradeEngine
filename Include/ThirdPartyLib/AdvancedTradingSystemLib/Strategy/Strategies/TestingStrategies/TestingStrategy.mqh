@@ -3,22 +3,26 @@
 
 class TestingStrategy : public Strategy {
     public:
-        TestingStrategy() {};
+        TestingStrategy(string strategy_name)
+                        : strategy_name_(strategy_name) {};
         ~TestingStrategy() {};
 
 // Member Variables and Functions
     public:
         int executeStrategy(StrategyParams& params) const;
         int executeStrategy(ConfigFile* config_file) const;
+
+    private:
+        string strategy_name_;
 };
 
 int TestingStrategy::executeStrategy(StrategyParams& params) const {
-    Print("Execute testing strategy with StrategyParams successed!");
+    PrintFormat("Execute TestingStrategy {%s} with StrategyParams successed!", this.strategy_name_);
     return SUCCEEDED;
 }
 
 int TestingStrategy::executeStrategy(ConfigFile* config_file) const {
-    Print("Execute testing strategy with ConfigFile successed!");
+    PrintFormat("Execute TestingStrategy {%s} with ConfigFile successed!", this.strategy_name_);
     config_file.PrintAllConfigItems();
     return SUCCEEDED;
 }

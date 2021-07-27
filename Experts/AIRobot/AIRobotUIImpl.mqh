@@ -94,11 +94,29 @@ void AIRobotUI::testRefreshConfigFile() {
 }
 
 void AIRobotUI::testExecuteStrategy() {
-    StrategyParams ts_params = new TestingStrategyParams();
-    StrategyContext *st_ctx = new StrategyContext(new TestingStrategy());
+    StrategyParams* ts_params = new TestingStrategyParams();
+    TestingStrategy* ts_1 = new TestingStrategy("ts_1");
+    TestingStrategy* ts_2 = new TestingStrategy("ts_2");
+
+    StrategyContext *st_ctx = new StrategyContext(ts_1);
+    PrintFormat("------------ testing TestingStrategy for ts_1 ------------------");
+
     st_ctx.executeStrategy(ts_params);
     ConfigFile* config_file_testing = new ConfigFile("config.txt");
     st_ctx.executeStrategy(config_file_testing);
+
+    PrintFormat("------------ testing TestingStrategy for ts_2 ------------------");
+    st_ctx.set_strategy(ts_2);
+    st_ctx.executeStrategy(ts_params);
+    ConfigFile* config_file_testing_2 = new ConfigFile("config.txt");
+    st_ctx.executeStrategy(config_file_testing_2);
+
+    delete config_file_testing_2;
+    delete config_file_testing;
+    delete ts_params;
+    delete ts_1;
+    delete ts_2;
+    delete st_ctx;
 }
 
 void AIRobotUI::testOrderGroupCenter() {
