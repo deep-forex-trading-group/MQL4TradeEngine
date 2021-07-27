@@ -5,3 +5,7 @@ Logs/*
 *.dat
 Logs*
 Files/MQLUNIT/*
+!Scripts/profits_statistics_by_magic_num_script.ex4
+!Scripts/trading_records_display.ex4
+!Scripts/trading_records_display_with_k_bars.ex4
+
