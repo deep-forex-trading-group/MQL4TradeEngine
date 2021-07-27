@@ -3,7 +3,7 @@ class UIUtils {
         UIUtils() {};
         ~UIUtils() {};
     public:
-       // 按钮名称，按下时显示的文字, 抬起时显示的文字
+       // 按钮name，按下时显示的文字, 抬起时显示的文字
        // 按钮离X轴的距离, 按钮离Y轴的距离
        // 按钮长度, 按钮高度
        // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
@@ -15,7 +15,9 @@ class UIUtils {
         void CheckButtonState(string name, string pressed_txt, string unpressed_txt,
                       color pressed_clr, color unpressed_clr);
         void Laber(string a,color b,int jl);
-        void 固定位置标签(string 名称,string 内容,int XX,int YX,color C,int 字体大小,int 固定角内);
+        void FixLocationLabel(string name, string content,
+                              int XX, int YX,
+                              color C, int font_size, int corner_of_charts);
         bool IsButtonPressed(string btn_name);
         void UnPressButton(string btn_name);
         void PressButton(string btn_name);
@@ -67,19 +69,21 @@ void UIUtils::Laber(string a,color b,int jl) {
     ObjectSetText("箭头"+TimeToStr(Time[0],TIME_DATE|TIME_MINUTES)+a,a,8,"Times New Roman",b);
 }
 
-void UIUtils::固定位置标签(string 名称,string 内容,int XX,int YX,color C,int 字体大小,int 固定角内) {
-    if(sizeof(内容)==0)
+void UIUtils::FixLocationLabel(string name, string content,
+                                    int XX, int YX,
+                                    color C, int font_size, int corner_of_charts) {
+    if(sizeof(content)==0)
         return;
 
-    if(ObjectFind(名称)==-1) {
-        ObjectDelete(名称);
-        ObjectCreate(名称,OBJ_LABEL,0,0,0);
+    if(ObjectFind(name)==-1) {
+        ObjectDelete(name);
+        ObjectCreate(name,OBJ_LABEL,0,0,0);
     }
 
-    ObjectSet(名称,OBJPROP_XDISTANCE,XX);
-    ObjectSet(名称,OBJPROP_YDISTANCE,YX);
-    ObjectSetText(名称,内容,字体大小,"宋体",C);
-    ObjectSet(名称,OBJPROP_CORNER,固定角内);
+    ObjectSet(name, OBJPROP_XDISTANCE, XX);
+    ObjectSet(name, OBJPROP_YDISTANCE, YX);
+    ObjectSetText(name,content, font_size, "宋体", C);
+    ObjectSet(name, OBJPROP_CORNER, corner_of_charts);
 }
 
 bool UIUtils::IsButtonPressed(string btn_name) {
