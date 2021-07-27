@@ -12,6 +12,7 @@ class ConfigFile {
             PrintFormat("Initializing the ConfigFile(file_path_in=%s)", file_path_in);
             this.file_path = file_path_in;
             this.config_titles_map_ = new HashMap<string, ConfigSection*>;
+            this.RefreshConfigFile();
         }
         ~ConfigFile() {
             this.DeleteConfigMap();
