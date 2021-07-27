@@ -1,0 +1,1 @@
+#include "ModuleTestManager.mqh"
