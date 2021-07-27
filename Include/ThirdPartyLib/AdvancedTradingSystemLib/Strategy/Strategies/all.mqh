@@ -1,2 +1,1 @@
-#include "TestingStrategy.mqh"
-#include "TestingStrategyDataStructure.mqh"
+#include "TestingStrategies\all.mqh"

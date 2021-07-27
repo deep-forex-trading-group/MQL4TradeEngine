@@ -1,4 +1,4 @@
-#include "../StrategyBase/all.mqh"
+#include "../../StrategyBase/all.mqh"
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 
 class TestingStrategy : public Strategy {

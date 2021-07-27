@@ -1,4 +1,4 @@
-#include "../StrategyBase/StrategyDataStructure.mqh"
+#include "../../StrategyBase/StrategyDataStructure.mqh"
 
 class TestingStrategyParams : public StrategyParams {
     public:
