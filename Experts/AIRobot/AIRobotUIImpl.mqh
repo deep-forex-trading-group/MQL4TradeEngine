@@ -64,9 +64,9 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
         ui_is_testing_ok = true;
-        this.TestRefreshConfigFile();
-        this.TestOrderGroupCenter();
-        this.TestCopyMap();
+//        this.TestRefreshConfigFile();
+//        this.TestOrderGroupCenter();
+//        this.TestCopyMap();
         this.TestExecuteStrategy();
         ui_utils.UnPressButton("测试按钮");
     } else {
@@ -97,6 +97,7 @@ void AIRobotUI::TestExecuteStrategy() {
     StrategyParams* ts_params = new TestingStrategyParams();
     TestingStrategy* ts_1 = new TestingStrategy("ts_1");
     TestingStrategy* ts_2 = new TestingStrategy("ts_2");
+    TestingStrategy* ts_3 = new TestingStrategy("ts_3");
 
     StrategyContext *st_ctx = new StrategyContext(ts_1);
     PrintFormat("------------ testing TestingStrategy for ts_1 ------------------");
@@ -110,6 +111,10 @@ void AIRobotUI::TestExecuteStrategy() {
     st_ctx.ExecuteStrategy(ts_params);
     ConfigFile* config_file_testing_2 = new ConfigFile("config.txt");
     st_ctx.ExecuteStrategy(config_file_testing_2);
+
+    PrintFormat("------------ testing TestingStrategy for ts_3 with no params ------------------");
+    st_ctx.SetStrategy(ts_3);
+    st_ctx.ExecuteStrategy();
 
     delete config_file_testing_2;
     delete config_file_testing;

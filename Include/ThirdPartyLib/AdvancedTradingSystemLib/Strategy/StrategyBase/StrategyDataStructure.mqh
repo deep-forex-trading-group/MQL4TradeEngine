@@ -4,5 +4,5 @@ class StrategyParams {
         virtual ~StrategyParams() {};
 
     public:
-        virtual void printAllParams();
+        virtual void printAllParams() = 0;
 };

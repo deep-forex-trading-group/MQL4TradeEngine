@@ -9,6 +9,7 @@ class StrategyContext {
 
     public:
         int SetStrategy(Strategy *strategy);
+        int ExecuteStrategy() const;
         int ExecuteStrategy(StrategyParams* strategyParams) const;
         int ExecuteStrategy(ConfigFile* config_file) const;
 
@@ -21,6 +22,11 @@ class StrategyContext {
 int StrategyContext::SetStrategy(Strategy *strategy) {
     delete this.strategy_;
     this.strategy_ = strategy;
+    return SUCCEEDED;
+}
+
+int StrategyContext::ExecuteStrategy() const {
+    this.strategy_.ExecuteStrategy();
     return SUCCEEDED;
 }
 
