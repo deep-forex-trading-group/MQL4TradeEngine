@@ -9,6 +9,8 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/ConfigDataStructure/all.mqh>
 
+#include "AIRobotConstant.mqh"
+
 struct RefreshButtonsStatesParams {
     int magic_number;
     bool is_testing_ok;
@@ -22,7 +24,7 @@ class AIRobotUI {
     public:
         AIRobotUI() {
             this.button_section_set_pos = CORNER_RIGHT_LOWER;
-            this.config_file = new ConfigFile("config.txt");
+            this.config_file = new ConfigFile(AIROBOT_CONFIG_DIR_PATH, "config.txt");
         }
         ~AIRobotUI() {
             delete &ui_utils;
