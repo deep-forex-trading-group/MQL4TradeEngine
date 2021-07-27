@@ -2,7 +2,7 @@
 #include <ThirdPartyLib/MqlExtendLib/Lang/Script.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
 
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ErrUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ExceptionHandlingUtils/ErrUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include "ConfigSection.mqh"
 #include "ConfigDataStructureConstant.mqh"
