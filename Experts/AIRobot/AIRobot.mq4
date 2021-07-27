@@ -11,6 +11,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
 
 #include "AIRobotUI.mqh"
+#include "AIRobotUIImpl.mqh"
 
 // Testing Mode and Production Mode switch
 // if Production Mode, comments the code snippets
@@ -21,7 +22,7 @@
 input string InpFileName="test_conf"; // file name
 input string InpDirectoryName="ExpertsConf"; // directory name
 
-extern int   magic_number_extern = 1;
+extern int   magic_number_extern = 587456;
 
 OrderGetUtils ou_get();
 OrderCloseUtils ou_close();
