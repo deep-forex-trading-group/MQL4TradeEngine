@@ -1,6 +1,6 @@
 #include <ThirdPartyLib/MqlExtendLib/Collection/Copy.mqh>
 
-#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/UIUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
