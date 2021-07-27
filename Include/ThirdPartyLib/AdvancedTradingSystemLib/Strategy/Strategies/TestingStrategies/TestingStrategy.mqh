@@ -3,8 +3,9 @@
 
 class TestingStrategy : public Strategy {
     public:
-        TestingStrategy(string strategy_name)
-                        : strategy_name_(strategy_name) {};
+        TestingStrategy(string strategy_name) {
+            this.strategy_name_ = strategy_name;
+        };
         ~TestingStrategy() {};
 
 // Member Variables and Functions
@@ -13,9 +14,6 @@ class TestingStrategy : public Strategy {
         int ExecuteStrategy(StrategyParams& params) const;
         int ExecuteStrategy(ConfigFile* config_file) const;
         void PrintStrategyInfo() const;
-
-    private:
-        string strategy_name_;
 };
 
 int TestingStrategy::ExecuteStrategy() const {
