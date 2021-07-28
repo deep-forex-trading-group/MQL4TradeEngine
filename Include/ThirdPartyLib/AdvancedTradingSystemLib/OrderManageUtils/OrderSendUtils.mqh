@@ -7,9 +7,9 @@ class OrderSendUtils : public OrderManageUtils {
         ~OrderSendUtils() {}
     public:
         // 下单函数
-        bool AddOneOrderByStepPip(int direction, double StepPip, double Lot);
-        int CreateBuyOrder(double Lots, int TP, int SL);
-        int CreateSellOrder(double Lots, int TP, int SL);
+        bool AddOneOrderByStepPip(int magic_number, int direction, double StepPip, double Lot);
+        int CreateBuyOrder(int magic_number, double Lots, int TP, int SL);
+        int CreateSellOrder(int magic_number, double Lots, int TP, int SL);
         int SendMarketOrder(int Type, double Lots, int TP, int SL,
                             int Magic, string Cmnt, double OpenPrice = 0, string mSymbol = "");
     private:
@@ -18,7 +18,8 @@ class OrderSendUtils : public OrderManageUtils {
 };
 
 // 下单函数
-bool OrderSendUtils::AddOneOrderByStepPip(int direction, double StepPip, double Lot) {
+bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
+                                          double StepPip, double Lot) {
     OrderInMarket order_in_market[1000];
 
     if (direction == 0) {
@@ -41,7 +42,7 @@ bool OrderSendUtils::AddOneOrderByStepPip(int direction, double StepPip, double 
          }
 
         if (NormalizeDouble(Ask, Digits) - highest_price >= StepPip*Point) {
-            return CreateBuyOrder(Lot,0,0) >= 0;
+            return CreateBuyOrder(magic_number,Lot,0,0) >= 0;
         }
     }
 
@@ -65,17 +66,17 @@ bool OrderSendUtils::AddOneOrderByStepPip(int direction, double StepPip, double 
             }
          }
          if (NormalizeDouble(Bid, Digits) -  lowest_price <= -StepPip*Point) {
-            return CreateSellOrder(Lot,0,0) >= 0;
+            return CreateSellOrder(magic_number,Lot,0,0) >= 0;
          }
     }
 
     return false;
 }
-int OrderSendUtils::CreateBuyOrder(double Lots, int TP, int SL) {
-    return SendMarketOrder(OP_BUY, Lots, 0, 0, MagicNumberBuy, "Buy Order");
+int OrderSendUtils::CreateBuyOrder(int magic_number, double Lots, int TP, int SL) {
+    return SendMarketOrder(OP_BUY, Lots, 0, 0, magic_number, "Buy Order");
 }
-int OrderSendUtils::CreateSellOrder(double Lots, int TP, int SL) {
-    return SendMarketOrder(OP_SELL, Lots, 0, 0, MagicNumberSell, "Sell Order");
+int OrderSendUtils::CreateSellOrder(int magic_number, double Lots, int TP, int SL) {
+    return SendMarketOrder(OP_SELL, Lots, 0, 0, magic_number, "Sell Order");
 }
 int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
                                     int Magic, string Cmnt,

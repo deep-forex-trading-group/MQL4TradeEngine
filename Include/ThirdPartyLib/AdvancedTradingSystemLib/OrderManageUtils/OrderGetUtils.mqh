@@ -7,90 +7,75 @@ class OrderGetUtils : OrderManageUtils {
         ~OrderGetUtils() {}
     public:
         // 订单信息函数
-        int GetNumOfAllOrders();
-
-        // 订单信息函数
         int GetNumOfAllOrders(int magic_number);
-        int GetNumOfBuyOrders();
-        int GetNumOfSellOrders();
-        int GetNumOfLossOrders();
-        bool GetBuyOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-        bool GetBuyProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-        bool GetBuyLossOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-        bool GetSellOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-        bool GetSellProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-        bool GetSellLossOrdersReverse(OrderInMarket& res[], int total_get_cnt);
-        bool GetHighestOpenPriceOrder(OrderInMarket& res[]);
-        bool GetHighestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number);
-        bool GetHighestSellOpenPriceOrder(OrderInMarket& res[], int magic_number);
-        bool GetLowestOpenPriceOrder(OrderInMarket& res[]);
-        bool GetLowestSellOpenPriceOrder(OrderInMarket& res[], int magic_number);
-        bool GetLowestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number);
-        void PrintOrderInMarketArray(OrderInMarket& in[]);
+        int GetNumOfBuyOrders(int magic_number);
+        int GetNumOfSellOrders(int magic_number);
+        int GetNumOfLossOrders(int magic_number);
+        bool GetBuyOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
+        bool GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
+        bool GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
+        bool GetSellOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
+        bool GetSellProfitOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
+        bool GetSellLossOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
+        bool GetHighestOpenPriceOrder(int magic_number, OrderInMarket& res[]);
+        bool GetHighestBuyOpenPriceOrder(int magic_number, OrderInMarket& res[]);
+        bool GetHighestSellOpenPriceOrder(int magic_number, OrderInMarket& res[]);
+        bool GetLowestOpenPriceOrder(int magic_number, OrderInMarket& res[]);
+        bool GetLowestSellOpenPriceOrder(int magic_number, OrderInMarket& res[]);
+        bool GetLowestBuyOpenPriceOrder(int magic_number, OrderInMarket& res[]);
 };
-
-// 订单信息函数
-int OrderGetUtils::GetNumOfAllOrders() {
-  int total_num = OrdersTotal();
-  int res_total_num = 0;
-  for (int i = total_num - 1; i >= 0; i--) {
-     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()) {
-        res_total_num++;
-     }
-  }
-  return res_total_num;
-}
 
 // 订单信息函数
 int OrderGetUtils::GetNumOfAllOrders(int magic_number) {
  int total_num = OrdersTotal();
  int res_total_num = 0;
  for (int i = total_num - 1; i >= 0; i--) {
-    if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()) {
+    if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) 
+         && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
        res_total_num++;
     }
  }
  return res_total_num;
 }
-int OrderGetUtils::GetNumOfBuyOrders() {
+int OrderGetUtils::GetNumOfBuyOrders(int magic_number) {
   int total_num = OrdersTotal();
   int total_buy = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-        && OrderType() == OP_BUY) {
+        && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
         total_buy++;
      }
   }
   return total_buy;
 }
-int OrderGetUtils::GetNumOfSellOrders() {
+int OrderGetUtils::GetNumOfSellOrders(int magic_number) {
   int total_num = OrdersTotal();
   int total_sell = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL) {
+         && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
         total_sell++;
      }
   }
   return total_sell;
 }
-int OrderGetUtils::GetNumOfLossOrders() {
+int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
   int total_num = OrdersTotal();
   int total_loss_num = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderProfit() <= 0) {
+         && OrderProfit() <= 0 && OrderMagicNumber() == magic_number) {
         total_loss_num++;
      }
   }
   return total_loss_num;
 }
-bool OrderGetUtils::GetBuyOrdersReverse(OrderInMarket& res[], int total_get_cnt) {
+bool OrderGetUtils::GetBuyOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt) {
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_BUY) {
+         && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -111,12 +96,12 @@ bool OrderGetUtils::GetBuyOrdersReverse(OrderInMarket& res[], int total_get_cnt)
   ArrayResize(res, res_i);
   return true;
 }
-bool OrderGetUtils::GetBuyProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt) {
+bool OrderGetUtils::GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt) {
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_BUY && OrderProfit() >= 0) {
+         && OrderType() == OP_BUY && OrderProfit() >= 0 && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -137,12 +122,12 @@ bool OrderGetUtils::GetBuyProfitOrdersReverse(OrderInMarket& res[], int total_ge
   ArrayResize(res, res_i);
   return true;
 }
-bool OrderGetUtils::GetBuyLossOrdersReverse(OrderInMarket& res[], int total_get_cnt) {
+bool OrderGetUtils::GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt) {
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_BUY && OrderProfit() < 0) {
+         && OrderType() == OP_BUY && OrderProfit() < 0 && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -163,12 +148,12 @@ bool OrderGetUtils::GetBuyLossOrdersReverse(OrderInMarket& res[], int total_get_
   ArrayResize(res, res_i);
   return true;
 }
-bool OrderGetUtils::GetSellOrdersReverse(OrderInMarket& res[], int total_get_cnt) {
+bool OrderGetUtils::GetSellOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt) {
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL) {
+         && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -189,12 +174,12 @@ bool OrderGetUtils::GetSellOrdersReverse(OrderInMarket& res[], int total_get_cnt
   ArrayResize(res, res_i);
   return true;
 }
-bool OrderGetUtils::GetSellProfitOrdersReverse(OrderInMarket& res[], int total_get_cnt) {
+bool OrderGetUtils::GetSellProfitOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt) {
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL && OrderProfit() >= 0) {
+         && OrderType() == OP_SELL && OrderProfit() >= 0 && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -215,12 +200,12 @@ bool OrderGetUtils::GetSellProfitOrdersReverse(OrderInMarket& res[], int total_g
   ArrayResize(res, res_i);
   return true;
 }
-bool OrderGetUtils::GetSellLossOrdersReverse(OrderInMarket& res[], int total_get_cnt) {
+bool OrderGetUtils::GetSellLossOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt) {
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL && OrderProfit() < 0) {
+         && OrderType() == OP_SELL && OrderProfit() < 0 && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -241,14 +226,15 @@ bool OrderGetUtils::GetSellLossOrdersReverse(OrderInMarket& res[], int total_get
   ArrayResize(res, res_i);
   return true;
 }
-bool OrderGetUtils::GetHighestOpenPriceOrder(OrderInMarket& res[]) {
+bool OrderGetUtils::GetHighestOpenPriceOrder(int magic_number, OrderInMarket& res[]) {
   int total_orders_num = OrdersTotal();
   double highest_price = -1;
   int higest_ticket = -1;
   OrderInMarket oi();
   for (int i = total_orders_num - 1; i >= 0; i--) {
      RefreshRates();
-     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()) {
+     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol() 
+                     && OrderMagicNumber() == magic_number) {
            RefreshRates();
            if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
               highest_price = OrderOpenPrice();
@@ -270,7 +256,7 @@ bool OrderGetUtils::GetHighestOpenPriceOrder(OrderInMarket& res[]) {
   ArrayResize(res, 1);
   return true;
 }
-bool OrderGetUtils::GetHighestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number) {
+bool OrderGetUtils::GetHighestBuyOpenPriceOrder(int magic_number, OrderInMarket& res[]) {
      int total_orders_num = OrdersTotal();
      double highest_price = -1;
      int higest_ticket = -1;
@@ -279,7 +265,7 @@ bool OrderGetUtils::GetHighestBuyOpenPriceOrder(OrderInMarket& res[], int magic_
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
             && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number
-            && OrderType() == OP_BUY) {
+            && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
               RefreshRates();
               if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
                  highest_price = OrderOpenPrice();
@@ -301,7 +287,7 @@ bool OrderGetUtils::GetHighestBuyOpenPriceOrder(OrderInMarket& res[], int magic_
      ArrayResize(res, 1);
      return true;
 }
-bool OrderGetUtils::GetHighestSellOpenPriceOrder(OrderInMarket& res[], int magic_number) {
+bool OrderGetUtils::GetHighestSellOpenPriceOrder(int magic_number, OrderInMarket& res[]) {
     int total_orders_num = OrdersTotal();
     double highest_price = -1;
     int higest_ticket = -1;
@@ -331,14 +317,15 @@ bool OrderGetUtils::GetHighestSellOpenPriceOrder(OrderInMarket& res[], int magic
     ArrayResize(res, 1);
     return true;
 }
-bool OrderGetUtils::GetLowestOpenPriceOrder(OrderInMarket& res[]) {
+bool OrderGetUtils::GetLowestOpenPriceOrder(int magic_number, OrderInMarket& res[]) {
   int total_orders_num = OrdersTotal();
   double lowest_price = -1;
   int lowest_ticket = -1;
   OrderInMarket oi();
   for (int i = total_orders_num - 1; i >= 0; i--) {
      RefreshRates();
-     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()) {
+     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                     && OrderMagicNumber() == magic_number) {
            RefreshRates();
            if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
               lowest_price = OrderOpenPrice();
@@ -361,7 +348,7 @@ bool OrderGetUtils::GetLowestOpenPriceOrder(OrderInMarket& res[]) {
   ArrayResize(res, 1);
   return true;
 }
-bool OrderGetUtils::GetLowestSellOpenPriceOrder(OrderInMarket& res[], int magic_number) {
+bool OrderGetUtils::GetLowestSellOpenPriceOrder(int magic_number, OrderInMarket& res[]) {
      int total_orders_num = OrdersTotal();
      double lowest_price = -1;
      int lowest_ticket = -1;
@@ -392,7 +379,7 @@ bool OrderGetUtils::GetLowestSellOpenPriceOrder(OrderInMarket& res[], int magic_
      ArrayResize(res, 1);
      return true;
   }
-bool OrderGetUtils::GetLowestBuyOpenPriceOrder(OrderInMarket& res[], int magic_number) {
+bool OrderGetUtils::GetLowestBuyOpenPriceOrder(int magic_number, OrderInMarket& res[]) {
     int total_orders_num = OrdersTotal();
     double lowest_price = -1;
     int lowest_ticket = -1;
@@ -422,9 +409,4 @@ bool OrderGetUtils::GetLowestBuyOpenPriceOrder(OrderInMarket& res[], int magic_n
     res[0] = oi;
     ArrayResize(res, 1);
     return true;
-}
-void OrderGetUtils::PrintOrderInMarketArray(OrderInMarket& in[]) {
-    for (int i = 0; i < ArraySize(in); i++) {
-        in[i].PrintOrderInMarket();
-    }
 }

@@ -6,7 +6,7 @@ class OrderArrayUtils {
         ~OrderArrayUtils() {};
     public:
         // 订单数组复制函数
-        int ArrayCopyOrderInMarket(OrderInMarket& dst_array[], OrderInMarket& src_array[]);
+        static int ArrayCopyOrderInMarket(OrderInMarket& dst_array[], OrderInMarket& src_array[]);
 };
 
 // 订单数组复制函数
