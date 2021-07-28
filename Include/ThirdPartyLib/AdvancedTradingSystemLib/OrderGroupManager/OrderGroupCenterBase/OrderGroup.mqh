@@ -1,5 +1,6 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderInMarket.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderArrayUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderGetUtils.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
@@ -89,8 +90,6 @@ int OrderGroup::GetOrdersByGroupId(int group_id) {
 int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
                                    OrderInMarket& orders_in_trades_out[],
                                    int group_id_in) {
-    ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
-    ArrayResize(orders_in_trades_out, ORDER_GROUP_MAX_ORDERS);
     if (group_id_in < 0) {
         PrintFormat("The group_id is a invalid number.");
         return -1;
@@ -100,50 +99,16 @@ int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
     HashSet<int>* group_magic_number_set = new HashSet<int>();
     this.GetGroupMagicNumberSet(group_magic_number_set);
 
-    // Gets the order in history pool
-    int res_i = 0;
-    for (int i = total_num - 1; i >= 0; i--) {
-        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
-            && group_magic_number_set.contains(OrderMagicNumber())) {
-
-            OrderInMarket oi();
-            oi.order_lots = OrderLots();
-            oi.order_open_price = OrderOpenPrice();
-            oi.order_close_price = OrderClosePrice();
-            oi.order_comment = OrderComment();
-            oi.order_close_time = OrderCloseTime();
-            oi.order_profit = OrderProfit();
-            oi.order_type = OrderType();
-            oi.order_ticket = OrderTicket();
-            oi.order_position = i;
-
-            orders_in_history_out[res_i] = oi;
-            res_i++;
-        }
+    ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
+    if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(group_magic_number_set, orders_in_history_out)) {
+        delete group_magic_number_set;
+        return -1;
     }
-    ArrayResize(orders_in_history_out, res_i);
-    // Gets the order in trading pool
-    res_i = 0;
-    for (int rs_trades_i = total_num - 1; rs_trades_i >= 0; rs_trades_i--) {
-        if (OrderSelect(rs_trades_i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && group_magic_number_set.contains(OrderMagicNumber())) {
-
-            OrderInMarket oi();
-            oi.order_lots = OrderLots();
-            oi.order_open_price = OrderOpenPrice();
-            oi.order_close_price = OrderClosePrice();
-            oi.order_comment = OrderComment();
-            oi.order_close_time = OrderCloseTime();
-            oi.order_profit = OrderProfit();
-            oi.order_type = OrderType();
-            oi.order_ticket = OrderTicket();
-            oi.order_position = rs_trades_i;
-
-            orders_in_trades_out[res_i] = oi;
-            res_i++;
-        }
+    ArrayResize(orders_in_trades_out, ORDER_GROUP_MAX_ORDERS);
+    if (!OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(group_magic_number_set, orders_in_trades_out)) {
+        delete group_magic_number_set;
+        return -1;
     }
-    ArrayResize(orders_in_trades_out, res_i);
     delete group_magic_number_set;
     return 0;
 };
