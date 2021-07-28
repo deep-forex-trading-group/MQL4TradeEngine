@@ -32,5 +32,5 @@ bool Strategy::CheckConfigFileValid() const {
                     this.strategy_name_);
         return false;
     }
-    return false;
+    return true;
 }
