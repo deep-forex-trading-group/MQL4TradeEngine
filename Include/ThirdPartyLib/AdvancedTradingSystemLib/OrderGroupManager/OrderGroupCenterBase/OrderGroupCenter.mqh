@@ -2,7 +2,7 @@
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include <ThirdPartyLib/MqlExtendLib/Collection/LinkedList.mqh>
 
-class OrderGroupCenter {
+class OrderGroupCenter : public OrderGroupSubject {
     public:
         OrderGroupCenter() {
             PrintFormat("Initialize OrderGroupCenter.");
