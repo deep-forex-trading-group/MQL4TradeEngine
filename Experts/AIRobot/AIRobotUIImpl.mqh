@@ -1,6 +1,7 @@
 #include "AIRobotUI.mqh"
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ModuleTestManager/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 
 void AIRobotUI::InitGraphItems() {
 
@@ -28,7 +29,7 @@ void AIRobotUI::InitGraphItems() {
                     60,20,button_section_set_pos,clrDarkViolet,clrBlack);
 }
 
-RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesParams& params) {
+void AIRobotUI::RefreshButtonsStates() {
     ui_utils.CheckButtonState("平多按钮","平多","平多",clrFireBrick,clrBlack);
     ui_utils.CheckButtonState("平空按钮","平空","平空",clrMediumVioletRed,clrBlack);
     ui_utils.CheckButtonState("平盈利多按钮","平盈利多","平盈利多",clrMediumSeaGreen,clrBlack);
@@ -37,31 +38,28 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
     ui_utils.CheckButtonState("EA开关按钮","开启EA","关闭EA",clrBlue,clrRed);
     ui_utils.CheckButtonState("测试按钮","关闭测试","开启测试",clrDarkViolet,clrBlack);
 
-    int magic_number = params.magic_number;
-    bool ui_is_testing_ok = params.is_testing_ok;
-
     if(ui_utils.IsButtonPressed("平多按钮")) {
-        ou_close.CloseAllBuyOrders(magic_number);
+        ou_close.CloseAllBuyOrders(DEFAULT_ORDER_MAGIC_NUMBER);
         ui_utils.UnPressButton("平多按钮");
     }
 
     if(ui_utils.IsButtonPressed("平空按钮")) {
-        ou_close.CloseAllSellOrders(magic_number);
+        ou_close.CloseAllSellOrders(DEFAULT_ORDER_MAGIC_NUMBER);
         ui_utils.UnPressButton("平空按钮");
     }
 
     if(ui_utils.IsButtonPressed("平盈利多按钮")) {
-        ou_close.CloseAllBuyProfitOrders(magic_number, 0.1);
+        ou_close.CloseAllBuyProfitOrders(DEFAULT_ORDER_MAGIC_NUMBER, 0.1);
         ui_utils.UnPressButton("平盈利多按钮");
     }
 
     if(ui_utils.IsButtonPressed("平盈利空按钮")) {
-        ou_close.CloseAllSellProfitOrders(magic_number, 0.1);
+        ou_close.CloseAllSellProfitOrders(DEFAULT_ORDER_MAGIC_NUMBER, 0.1);
         ui_utils.UnPressButton("平盈利空按钮");
     }
 
     if(ui_utils.IsButtonPressed("全平按钮")) {
-        ou_close.CloseAllOrders(magic_number);
+        ou_close.CloseAllOrders(DEFAULT_ORDER_MAGIC_NUMBER);
         ui_utils.UnPressButton("全平按钮");
     }
 
@@ -80,9 +78,4 @@ RefreshButtonsStatesRet AIRobotUI::RefreshButtonsStates(RefreshButtonsStatesPara
         this.mt_manager.TestAutoAdjustStrategyOnAction();
         ui_utils.UnPressButton("测试按钮2");
     }
-
-    RefreshButtonsStatesRet rb_states_ret;
-    rb_states_ret.is_testing_ok = ui_is_testing_ok;
-
-    return rb_states_ret;
 }

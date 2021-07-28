@@ -6,15 +6,6 @@
 
 #include "AIRobotConstant.mqh"
 
-struct RefreshButtonsStatesParams {
-    int magic_number;
-    bool is_testing_ok;
-};
-
-struct RefreshButtonsStatesRet {
-    bool is_testing_ok;
-};
-
 class AIRobotUI {
     public:
         AIRobotUI() {
@@ -29,6 +20,9 @@ class AIRobotUI {
             delete &ou_print;
             delete mt_manager;
         }
+    public:
+        void InitGraphItems();
+        void RefreshButtonsStates();
     private:
         UIUtils ui_utils;
         OrderGetUtils ou_get;
@@ -37,8 +31,4 @@ class AIRobotUI {
         OrderPrintUtils ou_print;
         ENUM_BASE_CORNER button_section_set_pos;
         ModuleTestManager* mt_manager;
-
-    public:
-        void InitGraphItems();
-        RefreshButtonsStatesRet RefreshButtonsStates(RefreshButtonsStatesParams& params);
 };

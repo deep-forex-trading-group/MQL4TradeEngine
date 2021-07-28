@@ -1,4 +1,3 @@
-#include "ModuleTestManager.mqh"
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 
