@@ -1,3 +1,5 @@
+#include <stdlib.mqh>; 
+
 #define IsPtrInvalid(ptr) \
 (CheckPointer(ptr) == POINTER_INVALID)
 
@@ -14,10 +16,10 @@ if (CheckPointer(ptr) == POINTER_DYNAMIC) { \
 
 #define SaveDeletePtr(ptr) \
 if (!IsPtrInvalid(ptr)) { delete ptr; }
-//
-//#define HandleLastError err_prefix_msg \
-//int ErrCode = GetLastError(); \
-//string ErrDesc = ErrorDescription(ErrCode); \
-//string ErrMsg = StringConcatenate(err_prefix_msg, ": ", ErrCode, " : ", ErrDesc); \
-//Alert(ErrMsg); \
-//Print(ErrMsg);
+
+#define HandleLastError(err_prefix_msg) \
+int ErrCode = GetLastError(); \
+string ErrDesc = ErrorDescription(ErrCode); \
+string ErrMsg = StringConcatenate(err_prefix_msg, ": ", IntegerToString(ErrCode), " : ", ErrDesc); \
+Alert(ErrMsg); \
+Print(ErrMsg);

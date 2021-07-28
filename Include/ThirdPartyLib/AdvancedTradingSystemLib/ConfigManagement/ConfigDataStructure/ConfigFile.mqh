@@ -29,7 +29,6 @@ class ConfigFile {
         }
         ~ConfigFile() {
             this.DeleteConfigMap();
-            delete &err_utils;
         }
 
     public:
@@ -46,7 +45,6 @@ class ConfigFile {
     private:
         string file_path_;
         HashMap<string, ConfigSection*>* config_titles_map_;
-        ErrUtils err_utils;
 };
 
 int ConfigFile::RefreshConfigFile() {
@@ -55,7 +53,7 @@ int ConfigFile::RefreshConfigFile() {
     if (!txt.valid()) {
         Print("The config file is not valid.");
         PrintFormat("terminal_data_path: %s", terminal_data_path);
-        err_utils.HandleLastError("Reads Config File Error");
+        HandleLastError("Reads Config File Error");
         return -1;
     }
 
