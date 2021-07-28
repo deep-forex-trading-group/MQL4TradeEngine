@@ -8,6 +8,7 @@ class Strategy {
         virtual int ExecuteStrategy() const = 0;
         virtual void PrintStrategyInfo() const = 0;
         int SetConfigFile(ConfigFile* config_file);
+        void RefreshConfigFile() const;
     protected:
         bool CheckConfigFileValid() const;
     protected:
@@ -33,4 +34,13 @@ bool Strategy::CheckConfigFileValid() const {
         return false;
     }
     return true;
+}
+
+void Strategy::RefreshConfigFile() const {
+    if (IsPtrInvalid(this.config_file_)) {
+        PrintFormat("current config_file_ pointer for Strategy {%s} is invalid.",
+                    this.strategy_name_);
+        return;
+    }
+    this.config_file_.RefreshConfigFile();
 }
