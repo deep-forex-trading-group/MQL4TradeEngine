@@ -7,10 +7,10 @@ class AccountInfoUtils {
         AccountInfoUtils() {};
         ~AccountInfoUtils() {};
     public:
-       double GetCurrentTotalProfit(int magic_number);
-       double GetCurrentFloatingProfit(int magic_number);
-       double GetCurrentBuyFloatingProfit(int magic_number);
-       double GetCurrentSellFloatingProfit(int magic_number);
+       static double GetCurrentTotalProfit(int magic_number);
+       static double GetCurrentFloatingProfit(int magic_number);
+       static double GetCurrentBuyFloatingProfit(int magic_number);
+       static double GetCurrentSellFloatingProfit(int magic_number);
 };
 
 double AccountInfoUtils::GetCurrentTotalProfit(int magic_number) {
