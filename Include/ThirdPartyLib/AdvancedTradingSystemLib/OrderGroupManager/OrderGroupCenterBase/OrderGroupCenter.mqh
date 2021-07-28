@@ -26,7 +26,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         void setName(string name);
 
     public:
-        int getMagicNumberByGroupId(int group_id);
+        int getMagicNumberBaseByGroupId(int group_id);
     // Member variables
     protected:
         LinkedList<OrderGroupObserver*> order_group_observer_list;
@@ -82,6 +82,6 @@ void OrderGroupCenter::printInfo() {
 void OrderGroupCenter::setName(string name) {
     this.group_center_name_ = name;
 }
-int OrderGroupCenter::getMagicNumberByGroupId(int group_id) {
-    return ORDER_GROUP_MAGIC_BASE + group_id;
+int OrderGroupCenter::getMagicNumberBaseByGroupId(int group_id) {
+    return ORDER_GROUP_MAGIC_BASE + ORDER_GROUP_MAX_ORDERS * group_id + 1;
 }
