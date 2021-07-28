@@ -26,7 +26,7 @@ class OrderGroupCenter : public OrderGroupSubject {
     public:
         int getMagicNumberByGroupId(int group_id);
     // Observer register management member variables
-    private:
+    protected:
         LinkedList<OrderGroupObserver*> order_group_observer_list;
         string observer_msg_;
         string group_center_name_;

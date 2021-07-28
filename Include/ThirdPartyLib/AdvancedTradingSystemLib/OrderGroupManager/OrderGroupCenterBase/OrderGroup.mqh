@@ -34,7 +34,7 @@ class OrderGroup : public OrderGroupObserver {
         OrderArrayUtils order_array_utils;
 
 // Member Variables and Functions
-    private:
+    protected:
         int group_id_;
         OrderInMarket orders_in_history[];
         OrderInMarket orders_in_trades[];
