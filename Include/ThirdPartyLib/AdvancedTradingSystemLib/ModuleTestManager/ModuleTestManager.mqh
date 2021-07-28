@@ -1,11 +1,3 @@
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
-
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
-
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/ConfigDataStructure/all.mqh>
-
 class ModuleTestManager {
     public:
         ModuleTestManager() {};
