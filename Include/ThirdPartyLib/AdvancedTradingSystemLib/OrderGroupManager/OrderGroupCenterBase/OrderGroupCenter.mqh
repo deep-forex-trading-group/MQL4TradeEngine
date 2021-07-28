@@ -12,7 +12,7 @@ class OrderGroupCenter : public OrderGroupSubject {
             delete &order_group_observer_list;
         }
 
-    // Observer register management methods
+    // Observer communications management methods
     public:
         int register(OrderGroupObserver *observer);
         void unRegister(OrderGroupObserver *observer);
@@ -25,7 +25,7 @@ class OrderGroupCenter : public OrderGroupSubject {
 
     public:
         int getMagicNumberByGroupId(int group_id);
-    // Observer register management member variables
+    // Member variables
     protected:
         LinkedList<OrderGroupObserver*> order_group_observer_list;
         string observer_msg_;

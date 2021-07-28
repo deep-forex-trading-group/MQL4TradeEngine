@@ -21,30 +21,31 @@ class OrderGroup : public OrderGroupObserver {
             delete &order_array_utils;
         };
 
-// Observer register functionaliy
+// Observer communications functionality
     public:
         void update(string msg);
         void unRegister();
         void printInfo();
-    private:
-        OrderGroupCenter *order_group_center_ptr_;
-
-// Utils Variables
-    private:
-        OrderArrayUtils order_array_utils;
-
-// Member Variables and Functions
-    protected:
-        int group_id_;
-        OrderInMarket orders_in_history[];
-        OrderInMarket orders_in_trades[];
-        string msg_from_subject_;
-
+// Public Apis for users to call
     public:
         int getGroupId();
         int getGroupOrders(OrderInMarket& res[], OrderInMarket& orders_in_trades[]);
         int getOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
                                int group_id);
+
+    protected:
+        OrderGroupCenter *order_group_center_ptr_;
+
+// Utils Variables
+    protected:
+        OrderArrayUtils order_array_utils;
+
+// Member Variables
+    protected:
+        int group_id_;
+        OrderInMarket orders_in_history[];
+        OrderInMarket orders_in_trades[];
+        string msg_from_subject_;
 };
 
 // Observer register functionaliy
