@@ -1,0 +1,9 @@
+[Adjust]
+pip_start_lots:0.01
+pip_step:10
+pip_factor:1.1
+
+
+
+
+

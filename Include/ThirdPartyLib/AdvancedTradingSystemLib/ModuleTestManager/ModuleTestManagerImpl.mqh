@@ -1,4 +1,5 @@
 #include "ModuleTestManager.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
@@ -6,6 +7,8 @@
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/ConfigDataStructure/all.mqh>
+
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ModuleTestManager/all.mqh>
 
 void ModuleTestManager::TestRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
@@ -20,67 +23,70 @@ void ModuleTestManager::TestRefreshConfigFile() {
                 config_file.GetConfigFieldByTitleAndFieldName("new title 2", "pips_factor"));
     PrintFormat("---------- testing for config_file.PrintAllConfigItems() --------------");
     config_file.PrintAllConfigItems();
-    delete config_file;
+    SaveDeletePtr(config_file);
 }
 
 void ModuleTestManager::TestExecuteStrategy() {
-    StrategyParams* ts_params = new TestingStrategyParams();
+    TestingStrategyParams* ts_params = new TestingStrategyParams();
     TestingStrategy* ts_1 = new TestingStrategy("ts_1");
     TestingStrategy* ts_2 = new TestingStrategy("ts_2");
     TestingStrategy* ts_3 = new TestingStrategy("ts_3");
 
     StrategyContext *st_ctx = new StrategyContext(ts_1);
     PrintFormat("------------ testing TestingStrategy for ts_1 ------------------");
-
-    st_ctx.ExecuteStrategy(ts_params);
+   
+    ts_1.SetTestingStrategyParams(ts_params);
+    st_ctx.ExecuteStrategy();
     ConfigFile* config_file_testing = new ConfigFile("config.txt");
-    st_ctx.ExecuteStrategy(config_file_testing);
+    st_ctx.ExecuteStrategy();
 
     PrintFormat("------------ testing TestingStrategy for ts_2 ------------------");
+    
+    ts_2.SetTestingStrategyParams(ts_params);
     st_ctx.SetStrategy(ts_2);
-    st_ctx.ExecuteStrategy(ts_params);
+    st_ctx.ExecuteStrategy();
     ConfigFile* config_file_testing_2 = new ConfigFile("config.txt");
-    st_ctx.ExecuteStrategy(config_file_testing_2);
+    st_ctx.ExecuteStrategy();
 
     PrintFormat("------------ testing TestingStrategy for ts_3 with no params ------------------");
     st_ctx.SetStrategy(ts_3);
     st_ctx.ExecuteStrategy();
 
-    delete config_file_testing_2;
-    delete config_file_testing;
-    delete ts_params;
-    delete ts_1;
-    delete ts_2;
-    delete st_ctx;
+    SaveDeletePtr(config_file_testing_2);
+    SaveDeletePtr(config_file_testing);
+    SaveDeletePtr(ts_params);
+    SaveDeletePtr(ts_1);
+    SaveDeletePtr(ts_2);
+    SaveDeletePtr(st_ctx);
 }
 
 void ModuleTestManager::TestOrderGroupCenter() {
     PrintFormat("---------- Testing for the group center %s ----------", "order_group_center");
-    OrderGroupCenter* order_group_center = new OrderGroupCenter();
-    order_group_center.setName("Central Center");
-    order_group_center.printInfo();
+    OrderGroupCenter* order_group_center = new OrderGroupCenter("group_center_1");
+    order_group_center.SetName("Central Center");
+    order_group_center.PrintInfo();
     PrintFormat("--------------- Init og1 ----------------------");
     OrderGroup* og1 = new OrderGroup(order_group_center);
-    order_group_center.printInfo();
+    order_group_center.PrintInfo();
     PrintFormat("--------------- Init og2 ----------------------");
     OrderGroup* og2 = new OrderGroup(order_group_center);
-    order_group_center.printInfo();
+    order_group_center.PrintInfo();
 
-    order_group_center.createMsg("Hello World");
-    order_group_center.unRegister(og1);
+    order_group_center.CreateMsg("Hello World");
+    order_group_center.UnRegister(og1);
 
     PrintFormat("---------------- After unRegistered %s -------------", "og1");
-    order_group_center.createMsg("After unRegitstered og1");
+    order_group_center.CreateMsg("After unRegitstered og1");
 
-    order_group_center.unRegister(og2);
+    order_group_center.UnRegister(og2);
 
     PrintFormat("---------------- After unRegistered %s -------------", "og2");
-    order_group_center.createMsg("After unRegitstered og2");
+    order_group_center.CreateMsg("After unRegitstered og2");
 
 
-    delete og1;
-    delete og2;
-    delete order_group_center;
+    SaveDeletePtr(og1);
+    SaveDeletePtr(og2);
+    SaveDeletePtr(order_group_center);
 }
 
 void ModuleTestManager::TestCopyMap() {
@@ -97,7 +103,15 @@ void ModuleTestManager::TestCopyMap() {
         PrintFormat("<%s, %s>", key, val);
     }
 
-    delete collection_copy_utils;
-    delete map_src;
-    delete map_dst;
+    SaveDeletePtr(collection_copy_utils);
+    SaveDeletePtr(map_src);
+    SaveDeletePtr(map_dst);
+}
+
+void ModuleTestManager::TestAutoAdjustStrategyOnTick() {
+    this.aa_group.OnTick();
+}
+
+void ModuleTestManager::TestAutoAdjustStrategyOnAction() {
+    this.aa_group.OnAction();
 }

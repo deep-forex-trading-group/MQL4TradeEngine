@@ -1,6 +1,6 @@
 class OrderGroupObserver {
     public:
         virtual ~OrderGroupObserver() {};
-        virtual void update(string message) {};
-        virtual void printInfo() = 0;
+        virtual void Update(string message) {};
+        virtual void PrintInfo() = 0;
 };

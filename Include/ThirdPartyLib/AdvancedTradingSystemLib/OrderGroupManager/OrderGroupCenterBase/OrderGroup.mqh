@@ -9,9 +9,9 @@ class OrderGroup : public OrderGroupObserver {
     public:
         OrderGroup(OrderGroupCenter *order_group_center_ptr) {
             this.order_group_center_ptr_ = order_group_center_ptr;
-            this.group_id_ = this.order_group_center_ptr_.register(GetPointer(this));
+            this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
             this.total_num_orders_ = 0;
-            this.group_magic_number_base_ = this.order_group_center_ptr_.getMagicNumberBaseByGroupId(this.group_id_);
+            this.group_magic_number_base_ = this.order_group_center_ptr_.GetMagicNumberBaseByGroupId(this.group_id_);
             this.msg_from_subject_ = "Init subject msg";
             PrintFormat("Initialized Order Group [%d].", this.group_id_);
         };
@@ -22,16 +22,16 @@ class OrderGroup : public OrderGroupObserver {
 
 // Observer communications functionality
     public:
-        void update(string msg);
-        void unRegister();
-        void printInfo();
+        void Update(string msg);
+        void UnRegister();
+        void PrintInfo();
 // Public Apis for users to call
     public:
-        int getGroupId();
-        int getGroupOrders(OrderInMarket& res[], OrderInMarket& orders_in_trades[]);
-        int getOrdersByGroupId();
-        int getOrdersByGroupId(int group_id);
-        int getOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
+        int GetGroupId();
+        int GetGroupOrders(OrderInMarket& res[], OrderInMarket& orders_in_trades[]);
+        int GetOrdersByGroupId();
+        int GetOrdersByGroupId(int group_id);
+        int GetOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
                                int group_id);
         int GetTotalNumOfOrders();
 
@@ -57,20 +57,20 @@ class OrderGroup : public OrderGroupObserver {
 };
 
 // Observer register functionaliy
-void OrderGroup::update(string msg) {
+void OrderGroup::Update(string msg) {
     this.msg_from_subject_ = msg;
-    printInfo();
+    PrintInfo();
 }
-void OrderGroup::unRegister() {
-    this.order_group_center_ptr_.unRegister(GetPointer(this));
+void OrderGroup::UnRegister() {
+    this.order_group_center_ptr_.UnRegister(GetPointer(this));
     PrintFormat("OrderGroup: %d is unregistered from order group center.", this.group_id_);
 }
-void OrderGroup::printInfo() {
+void OrderGroup::PrintInfo() {
     PrintFormat("OrderGroup: %d gets a new msg [%s]", this.group_id_, this.msg_from_subject_);
 }
 
 // Member Functions for Order Group.
-int OrderGroup::getGroupId() {
+int OrderGroup::GetGroupId() {
     if (this.group_id_ == -1) {
         string msg = StringFormat("OrderGroup id is %d and it is invalid", this.group_id_);
         Print(msg);
@@ -78,15 +78,15 @@ int OrderGroup::getGroupId() {
     }
     return this.group_id_;
 };
-int OrderGroup::getOrdersByGroupId() {
-    return this.getOrdersByGroupId(this.group_id_);
+int OrderGroup::GetOrdersByGroupId() {
+    return this.GetOrdersByGroupId(this.group_id_);
 }
-int OrderGroup::getOrdersByGroupId(int group_id) {
+int OrderGroup::GetOrdersByGroupId(int group_id) {
     ArrayFree(this.orders_in_history);
     ArrayFree(this.orders_in_trades);
-    return this.getOrdersByGroupId(this.orders_in_history, this.orders_in_trades, this.group_id_);
+    return this.GetOrdersByGroupId(this.orders_in_history, this.orders_in_trades, this.group_id_);
 }
-int OrderGroup::getOrdersByGroupId(OrderInMarket& orders_in_history_out[],
+int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
                                    OrderInMarket& orders_in_trades_out[],
                                    int group_id_in) {
     ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
@@ -96,7 +96,7 @@ int OrderGroup::getOrdersByGroupId(OrderInMarket& orders_in_history_out[],
         return -1;
     }
     int total_num = OrdersTotal();
-    int group_magic_number_base = this.order_group_center_ptr_.getMagicNumberBaseByGroupId(group_id_in);
+    int group_magic_number_base = this.order_group_center_ptr_.GetMagicNumberBaseByGroupId(group_id_in);
     HashSet<int>* group_magic_number_set = new HashSet<int>();
     this.GetGroupMagicNumberSet(group_magic_number_set);
 
@@ -124,7 +124,6 @@ int OrderGroup::getOrdersByGroupId(OrderInMarket& orders_in_history_out[],
     ArrayResize(orders_in_history_out, res_i);
     // Gets the order in trading pool
     res_i = 0;
-    PrintFormat("size: %d", ArraySize(orders_in_trades_out));
     for (int rs_trades_i = total_num - 1; rs_trades_i >= 0; rs_trades_i--) {
         if (OrderSelect(rs_trades_i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && group_magic_number_set.contains(OrderMagicNumber())) {
