@@ -3,7 +3,6 @@
 #property description "AIRobot for consistently profits"
 
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/HedgeUtilsDual.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/AccountInformationUtils/AccountInfoUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/UIUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/OrderGroupCenterBase/OrderGroup.mqh>
