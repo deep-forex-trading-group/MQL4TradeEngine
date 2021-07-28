@@ -32,7 +32,8 @@ bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
          int higest_ticket = -1;
          for (int i = total_orders_num - 1; i >= 0; i--) {
             RefreshRates();
-            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol() && OrderType() == OP_BUY) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
                 RefreshRates();
                 if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
                     highest_price = OrderOpenPrice();
@@ -57,7 +58,7 @@ bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
             RefreshRates();
             if (OrderSelect(dir_1_i, SELECT_BY_POS, MODE_TRADES)
                 && OrderSymbol() == Symbol()
-                && OrderType() == OP_SELL) {
+                && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
             RefreshRates();
                 if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
                     lowest_price = OrderOpenPrice();
