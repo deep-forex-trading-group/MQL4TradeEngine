@@ -6,7 +6,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/HedgeUtilsDual.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/AccountInformationUtils/AccountInfoUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/UIUtils.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/OrderGroup.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/OrderGroupCenterBase/OrderGroup.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/StrategyContext.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/all.mqh>
 

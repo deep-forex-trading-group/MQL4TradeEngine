@@ -1,4 +1,5 @@
-#include "OrderGroupBase\all.mqh"
+#include "../OrderGroupBase/OrderGroupBase.mqh"
+#include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include <ThirdPartyLib/MqlExtendLib/Collection/LinkedList.mqh>
 
 class OrderGroupCenter {

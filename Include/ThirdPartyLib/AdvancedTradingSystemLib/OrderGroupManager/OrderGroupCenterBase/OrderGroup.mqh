@@ -1,6 +1,6 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderInMarket.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderArrayUtils.mqh>
-#include "OrderGroupBase/all.mqh"
+#include "../OrderGroupBase/OrderGroupBase.mqh"
 #include "OrderGroupCenter.mqh"
 
 class OrderGroup : public OrderGroupObserver {

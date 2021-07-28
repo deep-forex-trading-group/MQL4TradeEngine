@@ -1,3 +1,2 @@
 #include "OrderGroupBase\all.mqh"
-#include "OrderGroup.mqh"
-#include "OrderGroupCenter.mqh"
+#include "OrderGroupCenterBase\all.mqh"
