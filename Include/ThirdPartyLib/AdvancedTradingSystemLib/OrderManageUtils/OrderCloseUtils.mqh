@@ -121,6 +121,7 @@ bool OrderCloseUtils::CloseAllSellProfitOrders(int magic_number, double profit) 
     return is_success;
 }
 bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
+    UpdatesSpread();
     bool is_success = false;
     int cnt = 100;
     while (!is_success && cnt >= 0) {
@@ -135,7 +136,8 @@ bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
     cnt = 100;
     while (!is_success && cnt >= 0) {
         // (dir == 0 ? NormalizeDouble(Bid, Digits):NormalizeDouble(Ask, Digits))
-        is_success = OrderClose(order_ticket,OrderLots(),OrderClosePrice(),int(2*Spread),clrFireBrick);
+        is_success = OrderClose(order_ticket,OrderLots(),OrderClosePrice(),
+                                int(2*this.Spread),clrFireBrick);
         //Print("CloseOrderByOrderTicket Close Order ", order_ticket, " error, Repeat Operations!");
         cnt--;
     }

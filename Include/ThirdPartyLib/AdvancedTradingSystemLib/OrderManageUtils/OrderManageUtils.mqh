@@ -13,4 +13,8 @@ class OrderManageUtils {
 // Member Variables and Functions
     protected:
         double Spread;
+    protected:
+        void UpdatesSpread() {
+            this.Spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
+        }
 };

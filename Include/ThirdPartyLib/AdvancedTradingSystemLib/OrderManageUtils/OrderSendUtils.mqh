@@ -81,6 +81,7 @@ int OrderSendUtils::CreateSellOrder(int magic_number, double Lots, int TP, int S
 int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
                                     int Magic, string Cmnt,
                                     double OpenPrice = 0, string mSymbol = "") {
+  UpdatesSpread();
   double Price, Take, Stop;
   int Ticket = -1;
   int Color, Err;
@@ -126,9 +127,11 @@ int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
      if(IsTradeAllowed())
      {
         if(mSymbol == "")
-        Ticket = OrderSend(Symbol(), Type, Lots, Price, int(2*Spread), 0, 0, Cmnt, Magic, 0, Color); // amended code
+            Ticket = OrderSend(Symbol(), Type, Lots, Price, int(2*this.Spread), 0, 0,
+                                Cmnt, Magic, 0, Color); // amended code
         else
-        Ticket = OrderSend(mSymbol, Type, Lots, Price, int(2*Spread), Stop, Take, Cmnt, Magic, 0, Color);
+            Ticket = OrderSend(mSymbol, Type, Lots, Price, int(2*this.Spread), Stop, Take,
+                                Cmnt, Magic, 0, Color);
 
         if(Ticket < 0)
         {
