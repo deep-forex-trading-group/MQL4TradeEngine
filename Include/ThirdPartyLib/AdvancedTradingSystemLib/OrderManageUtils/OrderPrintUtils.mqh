@@ -11,7 +11,7 @@ class OrderPrintUtils : public OrderManageUtils {
 };
 
 // 打印函数
-void OrderPrintUtils::PrintAllOrders() {
+void OrderPrintUtils::PrintAllOrders(int magic_number) {
     Print("----------------------PrintAllOrdersStart----------------------------------");
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
