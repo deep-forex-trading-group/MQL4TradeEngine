@@ -2,6 +2,7 @@
 #property  link      "https://www.eahub.cn/thread-737-1-1.html"
 #property description "AIRobot for consistently profits"
 
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include "AIRobotUI.mqh"
 #include "AIRobotUIImpl.mqh"
 
@@ -29,6 +30,6 @@ void OnTick() {
 
 void OnDeinit(const int reason) {
     Print("Deinitialize the AIRobot EA.");
-
+    ShowDeinitReason(reason);
     delete &ai_robot_ui;
 }
