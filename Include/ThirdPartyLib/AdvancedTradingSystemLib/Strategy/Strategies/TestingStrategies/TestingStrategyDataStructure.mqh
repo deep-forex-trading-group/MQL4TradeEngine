@@ -1,6 +1,4 @@
-#include "../../StrategyBase/StrategyDataStructure.mqh"
-
-class TestingStrategyParams : public StrategyParams {
+class TestingStrategyParams {
     public:
         TestingStrategyParams() {
             this.testing_input_code = -1;

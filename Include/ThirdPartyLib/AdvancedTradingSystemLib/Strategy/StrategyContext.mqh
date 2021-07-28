@@ -10,8 +10,6 @@ class StrategyContext {
     public:
         int SetStrategy(Strategy *strategy);
         int ExecuteStrategy() const;
-        int ExecuteStrategy(StrategyParams* strategyParams) const;
-        int ExecuteStrategy(ConfigFile* config_file) const;
 
 
 // Member Variables and Functions
@@ -27,15 +25,5 @@ int StrategyContext::SetStrategy(Strategy *strategy) {
 
 int StrategyContext::ExecuteStrategy() const {
     this.strategy_.ExecuteStrategy();
-    return SUCCEEDED;
-}
-
-int StrategyContext::ExecuteStrategy(StrategyParams* strategyParams) const {
-    this.strategy_.ExecuteStrategy(strategyParams);
-    return SUCCEEDED;
-}
-
-int StrategyContext::ExecuteStrategy(ConfigFile* config_file) const {
-    this.strategy_.ExecuteStrategy(config_file);
     return SUCCEEDED;
 }
