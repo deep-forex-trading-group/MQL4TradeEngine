@@ -1,7 +1,14 @@
 class ConfigSectionBase {
     public:
-        ConfigSectionBase() {};
         virtual ~ConfigSectionBase() {};
     public:
         virtual void printAllParams();
+};
+
+class ConfigFileBase {
+    public:
+        virtual ~ConfigFileBase() {};
+    public:
+        int RefreshConfigFile();
+        void PrintAllConfigItems();
 };

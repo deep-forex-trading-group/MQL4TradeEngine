@@ -6,7 +6,7 @@
 #include "ConfigSection.mqh"
 #include "ConfigDataStructureConstant.mqh"
 
-class ConfigFile {
+class ConfigFile : public ConfigFileBase {
     public:
         ConfigFile(string file_path_in) {
             PrintFormat("Initializing the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)", 
