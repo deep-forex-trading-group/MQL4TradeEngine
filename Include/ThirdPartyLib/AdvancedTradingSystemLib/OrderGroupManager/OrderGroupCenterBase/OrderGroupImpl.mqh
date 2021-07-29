@@ -5,6 +5,7 @@
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include "OrderGroupCenter.mqh"
+#include "OrderGroup.mqh"
 
 // Observer register functionaliy
 void OrderGroup::Update(string msg) {
@@ -20,14 +21,6 @@ void OrderGroup::PrintInfo() {
 }
 
 // Member Functions for Order Group.
-int OrderGroup::GetGroupId() {
-    if (this.group_id_ == -1) {
-        string msg = StringFormat("OrderGroup id is %d and it is invalid", this.group_id_);
-        Print(msg);
-        Alert(msg);
-    }
-    return this.group_id_;
-};
 int OrderGroup::GetOrdersByGroupId() {
     return this.GetOrdersByGroupId(this.group_id_);
 }
@@ -44,34 +37,44 @@ int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
         return -1;
     }
     int total_num = OrdersTotal();
-    int group_magic_number_base = this.order_group_center_ptr_.GetMagicNumberBaseByGroupId(group_id_in);
+    int group_magic_number = this.order_group_center_ptr_.GetMagicNumberByGroupId(this.group_id_);
     HashSet<int>* group_magic_number_set = new HashSet<int>();
-    this.GetGroupMagicNumberSet(group_magic_number_set);
 
     ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
-    if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(group_magic_number_set, orders_in_history_out)) {
-        delete group_magic_number_set;
+    if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumber(
+                        this.group_magic_number_, orders_in_history_out)) {
         return -1;
     }
     ArrayResize(orders_in_trades_out, ORDER_GROUP_MAX_ORDERS);
-    if (!OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(group_magic_number_set, orders_in_trades_out)) {
-        delete group_magic_number_set;
+    if (!OrderGetUtils::GetOrdersInTradesWithMagicNumber(
+                        this.group_magic_number_, orders_in_trades_out)) {
         return -1;
     }
-    delete group_magic_number_set;
     return 0;
 };
-int OrderGroup::GetTotalNumOfOrders() {
-    return this.total_num_orders_;
+int OrderGroup::GetTotalNumOfOrdersInTrades() {
+    this.GetOrdersByGroupId();
+    return ArraySize(orders_in_trades);
 }
-void OrderGroup::GetGroupMagicNumberSet(HashSet<int>* group_magic_number_set) {
-    for (int gm_i = 0; gm_i < this.total_num_orders_; gm_i++) {
-        int current_magic_num = this.group_magic_number_base_ + gm_i;
-        group_magic_number_set.add(current_magic_num);
+double OrderGroup::GetCurrentProfit() {
+    this.GetOrdersByGroupId();
+    this.cur_profit_ = 0;
+    for (int cc_states_i = 0; cc_states_i < ArraySize(this.orders_in_trades); cc_states_i++) {
+        this.cur_profit_ += this.orders_in_trades[cc_states_i].order_profit;
     }
+    return this.cur_profit_;
 }
-int OrderGroup::GenerateNewOrderMagicNumber() {
-    int num = this.group_magic_number_base_ + this.total_num_orders_;
-    this.total_num_orders_++;
-    return num;
+double OrderGroup::GetMaxFloatingProfit() {
+    this.cur_profit_ = this.GetCurrentProfit();
+    if (this.cur_profit_ > 0) {
+        this.max_floating_profits_ = MathMax(MathAbs(this.cur_profit_), this.max_floating_profits_);
+    }
+    return this.max_floating_profits_;
+}
+double OrderGroup::GetMaxFloatingLoss() {
+    this.cur_profit_ = this.GetCurrentProfit();
+    if (this.cur_profit_ < 0) {
+        this.max_floating_loss_ = MathMax(MathAbs(this.cur_profit_), this.max_floating_loss_);
+    }
+    return this.max_floating_loss_;
 }

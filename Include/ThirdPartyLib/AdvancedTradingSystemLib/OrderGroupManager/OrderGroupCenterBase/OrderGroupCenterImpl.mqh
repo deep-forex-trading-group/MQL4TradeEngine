@@ -7,7 +7,9 @@
 // Observer Register management methods implementations.
 int OrderGroupCenter::Register(OrderGroupObserver *observer) {
     this.order_group_observer_list_.add(observer);
-    return this.GetNumOfObservers();
+    int cur_order_group_id = this.group_id_max_;
+    this.group_id_max_++;
+    return cur_order_group_id;
 }
 void OrderGroupCenter::UnRegister(OrderGroupObserver *observer) {
     this.order_group_observer_list_.remove(observer);
@@ -48,6 +50,6 @@ void OrderGroupCenter::PrintInfo() {
 void OrderGroupCenter::SetName(string name) {
     this.group_center_name_ = name;
 }
-int OrderGroupCenter::GetMagicNumberBaseByGroupId(int group_id) {
-    return ORDER_GROUP_MAGIC_BASE + ORDER_GROUP_MAX_ORDERS * group_id + 1;
+int OrderGroupCenter::GetMagicNumberByGroupId(int group_id) {
+    return this.order_center_magic_number_base_ + group_id;
 }

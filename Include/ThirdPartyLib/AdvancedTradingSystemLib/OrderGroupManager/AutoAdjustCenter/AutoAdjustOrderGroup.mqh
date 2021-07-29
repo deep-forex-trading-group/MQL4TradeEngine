@@ -14,23 +14,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
             SaveDeletePtr(this.config_file_);
         };
 
-    public:
-        // Gets the information about max_floating_loss_/max_floating_profits_/cur_profit_;
-        double GetCurrentProfit();
-        string GetGroupName() { return this.name_; }
     private:
         string name_;
         ConfigFile* config_file_;
-        double max_floating_loss_;
-        double max_floating_profits_;
-        double cur_profit_;
 };
-
-double AutoAdjustOrderGroup::GetCurrentProfit() {
-    this.GetOrdersByGroupId();
-    this.cur_profit_ = 0;
-    for (int cc_states_i = 0; cc_states_i < ArraySize(this.orders_in_trades); cc_states_i++) {
-        this.cur_profit_ += this.orders_in_trades[cc_states_i].order_profit;
-    }
-    return this.cur_profit_;
-}
