@@ -11,7 +11,7 @@
 #include <ThirdPartyLib/MqlExtendLib/Collection/ArrayAdvancedUtils.mqh>
 
 void ModuleTestManager::StartTestOne() {
-    this.TestRefreshConfigFile();
+    this.TestAutoAdjustStrategyOnTick();
 }
 void ModuleTestManager::StartTestTwo() {
     this.TestAutoAdjustStrategyOnAction();
