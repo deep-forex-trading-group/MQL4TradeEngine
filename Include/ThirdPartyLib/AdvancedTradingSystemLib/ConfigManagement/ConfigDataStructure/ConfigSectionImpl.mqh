@@ -6,9 +6,8 @@
 #include "ConfigSection.mqh"
 
 void ConfigSection::PrintAllParams() {
-    PrintFormat("config_title : <%s>", this.config_title_);
     foreachm(string, key, string, val, this.config_section_map_) {
-        PrintFormat("config_item_<%s : %s>", key, val);
+        PrintFormat("{%s} config_item_<%s : %s>", this.config_title_, key, val);
     }
 }
 string ConfigSection::GetConfigTitle() {

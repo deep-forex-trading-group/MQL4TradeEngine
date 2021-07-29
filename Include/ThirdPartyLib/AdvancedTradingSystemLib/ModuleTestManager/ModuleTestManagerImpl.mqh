@@ -11,12 +11,7 @@
 #include <ThirdPartyLib/MqlExtendLib/Collection/ArrayAdvancedUtils.mqh>
 
 void ModuleTestManager::StartTestOne() {
-//    ModuleTestManager::TestRefreshConfigFile();
-//    ModuleTestManager::TestOrderGroupCenter();
-//    ModuleTestManager::TestCopyMap();
-//    ModuleTestManager::TestExecuteStrategy();
-//    ModuleTestManager::TestAutoAdjustStrategy();
-    this.TestAutoAdjustStrategyOnTick();
+    this.TestRefreshConfigFile();
 }
 void ModuleTestManager::StartTestTwo() {
     this.TestAutoAdjustStrategyOnAction();
@@ -26,16 +21,16 @@ void ModuleTestManager::TestRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
     ConfigFile* config_file = new ConfigFile("config", "config.txt");
     config_file.RefreshConfigFile();
-    PrintFormat("---------- testing for config_file.GetConfigFieldByTitleAndFieldName() --------------");
+    PrintFormat("<GetConfigFieldByTitleAndFieldName>");
     PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"title_1\", \"pips_factor\") = %s",
                 config_file.GetConfigFieldByTitleAndFieldName("title_1", "pips_factor"));
     PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"2011\", \"act_factor\") = %s",
                 config_file.GetConfigFieldByTitleAndFieldName("2011", "act_factor"));
     PrintFormat("config_file.GetConfigFieldByTitleAndFieldName(\"tt_2\", \"pips_factor\") = %s",
                 config_file.GetConfigFieldByTitleAndFieldName("tt_2", "pips_factor"));
-    PrintFormat("---------- testing for config_file.PrintAllConfigItems() --------------");
+    PrintFormat("</GetConfigFieldByTitleAndFieldName>");
 
-    PrintFormat("---------- testing for config_file.GetConfigFieldByTitleAndFieldName() with res arr--------------");
+    PrintFormat("<GetConfigFieldByTitleAndFieldNameResArr>");
     string res[];
     config_file.GetConfigFieldByTitleAndFieldName("title_1", "pips_factor", res);
     PrintFormat("res for <%s, %s>", "title_1", "pips_factor");
@@ -49,8 +44,11 @@ void ModuleTestManager::TestRefreshConfigFile() {
     config_file.GetConfigFieldByTitleAndFieldName("tt_2", "act_factor", res);
     PrintFormat("res for <%s, %s>", "tt_2", "act_factor");
     ArrayAdvancedUtils<string>::PrintArrayElements(res);
-    PrintFormat("---------- testing for config_file.PrintAllConfigItems()  with res arr--------------");
+    PrintFormat("</GetConfigFieldByTitleAndFieldNameResArr>");
+
+    PrintFormat("<PrintAllConfigItems>");
     config_file.PrintAllConfigItems();
+    PrintFormat("</PrintAllConfigItems>");
     SaveDeletePtr(config_file);
 }
 

@@ -69,9 +69,9 @@ int ConfigFile::GetConfigFieldByTitleAndFieldName(string title, string field_nam
 void ConfigFile::PrintAllConfigItems() {
     Print("---------------------- Config Section Map Start -------------------------");
     foreachm(string, title, ConfigSection*, c_sec, this.config_titles_map_) {
-        PrintFormat("<ConfigSection>: config_section For Title: %s Start", title);
+        PrintFormat("<ConfigSection {%s}>", title);
         c_sec.PrintAllParams();
-        PrintFormat("</ConfigSection>: config_section For Title: %s End", title);
+        PrintFormat("</ConfigSection {%s}>", title);
     }
     Print("---------------------- Config Section Map End -------------------------\n");
 }
