@@ -44,4 +44,4 @@ switch(reason_code)  { \
     default: \
         text="Another reason"; \
 } \
-PrintFormat("The Deinit Reason is %s, Reason Code is {%d}", text, reason_code);
+PrintFormat("The Deinit Reason is [%s], Reason Code is {%d}", text, reason_code);
