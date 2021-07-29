@@ -6,10 +6,6 @@
 
 // Observer Register management methods implementations.
 int OrderGroupCenter::Register(OrderGroupObserver *observer) {
-    if (IsPtrInvalid(this.order_group_observer_list_)) {
-        Print("order_group_observer_list_ is null.");
-        return -1;
-    }
     this.order_group_observer_list_.add(observer);
     return this.GetNumOfObservers();
 }
