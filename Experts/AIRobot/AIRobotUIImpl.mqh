@@ -9,17 +9,17 @@ void AIRobotUI::InitGraphItems() {
     int button_inter_x=75;
     int button_inter_y=25;
 
-    // Y从下往上，x从右往左
+    // y轴从下往上，x轴从右往左
     ui_utils.Button("平多按钮","平多","平多",button_x+button_inter_x*1,button_y+button_inter_y*4,
-                    45,20,button_section_set_pos,clrFireBrick,clrBlack);
+                    60,20,button_section_set_pos,clrFireBrick,clrBlack);
     ui_utils.Button("平空按钮","平空","平空",button_x+button_inter_x*1,button_y+button_inter_y*3,
-                    45,20,button_section_set_pos,clrMediumVioletRed,clrBlack);
+                    60,20,button_section_set_pos,clrMediumVioletRed,clrBlack);
     ui_utils.Button("平盈利多按钮","平盈利多","平盈利多",button_x+button_inter_x*0,button_y+button_inter_y*4,
                     60,20,button_section_set_pos,clrMediumSeaGreen,clrBlack);
     ui_utils.Button("平盈利空按钮","平盈利空","平盈利空",button_x+button_inter_x*0,button_y+button_inter_y*3,
                     60,20,button_section_set_pos,clrChocolate,clrBlack);
     ui_utils.Button("全平按钮","全平","全平",button_x+button_inter_x*1,button_y+button_inter_y*2,
-                    45,20,button_section_set_pos,clrDarkViolet,clrBlack);
+                    60,20,button_section_set_pos,clrDarkViolet,clrBlack);
     ui_utils.Button("EA开关按钮","开启EA","关闭EA",button_x+button_inter_x*0,button_y+button_inter_y*2,
                     60,20,button_section_set_pos,clrBlue,clrRed);
     ui_utils.Button("测试按钮","测试","测试",button_x+button_inter_x*1,button_y+button_inter_y*0,
