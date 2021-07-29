@@ -14,9 +14,9 @@ class Button {
 };
 
 Button::Button(string name,string txt1,string txt2,
-                               int XX,int YX,
-                               int XL,int YL,
-                               int WZ,color A,color B) {
+               int XX,int YX,
+               int XL,int YL,
+               int WZ,color A,color B) {
     if(ObjectFind(0,name)==-1) {
         ObjectCreate(0,name,OBJ_BUTTON,0,0,0);
     }
