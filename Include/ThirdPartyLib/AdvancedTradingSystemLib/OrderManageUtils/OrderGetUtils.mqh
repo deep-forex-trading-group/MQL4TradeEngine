@@ -70,7 +70,8 @@ int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
   int total_loss_num = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderProfit() <= 0 && OrderMagicNumber() == magic_number) {
+         && (OrderProfit() + OrderCommission() + OrderSwap()) <= 0
+         && OrderMagicNumber() == magic_number) {
         total_loss_num++;
      }
   }
@@ -101,6 +102,8 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_mag
             oi.order_type = OrderType();
             oi.order_ticket = OrderTicket();
             oi.order_position = i;
+            oi.order_swap = OrderSwap();
+            oi.order_commission = OrderCommission();
 
             res[res_i] = oi;
             res_i++;
@@ -134,6 +137,8 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magi
             oi.order_type = OrderType();
             oi.order_ticket = OrderTicket();
             oi.order_position = i;
+            oi.order_swap = OrderSwap();
+            oi.order_commission = OrderCommission();
 
             res[res_i] = oi;
             res_i++;
@@ -161,6 +166,8 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumber(int group_magic_number, Or
             oi.order_type = OrderType();
             oi.order_ticket = OrderTicket();
             oi.order_position = i;
+            oi.order_swap = OrderSwap();
+            oi.order_commission = OrderCommission();
 
             res[res_i] = oi;
             res_i++;
@@ -188,6 +195,8 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumber(int group_magic_number, Ord
             oi.order_type = OrderType();
             oi.order_ticket = OrderTicket();
             oi.order_position = i;
+            oi.order_swap = OrderSwap();
+            oi.order_commission = OrderCommission();
 
             res[res_i] = oi;
             res_i++;
@@ -212,6 +221,8 @@ bool OrderGetUtils::GetBuyOrdersReverse(int magic_number, OrderInMarket& res[], 
         oi.order_type = OrderType();
         oi.order_ticket = OrderTicket();
         oi.order_position = i;
+		oi.order_swap = OrderSwap();
+		oi.order_commission = OrderCommission();
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -227,7 +238,8 @@ bool OrderGetUtils::GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& r
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_BUY && OrderProfit() >= 0 && OrderMagicNumber() == magic_number) {
+         && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) >= 0
+         && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -238,6 +250,8 @@ bool OrderGetUtils::GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& r
         oi.order_type = OrderType();
         oi.order_ticket = OrderTicket();
         oi.order_position = i;
+		oi.order_swap = OrderSwap();
+		oi.order_commission = OrderCommission();
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -253,7 +267,7 @@ bool OrderGetUtils::GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_BUY && OrderProfit() < 0 && OrderMagicNumber() == magic_number) {
+         && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) < 0 && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -264,6 +278,8 @@ bool OrderGetUtils::GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res
         oi.order_type = OrderType();
         oi.order_ticket = OrderTicket();
         oi.order_position = i;
+		oi.order_swap = OrderSwap();
+		oi.order_commission = OrderCommission();
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -290,6 +306,8 @@ bool OrderGetUtils::GetSellOrdersReverse(int magic_number, OrderInMarket& res[],
         oi.order_type = OrderType();
         oi.order_ticket = OrderTicket();
         oi.order_position = i;
+		oi.order_swap = OrderSwap();
+		oi.order_commission = OrderCommission();
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -305,7 +323,8 @@ bool OrderGetUtils::GetSellProfitOrdersReverse(int magic_number, OrderInMarket& 
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL && OrderProfit() >= 0 && OrderMagicNumber() == magic_number) {
+         && OrderType() == OP_SELL && (OrderProfit() + OrderCommission() + OrderSwap()) >= 0
+         && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -316,6 +335,8 @@ bool OrderGetUtils::GetSellProfitOrdersReverse(int magic_number, OrderInMarket& 
         oi.order_type = OrderType();
         oi.order_ticket = OrderTicket();
         oi.order_position = i;
+		oi.order_swap = OrderSwap();
+		oi.order_commission = OrderCommission();
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -331,7 +352,8 @@ bool OrderGetUtils::GetSellLossOrdersReverse(int magic_number, OrderInMarket& re
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL && OrderProfit() < 0 && OrderMagicNumber() == magic_number) {
+         && OrderType() == OP_SELL && (OrderProfit() + OrderCommission() + OrderSwap()) < 0
+         && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
         oi.order_lots = OrderLots();
         oi.order_open_price = OrderOpenPrice();
@@ -342,6 +364,8 @@ bool OrderGetUtils::GetSellLossOrdersReverse(int magic_number, OrderInMarket& re
         oi.order_type = OrderType();
         oi.order_ticket = OrderTicket();
         oi.order_position = i;
+		oi.order_swap = OrderSwap();
+		oi.order_commission = OrderCommission();
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -375,6 +399,8 @@ bool OrderGetUtils::GetHighestOpenPriceOrder(int magic_number, OrderInMarket& re
               oi.order_type = OrderType();
               oi.order_ticket = OrderTicket();
               oi.order_position = i;
+              oi.order_swap = OrderSwap();
+              oi.order_commission = OrderCommission();
            }
      }
   }
@@ -406,6 +432,8 @@ bool OrderGetUtils::GetHighestBuyOpenPriceOrder(int magic_number, OrderInMarket&
                  oi.order_type = OrderType();
                  oi.order_ticket = OrderTicket();
                  oi.order_position = i;
+                 oi.order_swap = OrderSwap();
+                 oi.order_commission = OrderCommission();
               }
         }
      }
@@ -436,6 +464,8 @@ bool OrderGetUtils::GetHighestSellOpenPriceOrder(int magic_number, OrderInMarket
           oi.order_type = OrderType();
           oi.order_ticket = OrderTicket();
           oi.order_position = i;
+		  oi.order_swap = OrderSwap();
+		  oi.order_commission = OrderCommission();
         }
      }
     }
@@ -466,6 +496,8 @@ bool OrderGetUtils::GetLowestOpenPriceOrder(int magic_number, OrderInMarket& res
               oi.order_type = OrderType();
               oi.order_ticket = OrderTicket();
               oi.order_position = i;
+		      oi.order_swap = OrderSwap();
+		      oi.order_commission = OrderCommission();
            }
      }
   }
@@ -497,6 +529,8 @@ bool OrderGetUtils::GetLowestSellOpenPriceOrder(int magic_number, OrderInMarket&
                  oi.order_type = OrderType();
                  oi.order_ticket = OrderTicket();
                  oi.order_position = i;
+		         oi.order_swap = OrderSwap();
+		         oi.order_commission = OrderCommission();
               }
         }
      }
@@ -528,6 +562,8 @@ bool OrderGetUtils::GetLowestBuyOpenPriceOrder(int magic_number, OrderInMarket& 
                 oi.order_type = OrderType();
                 oi.order_ticket = OrderTicket();
                 oi.order_position = i;
+		        oi.order_swap = OrderSwap();
+		        oi.order_commission = OrderCommission();
             }
         }
     }

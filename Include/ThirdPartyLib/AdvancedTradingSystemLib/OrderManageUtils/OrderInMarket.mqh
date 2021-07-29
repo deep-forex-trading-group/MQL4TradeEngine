@@ -9,6 +9,8 @@ class OrderInMarket {
        int order_type;
        int order_ticket;
        int order_position;
+       double order_swap;
+       double order_commission;
 
     public:
         OrderInMarket() {}
@@ -18,10 +20,11 @@ class OrderInMarket {
 };
 
 void OrderInMarket::PrintOrderInMarket() {
-    PrintFormat("OrderInMarket <%s, %s, %s, %s, %s, %s, %s, %s, %s>",
+    PrintFormat("OrderInMarket <%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s>",
                 order_lots, order_open_price, order_close_price,
                 order_comment, order_close_time, order_profit,
-                order_type, order_ticket, order_position);
+                order_type, order_ticket, order_position,
+                order_swap, order_commission);
 }
 
 int OrderInMarket::copyOrder(OrderInMarket& dst[]) {
@@ -36,6 +39,8 @@ int OrderInMarket::copyOrder(OrderInMarket& dst[]) {
     other.order_type = this.order_type;
     other.order_ticket = this.order_ticket;
     other.order_position = this.order_position;
+    other.order_swap = this.order_swap;
+    other.order_commission = this.order_commission;
     
     ArrayResize(dst, 1);
     dst[0] = other;

@@ -15,3 +15,5 @@ new_heading_rule:2311
 [tt_2]
 pips_factor:211,20
 act_factor:211,20,holding_rule
+
+oi\.order_position \= i\;\n\t\toi\.order_swap \= OrderSwap\(\)\;\n\t\toi\.order_commission \= OrderCommission\(\)\;
