@@ -17,6 +17,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
     public:
         // Gets the information about max_floating_loss_/max_floating_profits_/cur_profit_;
         double GetCurrentProfit();
+        string GetGroupName() { return this.name_; }
     private:
         string name_;
         ConfigFile* config_file_;

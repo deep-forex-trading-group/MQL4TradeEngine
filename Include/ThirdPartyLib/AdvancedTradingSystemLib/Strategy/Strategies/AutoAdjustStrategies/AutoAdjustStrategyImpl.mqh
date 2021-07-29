@@ -26,6 +26,13 @@ int AutoAdjustStrategy::OnActionExecute() {
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group) {
+    if (IsPtrInvalid(auto_adjust_order_group)) {
+        PrintFormat("The auto_adjust_order_group pointer passed in the AutoAdjustStrategy {%s} is invalid",
+                     this.strategy_name_);
+        return FAILED;
+    }
+    PrintFormat("Sets the AutoAdjustStrategy {%s} with auto_adjust_order_group {%s}",
+                this.strategy_name_, auto_adjust_order_group.GetGroupName());
     this.auto_adjust_order_group_ = auto_adjust_order_group;
     return SUCCEEDED;
 }
