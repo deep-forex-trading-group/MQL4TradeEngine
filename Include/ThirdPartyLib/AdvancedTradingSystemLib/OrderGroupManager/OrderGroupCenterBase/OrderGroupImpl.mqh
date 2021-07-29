@@ -38,7 +38,6 @@ int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
     }
     int total_num = OrdersTotal();
     int group_magic_number = this.order_group_center_ptr_.GetMagicNumberByGroupId(this.group_id_);
-    HashSet<int>* group_magic_number_set = new HashSet<int>();
 
     ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
     if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumber(
@@ -63,7 +62,8 @@ bool OrderGroup::CreateBuyOrder(double pip, string comment) {
                                         IntegerToString(this.group_id_),
                                         IntegerToString(this.group_magic_number_));
     StringAdd(comment, comm_for_group);
-    if (this.ou_send.CreateBuyOrder(this.group_magic_number_, pip) == -1) {
+    PrintFormat(comment);
+    if (this.ou_send.CreateBuyOrder(this.group_magic_number_, pip, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm_for_group);
         return false;
     }
@@ -76,7 +76,8 @@ bool OrderGroup::CreateSellOrder(double pip, string comment) {
                                         IntegerToString(this.group_id_),
                                         IntegerToString(this.group_magic_number_));
     StringAdd(comment, comm_for_group);
-    if (this.ou_send.CreateSellOrder(this.group_magic_number_, pip) == -1) {
+    PrintFormat(comment);
+    if (this.ou_send.CreateSellOrder(this.group_magic_number_, pip, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm_for_group);
         return false;
     }
