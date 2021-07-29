@@ -12,7 +12,8 @@ class OrderGroup : public OrderGroupObserver {
             this.order_group_center_ptr_ = order_group_center_ptr;
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
             this.total_num_orders_ = 0;
-            this.group_magic_number_base_ = this.order_group_center_ptr_.GetMagicNumberBaseByGroupId(this.group_id_);
+            this.group_magic_number_base_ = this.order_group_center_ptr_
+                                                .GetMagicNumberBaseByGroupId(this.group_id_);
             this.msg_from_subject_ = "Init subject msg";
             PrintFormat("Initialized Order Group [%d].", this.group_id_);
         };
