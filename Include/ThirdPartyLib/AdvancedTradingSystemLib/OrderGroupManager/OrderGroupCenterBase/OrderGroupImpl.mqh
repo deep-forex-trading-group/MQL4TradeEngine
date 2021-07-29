@@ -21,7 +21,7 @@ void OrderGroup::PrintInfo() {
 }
 
 // Member Functions for Order Group.
-int OrderGroup::GetOrdersByGroupId() {
+int OrderGroup::RefreshOrderInfo() {
     return this.GetOrdersByGroupId(this.group_id_);
 }
 int OrderGroup::GetOrdersByGroupId(int group_id) {
@@ -52,8 +52,8 @@ int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
     return 0;
 };
 int OrderGroup::GetTotalNumOfOrdersInTrades() {
-    this.GetOrdersByGroupId();
-    return ArraySize(orders_in_trades);
+    this.RefreshOrderInfo();
+    return ArraySize(this.orders_in_trades);
 }
 bool OrderGroup::CreateBuyOrder(double pip, string comment) {
     string comm_for_group = StringFormat("#b#%s#%s#%s#%s#",
@@ -82,7 +82,7 @@ bool OrderGroup::CreateSellOrder(double pip, string comment) {
     return true;
 }
 double OrderGroup::GetCurrentProfit() {
-    this.GetOrdersByGroupId();
+    this.RefreshOrderInfo();
     this.cur_profit_ = 0;
     for (int cc_states_i = 0; cc_states_i < ArraySize(this.orders_in_trades); cc_states_i++) {
         this.cur_profit_ += this.orders_in_trades[cc_states_i].order_profit;

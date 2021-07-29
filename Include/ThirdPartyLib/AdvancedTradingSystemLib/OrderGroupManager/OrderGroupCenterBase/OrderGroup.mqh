@@ -32,7 +32,7 @@ class OrderGroup : public OrderGroupObserver {
     public:
         int GetGroupId() { return this.group_id_; };
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
-        int GetOrdersByGroupId();
+        int RefreshOrderInfo();
         int GetOrdersByGroupId(int group_id);
         int GetOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
                                int group_id);
