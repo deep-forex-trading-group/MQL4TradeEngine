@@ -14,6 +14,8 @@ class AIRobotUI {
             this.InitGraphItems();
         }
         ~AIRobotUI() {
+            // TODO: to check why the btn objects can not be deleted.
+            PrintFormat("delete airobotui.");
             delete &ui_utils;
             delete mt_manager;
             delete btn1;

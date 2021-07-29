@@ -31,46 +31,46 @@ void AIRobotUI::InitGraphItems() {
 }
 
 void AIRobotUI::RefreshButtonsStates() {
-    btn1.CheckButtonState();
-    btn2.CheckButtonState();
-    btn3.CheckButtonState();
-    btn4.CheckButtonState();
-    btn5.CheckButtonState();
-    btn6.CheckButtonState();
-    btn7.CheckButtonState();
-    btn8.CheckButtonState();
+    this.btn1.CheckButtonState();
+    this.btn2.CheckButtonState();
+    this.btn3.CheckButtonState();
+    this.btn4.CheckButtonState();
+    this.btn5.CheckButtonState();
+    this.btn6.CheckButtonState();
+    this.btn7.CheckButtonState();
+    this.btn8.CheckButtonState();
 
-    if(btn1.IsButtonPressed()) {
-        btn1.UnPressButton();
+    if(this.btn1.IsButtonPressed()) {
+        this.btn1.UnPressButton();
     }
 
-    if(btn2.IsButtonPressed()) {
-        btn2.UnPressButton();
+    if(this.btn2.IsButtonPressed()) {
+        this.btn2.UnPressButton();
     }
 
-    if(btn3.IsButtonPressed()) {
-        btn3.UnPressButton();
+    if(this.btn3.IsButtonPressed()) {
+        this.btn3.UnPressButton();
     }
 
-    if(btn4.IsButtonPressed()) {
-        btn4.UnPressButton();
+    if(this.btn4.IsButtonPressed()) {
+        this.btn4.UnPressButton();
     }
 
-    if(btn5.IsButtonPressed()) {
-        btn5.UnPressButton();
+    if(this.btn5.IsButtonPressed()) {
+        this.btn5.UnPressButton();
     }
 
-    if(btn6.IsButtonPressed()) {
-        btn6.UnPressButton();
+    if(this.btn6.IsButtonPressed()) {
+        this.btn6.UnPressButton();
     }
 
-    if (btn7.IsButtonPressed()) {
+    if (this.btn7.IsButtonPressed()) {
         mt_manager.StartTestOne();
-        btn7.UnPressButton();
+        this.btn7.UnPressButton();
     }
 
-    if (btn8.IsButtonPressed()) {
+    if (this.btn8.IsButtonPressed()) {
         mt_manager.StartTestTwo();
-        btn8.UnPressButton();
+        this.btn8.UnPressButton();
     }
 }
