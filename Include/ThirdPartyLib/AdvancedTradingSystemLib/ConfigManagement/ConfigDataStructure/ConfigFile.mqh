@@ -35,7 +35,7 @@ class ConfigFile : public ConfigFileBase {
         // Returns the field string
         string GetConfigFieldByTitleAndFieldName(string title, string field_name);
         // Returns whether success and wrap the output array with multi-values results
-        int GetConfigFieldByTitleAndFieldName(string title, string field_name, string& res_out);
+        int GetConfigFieldByTitleAndFieldName(string title, string field_name, string& res_out[]);
         void PrintAllConfigItems();
     private:
         bool IsTitleString(const string line);

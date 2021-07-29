@@ -63,13 +63,12 @@ void AIRobotUI::RefreshButtonsStates() {
     }
 
     if (ui_utils.IsButtonPressed("测试按钮")) {
-//        ModuleTestManager::TestRefreshConfigFile();
+        ModuleTestManager::TestRefreshConfigFile();
 //        ModuleTestManager::TestOrderGroupCenter();
 //        ModuleTestManager::TestCopyMap();
 //        ModuleTestManager::TestExecuteStrategy();
 //        ModuleTestManager::TestAutoAdjustStrategy();
-
-        mt_manager.TestAutoAdjustStrategyOnTick();
+//        mt_manager.TestAutoAdjustStrategyOnTick();
         ui_utils.UnPressButton("测试按钮");
     }
 

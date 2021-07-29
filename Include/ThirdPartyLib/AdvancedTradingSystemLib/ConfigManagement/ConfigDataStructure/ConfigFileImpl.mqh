@@ -1,7 +1,7 @@
 #include <ThirdPartyLib/MqlExtendLib/Utils/File.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Lang/Script.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
-
+#include <ThirdPartyLib/MqlExtendLib/Collection/ArrayAdvancedUtils.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include "ConfigSection.mqh"
 #include "ConfigDataStructureConstant.mqh"
@@ -59,7 +59,11 @@ string ConfigFile::GetConfigFieldByTitleAndFieldName(string title, string field_
     }
     return field_value;
 }
-int GetConfigFieldByTitleAndFieldName(string title, string field_name, string& res_out) {
+int ConfigFile::GetConfigFieldByTitleAndFieldName(string title, string field_name, string& res_out[]) {
+    string field_value = this.GetConfigFieldByTitleAndFieldName(title, field_name);
+    string field_value_arr[];
+    StringSplit(field_value, ',', field_value_arr);
+    ArrayAdvancedUtils<string>::CopyArray(field_value_arr, res_out);
     return SUCCEEDED;
 }
 void ConfigFile::PrintAllConfigItems() {
