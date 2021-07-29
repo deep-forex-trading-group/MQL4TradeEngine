@@ -6,7 +6,7 @@
 
 // Observer Register management methods implementations.
 int OrderGroupCenter::Register(OrderGroupObserver *observer) {
-    if (CheckPointer(GetPointer(this.order_group_observer_list_)) == POINTER_INVALID) {
+    if (IsPtrInvalid(this.order_group_observer_list_)) {
         Print("order_group_observer_list_ is null.");
         return -1;
     }

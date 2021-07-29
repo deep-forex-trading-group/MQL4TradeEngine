@@ -7,15 +7,17 @@ class OrderGroupCenter : public OrderGroupSubject {
     public:
         OrderGroupCenter(string name) {
             this.group_center_name_ = name;
+            this.order_group_observer_list_ = new LinkedList<OrderGroupObserver*>();
             PrintFormat("Initialize OrderGroupCenter.");
         }
         virtual ~OrderGroupCenter() {
             PrintFormat("Deinitialize OrderGroupCenter [%s].", this.group_center_name_);
-            delete &order_group_observer_list_;
+            delete order_group_observer_list_;
         }
 
     // Observer communications management methods
     public:
+        // Returns the group_id when new OrderGroup registered.
         int Register(OrderGroupObserver *observer);
         void UnRegister(OrderGroupObserver *observer);
         void Notify();
@@ -29,7 +31,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         int GetMagicNumberBaseByGroupId(int group_id);
     // Member variables
     protected:
-        LinkedList<OrderGroupObserver*> order_group_observer_list_;
+        LinkedList<OrderGroupObserver*>* order_group_observer_list_;
         string observer_msg_;
         string group_center_name_;
 };

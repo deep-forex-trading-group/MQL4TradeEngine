@@ -53,6 +53,8 @@ class OrderGroup : public OrderGroupObserver {
         string msg_from_subject_;
 // Member Functions
     protected:
+        // Deprecated: All the orders in the same group shares only one magic number.
+        //             The magic number provided by the OrderGroupCenter once the group initialized.
         void GetGroupMagicNumberSet(HashSet<int>* group_magic_number_set);
         int GenerateNewOrderMagicNumber();
 };
