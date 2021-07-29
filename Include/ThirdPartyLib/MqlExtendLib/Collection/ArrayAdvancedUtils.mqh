@@ -12,6 +12,9 @@ class ArrayAdvancedUtils {
     public:
         static void ArrayAdvancedUtils::CopyArray(ElementType& src[], ElementType& dst[]);
         static string ArrayAdvancedUtils::PrintArrayElements(ElementType& arr[]);
+
+    protected:
+        static const int ARR_DEFAULT_SIZE = 500;
 };
 
 template<typename ElementType>
@@ -41,8 +44,8 @@ string ArrayAdvancedUtils::PrintArrayElements(ElementType& arr[]) {
 template<typename ElementType>
 void ArrayAdvancedUtils::CopyArray(ElementType& src[], ElementType& dst[]) {
     ArrayFree(dst);
-    if (ArraySize(dst) <= ARR_DEFAULT_SIZE) {
-        ArrayResize(dst, ARR_DEFAULT_SIZE);
+    if (ArraySize(dst) <= this.ARR_DEFAULT_SIZE) {
+        ArrayResize(dst, this.ARR_DEFAULT_SIZE);
     }
     int copy_len = ArrayCopy(dst, src, 0, 0, WHOLE_ARRAY);
     ArrayResize(dst, copy_len);
