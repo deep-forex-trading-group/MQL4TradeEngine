@@ -41,8 +41,10 @@ string ArrayAdvancedUtils::PrintArrayElements(ElementType& arr[]) {
 template<typename ElementType>
 void ArrayAdvancedUtils::CopyArray(ElementType& src[], ElementType& dst[]) {
     ArrayFree(dst);
-    if (ArraySize(dst) <= ARR_DEFAULT_SIZE) {
-        ArrayResize(dst, ARR_DEFAULT_SIZE);
+    // TODO: to check and replace the hard code part
+    // TODO: because the include conflicts to cause some parts not compiled
+    if (ArraySize(dst) <= 500) {
+        ArrayResize(dst, 500);
     }
     int copy_len = ArrayCopy(dst, src, 0, 0, WHOLE_ARRAY);
     ArrayResize(dst, copy_len);
