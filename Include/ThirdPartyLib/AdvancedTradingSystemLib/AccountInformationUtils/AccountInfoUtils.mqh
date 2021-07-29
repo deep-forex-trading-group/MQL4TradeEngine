@@ -44,10 +44,10 @@ double AccountInfoUtils::GetCurrentFloatingProfit(int magic_number) {
     for (int i = orders_total - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderMagicNumber() == magic_number) {
-            TotalProfit = TotalProfit + OrderProfit();
+            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
             #ifdef act
                 OrderPrint();
-                Print("OrderProfit: ", OrderProfit());
+                Print("OrderProfit: ", OrderProfit() + OrderCommission() + OrderSwap());
             #endif
         }
     }
@@ -64,7 +64,7 @@ double AccountInfoUtils::GetCurrentBuyFloatingProfit(int magic_number) {
     for (int i = orders_total - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
-            TotalProfit = TotalProfit + OrderProfit();
+            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
         }
     }
     return(TotalProfit);
@@ -76,7 +76,7 @@ double AccountInfoUtils::GetCurrentSellFloatingProfit(int magic_number) {
     for (int i = orders_total - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
-            TotalProfit = TotalProfit + OrderProfit();
+            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
         }
     }
     return(TotalProfit);
