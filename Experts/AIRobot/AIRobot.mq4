@@ -17,6 +17,7 @@ AIRobotUI ai_robot_ui();
 bool is_testing_ok = False;
 
 int OnInit() {
+    ai_robot_ui.InitGraphItems();
     return INIT_SUCCEEDED;
 }
 

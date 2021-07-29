@@ -12,7 +12,7 @@ class ModuleTestManager {
         ModuleTestManager() {
             this.aa_order_group_center = new AutoAdjustOrderGroupCenter("aa_group_center");
             this.aa_group = new AutoAdjustOrderGroup("aa_group", aa_order_group_center);
-            this.adjust_strategy = new AutoAdjustStrategy("auto_adjust_st_testing");
+            this.adjust_strategy = new AutoAdjustStrategy("auto_adjust_st_testing", aa_group);
             this.config_file_adjust = new ConfigFile("Config", "adjust_config.txt");
             this.adjust_strategy.SetConfigFile(config_file_adjust);
             this.st_ctx = new StrategyContext(adjust_strategy);

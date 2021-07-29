@@ -4,8 +4,10 @@
 class Strategy {
     public:
         virtual ~Strategy() {};
-// Abstract Methods to force sub-classes to implement them
-        virtual int ExecuteStrategy() const = 0;
+// OnTick is for every tick check to execute strategy
+        virtual int OnTickExecute() = 0;
+// OnAction is for outer activated, such as using button to activate
+        virtual int OnActionExecute() = 0;
         virtual void PrintStrategyInfo() const = 0;
         int SetConfigFile(ConfigFile* config_file);
         void RefreshConfigFile() const;

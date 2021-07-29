@@ -108,9 +108,9 @@ void ModuleTestManager::TestCopyMap() {
 }
 
 void ModuleTestManager::TestAutoAdjustStrategyOnTick() {
-    this.aa_group.OnTick();
+    this.st_ctx.OnTickExecuteStrategy();
 }
 
 void ModuleTestManager::TestAutoAdjustStrategyOnAction() {
-    this.aa_group.OnAction();
+    this.st_ctx.OnActionExecuteStrategy();
 }

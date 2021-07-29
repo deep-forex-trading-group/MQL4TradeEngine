@@ -12,6 +12,8 @@ class TestingStrategy : public Strategy {
 // Member Variables and Functions
     public:
         int ExecuteStrategy() const;
+        int OnTickExecute();
+        int OnActionExecute();
         void SetTestingStrategyParams(TestingStrategyParams* params);
         void PrintStrategyInfo() const;
     private:
@@ -20,6 +22,14 @@ class TestingStrategy : public Strategy {
 
 int TestingStrategy::ExecuteStrategy() const {
     PrintFormat("Execute TestingStrategy {%s} successed!", this.strategy_name_);
+    return SUCCEEDED;
+}
+
+int TestingStrategy::OnTickExecute() {
+    return SUCCEEDED;
+}
+
+int TestingStrategy::OnActionExecute() {
     return SUCCEEDED;
 }
 

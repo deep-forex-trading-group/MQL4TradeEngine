@@ -1,4 +1,3 @@
-#include "AIRobotUI.mqh"
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ModuleTestManager/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>

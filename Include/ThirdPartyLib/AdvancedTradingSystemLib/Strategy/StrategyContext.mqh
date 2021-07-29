@@ -10,11 +10,13 @@ class StrategyContext {
     public:
         int SetStrategy(Strategy* strategy);
         int ExecuteStrategy() const;
+        int OnTickExecuteStrategy();
+        int OnActionExecuteStrategy();
 
 
 // Member Variables and Functions
     private:
-        Strategy *strategy_;
+        Strategy* strategy_;
 };
 
 int StrategyContext::SetStrategy(Strategy *strategy) {
@@ -22,11 +24,20 @@ int StrategyContext::SetStrategy(Strategy *strategy) {
     return SUCCEEDED;
 }
 
-int StrategyContext::ExecuteStrategy() const {
+int StrategyContext::OnTickExecuteStrategy() {
     if(IsPtrInvalid(this.strategy_)) {
         PrintFormat("The strategy_ pointer in StrategyContext is invalid");
         return FAILED;
     }
-    this.strategy_.ExecuteStrategy();
+    this.strategy_.OnTickExecute();
+    return SUCCEEDED;
+}
+
+int StrategyContext::OnActionExecuteStrategy() {
+    if(IsPtrInvalid(this.strategy_)) {
+        PrintFormat("The strategy_ pointer in StrategyContext is invalid");
+        return FAILED;
+    }
+    this.strategy_.OnActionExecute();
     return SUCCEEDED;
 }
