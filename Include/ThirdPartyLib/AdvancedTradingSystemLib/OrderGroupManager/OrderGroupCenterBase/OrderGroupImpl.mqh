@@ -56,7 +56,7 @@ int OrderGroup::GetTotalNumOfOrdersInTrades() {
     return ArraySize(orders_in_trades);
 }
 bool OrderGroup::CreateBuyOrder(double pip, string comment) {
-    string comm_for_group = StringFormat("#buy#%s#%s#%s#%s#",
+    string comm_for_group = StringFormat("#b#%s#%s#%s#%s#",
                                         this.order_group_center_ptr_.GetName(),
                                         this.group_name_,
                                         IntegerToString(this.group_id_),
@@ -70,7 +70,7 @@ bool OrderGroup::CreateBuyOrder(double pip, string comment) {
     return true;
 }
 bool OrderGroup::CreateSellOrder(double pip, string comment) {
-    string comm_for_group = StringFormat("#sell#%s#%s#%s#%s#",
+    string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
                                         this.order_group_center_ptr_.GetName(),
                                         this.group_name_,
                                         IntegerToString(this.group_id_),

@@ -10,6 +10,11 @@ int AutoAdjustStrategy::ExecuteStrategy() const {
 }
 int AutoAdjustStrategy::OnTickExecute() {
     PrintFormat("AutoAdjustStrategy {%s} executed OnTickExecute", this.strategy_name_);
+    double cur_profit = this.auto_adjust_order_group_.GetCurrentProfit();
+    double max_floating_profit = this.auto_adjust_order_group_.GetMaxFloatingProfit();
+    double max_floating_loss = this.auto_adjust_order_group_.GetMaxFloatingLoss();
+    PrintFormat("cur_profit=%.4f, max_floating_profit==%.4f, max_floating_loss==%.4f",
+                cur_profit, max_floating_profit, max_floating_loss);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {
@@ -20,9 +25,8 @@ int AutoAdjustStrategy::OnActionExecute() {
     string pip_start_lots = this.config_file_.GetConfigFieldByTitleAndFieldName(
                                                         "Adjust", "pip_start_lots");
     double pip_start_lots_double = StringToDouble(pip_start_lots);
-    OrderSendUtils ou_send_ad();
-    // TODO:to replace the magic number -1 with order_group management.
-    ou_send_ad.CreateBuyOrder(-1, pip_start_lots_double);
+//    this.auto_adjust_order_group_.CreateBuyOrder(pip_start_lots_double);
+    this.auto_adjust_order_group_.CreateSellOrder(pip_start_lots_double);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group) {

@@ -10,8 +10,12 @@ class OrderSendUtils : public OrderManageUtils {
         bool AddOneOrderByStepPip(int magic_number, int direction, double StepPip, double Lot);
         int CreateBuyOrder(int magic_number, double Lots, int TP, int SL);
         int CreateBuyOrder(int magic_number, double Lots);
+        int CreateBuyOrder(int magic_number, double Lots, string comment);
+        int CreateBuyOrder(int magic_number, double Lots, int TP, int SL, string comment);
         int CreateSellOrder(int magic_number, double Lots, int TP, int SL);
         int CreateSellOrder(int magic_number, double Lots);
+        int CreateSellOrder(int magic_number, double Lots, string comment);
+        int CreateSellOrder(int magic_number, double Lots, int TP, int SL, string comment);
         int SendMarketOrder(int Type, double Lots, int TP, int SL,
                             int Magic, string Cmnt, double OpenPrice = 0, string mSymbol = "");
     private:
@@ -81,12 +85,25 @@ int OrderSendUtils::CreateBuyOrder(int magic_number, double Lots, int TP, int SL
 int OrderSendUtils::CreateBuyOrder(int magic_number, double Lots) {
     return SendMarketOrder(OP_BUY, Lots, 0, 0, magic_number, "Buy Order");
 }
+int OrderSendUtils::CreateBuyOrder(int magic_number, double Lots, string comment) {
+    return SendMarketOrder(OP_BUY, Lots, 0, 0, magic_number, comment);
+}
+int OrderSendUtils::CreateBuyOrder(int magic_number, double Lots, int TP, int SL, string comment) {
+    return SendMarketOrder(OP_BUY, Lots, TP, SL, magic_number, comment);
+}
 int OrderSendUtils::CreateSellOrder(int magic_number, double Lots, int TP, int SL) {
     return SendMarketOrder(OP_SELL, Lots, TP, SL, magic_number, "Sell Order");
 }
 
 int OrderSendUtils::CreateSellOrder(int magic_number, double Lots) {
     return SendMarketOrder(OP_SELL, Lots, 0, 0, magic_number, "Sell Order");
+}
+
+int OrderSendUtils::CreateSellOrder(int magic_number, double Lots, string comment) {
+    return SendMarketOrder(OP_SELL, Lots, 0, 0, magic_number, comment);
+}
+int OrderSendUtils::CreateSellOrder(int magic_number, double Lots, int TP, int SL, string comment) {
+    return SendMarketOrder(OP_SELL, Lots, TP, SL, magic_number, comment);
 }
 int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
                                     int Magic, string Cmnt,
