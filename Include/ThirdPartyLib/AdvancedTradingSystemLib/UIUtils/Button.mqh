@@ -1,22 +1,33 @@
 class Button {
     public:
-        Button(string name,string txt1,string txt2,
+        Button(string name,string pressed_txt,string unpressed_txt,
                int XX,int YX,
                int XL,int YL,
-               int WZ,color A,color B);
+               int WZ,color pressed_clr,color unpressed_clr);
         ~Button() {};
     public:
-        void CheckButtonState(string name, string pressed_txt, string unpressed_txt,
-                              color pressed_clr, color unpressed_clr);
-        bool IsButtonPressed(string btn_name);
-        void UnPressButton(string btn_name);
-        void PressButton(string btn_name);
+        void CheckButtonState();
+        bool IsButtonPressed();
+        void UnPressButton();
+        void PressButton();
+    private:
+        string btn_name_;
+        string pressed_txt_;
+        string unpressed_txt_;
+        color pressed_clr_;
+        color unpressed_clr_;
 };
 
-Button::Button(string name,string txt1,string txt2,
+Button::Button(string name,string pressed_txt,string unpressed_txt,
                int XX,int YX,
                int XL,int YL,
-               int WZ,color A,color B) {
+               int WZ,color pressed_clr,color unpressed_clr) {
+    this.btn_name_ = name;
+    this.pressed_txt_ = pressed_txt;
+    this.unpressed_txt_ = unpressed_txt;
+    this.pressed_clr_ = pressed_clr;
+    this.unpressed_clr_ = unpressed_clr;
+
     if(ObjectFind(0,name)==-1) {
         ObjectCreate(0,name,OBJ_BUTTON,0,0,0);
     }
@@ -29,30 +40,29 @@ Button::Button(string name,string txt1,string txt2,
     ObjectSetInteger(0,name,OBJPROP_FONTSIZE,7);
     ObjectSetInteger(0,name,OBJPROP_CORNER,WZ);
 
-    CheckButtonState(name, txt1, txt2, A, B);
+    this.CheckButtonState();
 }
 
-void Button::CheckButtonState(string name, string pressed_txt, string unpressed_txt,
-                              color pressed_clr, color unpressed_clr) {
-    if (ObjectGetInteger(0,name,OBJPROP_STATE)==1) {
-        ObjectSetInteger(0,name,OBJPROP_COLOR,pressed_clr);
-        ObjectSetInteger(0,name,OBJPROP_BGCOLOR,unpressed_clr);
-        ObjectSetString(0,name,OBJPROP_TEXT,pressed_txt);
+void Button::CheckButtonState() {
+    if (this.IsButtonPressed()) {
+        ObjectSetInteger(0,this.btn_name_,OBJPROP_COLOR,this.pressed_clr_);
+        ObjectSetInteger(0,this.btn_name_,OBJPROP_BGCOLOR,this.unpressed_clr_);
+        ObjectSetString(0,this.btn_name_,OBJPROP_TEXT,this.pressed_txt_);
     } else {
-        ObjectSetInteger(0,name,OBJPROP_COLOR,unpressed_clr);
-        ObjectSetInteger(0,name,OBJPROP_BGCOLOR,pressed_clr);
-        ObjectSetString(0,name,OBJPROP_TEXT,unpressed_txt);
+        ObjectSetInteger(0,this.btn_name_,OBJPROP_COLOR,this.unpressed_clr_);
+        ObjectSetInteger(0,this.btn_name_,OBJPROP_BGCOLOR,this.pressed_clr_);
+        ObjectSetString(0,this.btn_name_,OBJPROP_TEXT,this.unpressed_txt_);
     }
 }
 
-bool Button::IsButtonPressed(string btn_name) {
-    return (ObjectGetInteger(0,btn_name,OBJPROP_STATE)==1);
+bool Button::IsButtonPressed() {
+    return (ObjectGetInteger(0,this.btn_name_,OBJPROP_STATE)==1);
 }
 
-void Button::UnPressButton(string btn_name) {
-    ObjectSetInteger(0,btn_name,OBJPROP_STATE,0);
+void Button::UnPressButton() {
+    ObjectSetInteger(0,this.btn_name_,OBJPROP_STATE,0);
 }
 
-void Button::PressButton(string btn_name) {
-    ObjectSetInteger(0,btn_name,OBJPROP_STATE,1);
+void Button::PressButton() {
+    ObjectSetInteger(0,this.btn_name_,OBJPROP_STATE,1);
 }

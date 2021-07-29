@@ -24,53 +24,53 @@ void AIRobotUI::InitGraphItems() {
                     button_length,button_width,button_section_set_pos,clrDarkViolet,clrBlack);
     this.btn6 = new Button("EA开关按钮","开启EA","关闭EA",button_x+button_inter_x*0,button_y+button_inter_y*1,
                     button_length,button_width,button_section_set_pos,clrBlue,clrRed);
-    this.btn7 = new Button("测试按钮","开启测试","关闭测试",button_x+button_inter_x*1,button_y+button_inter_y*0,
+    this.btn7 = new Button("测试按钮","关闭测试","开启测试",button_x+button_inter_x*1,button_y+button_inter_y*0,
                     button_length,button_width,button_section_set_pos,clrDarkViolet,clrBlack);
     this.btn8 = new Button("测试按钮2","测试2","测试2",button_x+button_inter_x*0,button_y+button_inter_y*0,
                     button_length,button_width,button_section_set_pos,clrDarkViolet,clrBlack);
 }
 
 void AIRobotUI::RefreshButtonsStates() {
-    btn1.CheckButtonState("平多按钮","平多","平多",clrFireBrick,clrBlack);
-    btn2.CheckButtonState("平空按钮","平空","平空",clrMediumVioletRed,clrBlack);
-    btn3.CheckButtonState("平盈利多按钮","平盈利多","平盈利多",clrMediumSeaGreen,clrBlack);
-    btn4.CheckButtonState("平盈利空按钮","平盈利空","平盈利空",clrChocolate,clrBlack);
-    btn5.CheckButtonState("全平按钮","全平","全平",clrDarkViolet,clrBlack);
-    btn6.CheckButtonState("EA开关按钮","开启EA","关闭EA",clrBlue,clrRed);
-    btn7.CheckButtonState("测试按钮","关闭测试","开启测试",clrDarkViolet,clrBlack);
-    btn8.CheckButtonState("测试按钮2","关闭测试2","开启测试2",clrDarkViolet,clrBlack);
+    btn1.CheckButtonState();
+    btn2.CheckButtonState();
+    btn3.CheckButtonState();
+    btn4.CheckButtonState();
+    btn5.CheckButtonState();
+    btn6.CheckButtonState();
+    btn7.CheckButtonState();
+    btn8.CheckButtonState();
 
-    if(btn1.IsButtonPressed("平多按钮")) {
-        btn1.UnPressButton("平多按钮");
+    if(btn1.IsButtonPressed()) {
+        btn1.UnPressButton();
     }
 
-    if(btn2.IsButtonPressed("平空按钮")) {
-        btn2.UnPressButton("平空按钮");
+    if(btn2.IsButtonPressed()) {
+        btn2.UnPressButton();
     }
 
-    if(btn3.IsButtonPressed("平盈利多按钮")) {
-        btn3.UnPressButton("平盈利多按钮");
+    if(btn3.IsButtonPressed()) {
+        btn3.UnPressButton();
     }
 
-    if(btn4.IsButtonPressed("平盈利空按钮")) {
-        btn4.UnPressButton("平盈利空按钮");
+    if(btn4.IsButtonPressed()) {
+        btn4.UnPressButton();
     }
 
-    if(btn5.IsButtonPressed("全平按钮")) {
-        btn5.UnPressButton("全平按钮");
+    if(btn5.IsButtonPressed()) {
+        btn5.UnPressButton();
     }
 
-    if(btn6.IsButtonPressed("EA开关按钮")) {
-        btn6.UnPressButton("全平按钮");
+    if(btn6.IsButtonPressed()) {
+        btn6.UnPressButton();
     }
 
-    if (btn7.IsButtonPressed("测试按钮")) {
+    if (btn7.IsButtonPressed()) {
         mt_manager.StartTestOne();
-        btn7.UnPressButton("测试按钮");
+        btn7.UnPressButton();
     }
 
-    if (btn8.IsButtonPressed("测试按钮2")) {
+    if (btn8.IsButtonPressed()) {
         mt_manager.StartTestTwo();
-        btn8.UnPressButton("测试按钮2");
+        btn8.UnPressButton();
     }
 }
