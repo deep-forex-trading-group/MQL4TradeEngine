@@ -10,6 +10,18 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ModuleTestManager/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/ArrayAdvancedUtils.mqh>
 
+void ModuleTestManager::StartTestOne() {
+//    ModuleTestManager::TestRefreshConfigFile();
+//    ModuleTestManager::TestOrderGroupCenter();
+//    ModuleTestManager::TestCopyMap();
+//    ModuleTestManager::TestExecuteStrategy();
+//    ModuleTestManager::TestAutoAdjustStrategy();
+    this.TestAutoAdjustStrategyOnTick();
+}
+void ModuleTestManager::StartTestTwo() {
+    this.TestAutoAdjustStrategyOnAction();
+}
+
 void ModuleTestManager::TestRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
     ConfigFile* config_file = new ConfigFile("config", "config.txt");

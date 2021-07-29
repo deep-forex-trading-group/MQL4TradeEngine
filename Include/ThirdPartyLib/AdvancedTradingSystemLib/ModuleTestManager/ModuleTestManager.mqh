@@ -26,6 +26,8 @@ class ModuleTestManager {
         };
 // Some test cases for the functions in project.
     public:
+        void StartTestOne();
+        void StartTestTwo();
         static void TestRefreshConfigFile();
         static void TestExecuteStrategy();
         static void TestOrderGroupCenter();
