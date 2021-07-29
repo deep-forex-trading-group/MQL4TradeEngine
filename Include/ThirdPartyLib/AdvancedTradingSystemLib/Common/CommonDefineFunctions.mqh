@@ -51,3 +51,9 @@ PrintFormat("The Deinit Reason is [%s], Reason Code is {%d}", text, reason_code)
 if (ArraySize(arr) <= ARR_DEFAULT_SIZE) { \
     ArrayResize(arr, ARR_DEFAULT_SIZE); \
 }
+
+#define ClearAndMakeSureArraySize(arr) \
+ArrayFree(arr); \
+if (ArraySize(arr) <= ARR_DEFAULT_SIZE) { \
+    ArrayResize(arr, ARR_DEFAULT_SIZE); \
+}
