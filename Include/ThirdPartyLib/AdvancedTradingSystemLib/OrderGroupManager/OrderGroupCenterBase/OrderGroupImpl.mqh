@@ -88,9 +88,6 @@ double OrderGroup::GetCurrentProfit() {
         this.cur_profit_ += this.orders_in_trades[cc_states_i].order_profit;
         this.cur_profit_ += this.orders_in_trades[cc_states_i].order_swap;
         this.cur_profit_ += this.orders_in_trades[cc_states_i].order_commission;
-        PrintFormat("Swap=%.4f, Commision=%.4f",
-                    this.orders_in_trades[cc_states_i].order_swap,
-                    this.orders_in_trades[cc_states_i].order_commission);
     }
     return this.cur_profit_;
 }
