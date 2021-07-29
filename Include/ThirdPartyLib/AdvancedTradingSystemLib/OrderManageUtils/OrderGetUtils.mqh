@@ -93,18 +93,7 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_mag
             && group_magic_number_set.contains(OrderMagicNumber())) {
 
             OrderInMarket oi();
-            oi.order_lots = OrderLots();
-            oi.order_open_price = OrderOpenPrice();
-            oi.order_close_price = OrderClosePrice();
-            oi.order_comment = OrderComment();
-            oi.order_close_time = OrderCloseTime();
-            oi.order_profit = OrderProfit();
-            oi.order_type = OrderType();
-            oi.order_ticket = OrderTicket();
-            oi.order_position = i;
-            oi.order_swap = OrderSwap();
-            oi.order_commission = OrderCommission();
-
+            oi.GetOrderFromMarket(i);
             res[res_i] = oi;
             res_i++;
         }
@@ -128,18 +117,7 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magi
             && group_magic_number_set.contains(OrderMagicNumber())) {
 
             OrderInMarket oi();
-            oi.order_lots = OrderLots();
-            oi.order_open_price = OrderOpenPrice();
-            oi.order_close_price = OrderClosePrice();
-            oi.order_comment = OrderComment();
-            oi.order_close_time = OrderCloseTime();
-            oi.order_profit = OrderProfit();
-            oi.order_type = OrderType();
-            oi.order_ticket = OrderTicket();
-            oi.order_position = i;
-            oi.order_swap = OrderSwap();
-            oi.order_commission = OrderCommission();
-
+            oi.GetOrderFromMarket(i);
             res[res_i] = oi;
             res_i++;
         }
@@ -157,18 +135,7 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumber(int group_magic_number, Or
             && OrderMagicNumber() == group_magic_number) {
 
             OrderInMarket oi();
-            oi.order_lots = OrderLots();
-            oi.order_open_price = OrderOpenPrice();
-            oi.order_close_price = OrderClosePrice();
-            oi.order_comment = OrderComment();
-            oi.order_close_time = OrderCloseTime();
-            oi.order_profit = OrderProfit();
-            oi.order_type = OrderType();
-            oi.order_ticket = OrderTicket();
-            oi.order_position = i;
-            oi.order_swap = OrderSwap();
-            oi.order_commission = OrderCommission();
-
+            oi.GetOrderFromMarket(i);
             res[res_i] = oi;
             res_i++;
         }
@@ -186,17 +153,7 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumber(int group_magic_number, Ord
             && OrderMagicNumber() == group_magic_number) {
 
             OrderInMarket oi();
-            oi.order_lots = OrderLots();
-            oi.order_open_price = OrderOpenPrice();
-            oi.order_close_price = OrderClosePrice();
-            oi.order_comment = OrderComment();
-            oi.order_close_time = OrderCloseTime();
-            oi.order_profit = OrderProfit();
-            oi.order_type = OrderType();
-            oi.order_ticket = OrderTicket();
-            oi.order_position = i;
-            oi.order_swap = OrderSwap();
-            oi.order_commission = OrderCommission();
+            oi.GetOrderFromMarket(i);
 
             res[res_i] = oi;
             res_i++;
@@ -212,17 +169,7 @@ bool OrderGetUtils::GetBuyOrdersReverse(int magic_number, OrderInMarket& res[], 
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
-        oi.order_lots = OrderLots();
-        oi.order_open_price = OrderOpenPrice();
-        oi.order_close_price = OrderClosePrice();
-        oi.order_comment = OrderComment();
-        oi.order_close_time = OrderCloseTime();
-        oi.order_profit = OrderProfit();
-        oi.order_type = OrderType();
-        oi.order_ticket = OrderTicket();
-        oi.order_position = i;
-		oi.order_swap = OrderSwap();
-		oi.order_commission = OrderCommission();
+        oi.GetOrderFromMarket(i);
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -241,17 +188,7 @@ bool OrderGetUtils::GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& r
          && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) >= 0
          && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
-        oi.order_lots = OrderLots();
-        oi.order_open_price = OrderOpenPrice();
-        oi.order_close_price = OrderClosePrice();
-        oi.order_comment = OrderComment();
-        oi.order_close_time = OrderCloseTime();
-        oi.order_profit = OrderProfit();
-        oi.order_type = OrderType();
-        oi.order_ticket = OrderTicket();
-        oi.order_position = i;
-		oi.order_swap = OrderSwap();
-		oi.order_commission = OrderCommission();
+        oi.GetOrderFromMarket(i);
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -269,17 +206,7 @@ bool OrderGetUtils::GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) < 0 && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
-        oi.order_lots = OrderLots();
-        oi.order_open_price = OrderOpenPrice();
-        oi.order_close_price = OrderClosePrice();
-        oi.order_comment = OrderComment();
-        oi.order_close_time = OrderCloseTime();
-        oi.order_profit = OrderProfit();
-        oi.order_type = OrderType();
-        oi.order_ticket = OrderTicket();
-        oi.order_position = i;
-		oi.order_swap = OrderSwap();
-		oi.order_commission = OrderCommission();
+        oi.GetOrderFromMarket(i);
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -297,17 +224,7 @@ bool OrderGetUtils::GetSellOrdersReverse(int magic_number, OrderInMarket& res[],
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
-        oi.order_lots = OrderLots();
-        oi.order_open_price = OrderOpenPrice();
-        oi.order_close_price = OrderClosePrice();
-        oi.order_comment = OrderComment();
-        oi.order_close_time = OrderCloseTime();
-        oi.order_profit = OrderProfit();
-        oi.order_type = OrderType();
-        oi.order_ticket = OrderTicket();
-        oi.order_position = i;
-		oi.order_swap = OrderSwap();
-		oi.order_commission = OrderCommission();
+        oi.GetOrderFromMarket(i);
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -326,17 +243,7 @@ bool OrderGetUtils::GetSellProfitOrdersReverse(int magic_number, OrderInMarket& 
          && OrderType() == OP_SELL && (OrderProfit() + OrderCommission() + OrderSwap()) >= 0
          && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
-        oi.order_lots = OrderLots();
-        oi.order_open_price = OrderOpenPrice();
-        oi.order_close_price = OrderClosePrice();
-        oi.order_comment = OrderComment();
-        oi.order_close_time = OrderCloseTime();
-        oi.order_profit = OrderProfit();
-        oi.order_type = OrderType();
-        oi.order_ticket = OrderTicket();
-        oi.order_position = i;
-		oi.order_swap = OrderSwap();
-		oi.order_commission = OrderCommission();
+        oi.GetOrderFromMarket(i);
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -355,17 +262,7 @@ bool OrderGetUtils::GetSellLossOrdersReverse(int magic_number, OrderInMarket& re
          && OrderType() == OP_SELL && (OrderProfit() + OrderCommission() + OrderSwap()) < 0
          && OrderMagicNumber() == magic_number) {
         OrderInMarket oi();
-        oi.order_lots = OrderLots();
-        oi.order_open_price = OrderOpenPrice();
-        oi.order_close_price = OrderClosePrice();
-        oi.order_comment = OrderComment();
-        oi.order_close_time = OrderCloseTime();
-        oi.order_profit = OrderProfit();
-        oi.order_type = OrderType();
-        oi.order_ticket = OrderTicket();
-        oi.order_position = i;
-		oi.order_swap = OrderSwap();
-		oi.order_commission = OrderCommission();
+        oi.GetOrderFromMarket(i);
         res[res_i] = oi;
         res_i++;
         if (total_get_cnt >= 0 && res_i > total_get_cnt) {
@@ -390,17 +287,7 @@ bool OrderGetUtils::GetHighestOpenPriceOrder(int magic_number, OrderInMarket& re
               highest_price = OrderOpenPrice();
               higest_ticket = OrderTicket();
 
-              oi.order_lots = OrderLots();
-              oi.order_open_price = OrderOpenPrice();
-              oi.order_close_price = OrderClosePrice();
-              oi.order_comment = OrderComment();
-              oi.order_close_time = OrderCloseTime();
-              oi.order_profit = OrderProfit();
-              oi.order_type = OrderType();
-              oi.order_ticket = OrderTicket();
-              oi.order_position = i;
-              oi.order_swap = OrderSwap();
-              oi.order_commission = OrderCommission();
+              oi.GetOrderFromMarket(i);
            }
      }
   }
@@ -423,17 +310,7 @@ bool OrderGetUtils::GetHighestBuyOpenPriceOrder(int magic_number, OrderInMarket&
                  highest_price = OrderOpenPrice();
                  higest_ticket = OrderTicket();
 
-                 oi.order_lots = OrderLots();
-                 oi.order_open_price = OrderOpenPrice();
-                 oi.order_close_price = OrderClosePrice();
-                 oi.order_comment = OrderComment();
-                 oi.order_close_time = OrderCloseTime();
-                 oi.order_profit = OrderProfit();
-                 oi.order_type = OrderType();
-                 oi.order_ticket = OrderTicket();
-                 oi.order_position = i;
-                 oi.order_swap = OrderSwap();
-                 oi.order_commission = OrderCommission();
+                 oi.GetOrderFromMarket(i);
               }
         }
      }
@@ -455,17 +332,7 @@ bool OrderGetUtils::GetHighestSellOpenPriceOrder(int magic_number, OrderInMarket
           highest_price = OrderOpenPrice();
           higest_ticket = OrderTicket();
 
-          oi.order_lots = OrderLots();
-          oi.order_open_price = OrderOpenPrice();
-          oi.order_close_price = OrderClosePrice();
-          oi.order_comment = OrderComment();
-          oi.order_close_time = OrderCloseTime();
-          oi.order_profit = OrderProfit();
-          oi.order_type = OrderType();
-          oi.order_ticket = OrderTicket();
-          oi.order_position = i;
-		  oi.order_swap = OrderSwap();
-		  oi.order_commission = OrderCommission();
+          oi.GetOrderFromMarket(i);
         }
      }
     }
@@ -487,17 +354,7 @@ bool OrderGetUtils::GetLowestOpenPriceOrder(int magic_number, OrderInMarket& res
               lowest_price = OrderOpenPrice();
               lowest_ticket = OrderTicket();
 
-              oi.order_lots = OrderLots();
-              oi.order_open_price = OrderOpenPrice();
-              oi.order_close_price = OrderClosePrice();
-              oi.order_comment = OrderComment();
-              oi.order_close_time = OrderCloseTime();
-              oi.order_profit = OrderProfit();
-              oi.order_type = OrderType();
-              oi.order_ticket = OrderTicket();
-              oi.order_position = i;
-		      oi.order_swap = OrderSwap();
-		      oi.order_commission = OrderCommission();
+              oi.GetOrderFromMarket(i);
            }
      }
   }
@@ -520,17 +377,7 @@ bool OrderGetUtils::GetLowestSellOpenPriceOrder(int magic_number, OrderInMarket&
                  lowest_price = OrderOpenPrice();
                  lowest_ticket = OrderTicket();
 
-                 oi.order_lots = OrderLots();
-                 oi.order_open_price = OrderOpenPrice();
-                 oi.order_close_price = OrderClosePrice();
-                 oi.order_comment = OrderComment();
-                 oi.order_close_time = OrderCloseTime();
-                 oi.order_profit = OrderProfit();
-                 oi.order_type = OrderType();
-                 oi.order_ticket = OrderTicket();
-                 oi.order_position = i;
-		         oi.order_swap = OrderSwap();
-		         oi.order_commission = OrderCommission();
+                 oi.GetOrderFromMarket(i);
               }
         }
      }
@@ -553,17 +400,7 @@ bool OrderGetUtils::GetLowestBuyOpenPriceOrder(int magic_number, OrderInMarket& 
                 lowest_price = OrderOpenPrice();
                 lowest_ticket = OrderTicket();
 
-                oi.order_lots = OrderLots();
-                oi.order_open_price = OrderOpenPrice();
-                oi.order_close_price = OrderClosePrice();
-                oi.order_comment = OrderComment();
-                oi.order_close_time = OrderCloseTime();
-                oi.order_profit = OrderProfit();
-                oi.order_type = OrderType();
-                oi.order_ticket = OrderTicket();
-                oi.order_position = i;
-		        oi.order_swap = OrderSwap();
-		        oi.order_commission = OrderCommission();
+                oi.GetOrderFromMarket(i);
             }
         }
     }

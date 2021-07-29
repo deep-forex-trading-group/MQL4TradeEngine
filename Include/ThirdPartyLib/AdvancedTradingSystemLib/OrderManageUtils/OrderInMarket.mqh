@@ -16,6 +16,7 @@ class OrderInMarket {
         OrderInMarket() {}
         ~OrderInMarket() {}
         void PrintOrderInMarket();
+        void GetOrderFromMarket(int order_position_in);
         int copyOrder(OrderInMarket& dst[]);
 };
 
@@ -25,6 +26,20 @@ void OrderInMarket::PrintOrderInMarket() {
                 order_comment, order_close_time, order_profit,
                 order_type, order_ticket, order_position,
                 order_swap, order_commission);
+}
+
+void OrderInMarket::GetOrderFromMarket(int order_position_in) {
+    this.order_lots = OrderLots();
+    this.order_open_price = OrderOpenPrice();
+    this.order_close_price = OrderClosePrice();
+    this.order_comment = OrderComment();
+    this.order_close_time = OrderCloseTime();
+    this.order_profit = OrderProfit();
+    this.order_type = OrderType();
+    this.order_ticket = OrderTicket();
+    this.order_position = order_position_in;
+    this.order_swap = OrderSwap();
+    this.order_commission = OrderCommission();
 }
 
 int OrderInMarket::copyOrder(OrderInMarket& dst[]) {
