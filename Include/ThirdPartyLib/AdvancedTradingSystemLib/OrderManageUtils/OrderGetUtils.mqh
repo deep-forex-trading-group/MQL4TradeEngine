@@ -15,6 +15,8 @@ class OrderGetUtils : OrderManageUtils {
         int GetNumOfLossOrders(int magic_number);
         static bool GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         static bool GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
+        static bool GetOrdersInHistoryWithMagicNumber(int group_magic_number, OrderInMarket& res[]);
+        static bool GetOrdersInTradesWithMagicNumber(int group_magic_number, OrderInMarket& res[]);
         bool GetBuyOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
         bool GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
         bool GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res[], int total_get_cnt);
@@ -121,6 +123,60 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magi
     for (int i = total_num - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && group_magic_number_set.contains(OrderMagicNumber())) {
+
+            OrderInMarket oi();
+            oi.order_lots = OrderLots();
+            oi.order_open_price = OrderOpenPrice();
+            oi.order_close_price = OrderClosePrice();
+            oi.order_comment = OrderComment();
+            oi.order_close_time = OrderCloseTime();
+            oi.order_profit = OrderProfit();
+            oi.order_type = OrderType();
+            oi.order_ticket = OrderTicket();
+            oi.order_position = i;
+
+            res[res_i] = oi;
+            res_i++;
+        }
+    }
+    ArrayResize(res, res_i);
+    return true;
+}
+bool OrderGetUtils::GetOrdersInHistoryWithMagicNumber(int group_magic_number, OrderInMarket& res[]) {
+    // Gets the order in history pool
+    ClearAndMakeSureArraySize(res);
+    int res_i = 0;
+    int total_num = OrdersTotal();
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
+            && OrderMagicNumber() == group_magic_number) {
+
+            OrderInMarket oi();
+            oi.order_lots = OrderLots();
+            oi.order_open_price = OrderOpenPrice();
+            oi.order_close_price = OrderClosePrice();
+            oi.order_comment = OrderComment();
+            oi.order_close_time = OrderCloseTime();
+            oi.order_profit = OrderProfit();
+            oi.order_type = OrderType();
+            oi.order_ticket = OrderTicket();
+            oi.order_position = i;
+
+            res[res_i] = oi;
+            res_i++;
+        }
+    }
+    ArrayResize(res, res_i);
+    return true;
+}
+bool OrderGetUtils::GetOrdersInTradesWithMagicNumber(int group_magic_number, OrderInMarket& res[]) {
+    // Gets the order in history pool
+    ClearAndMakeSureArraySize(res);
+    int res_i = 0;
+    int total_num = OrdersTotal();
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderMagicNumber() == group_magic_number) {
 
             OrderInMarket oi();
             oi.order_lots = OrderLots();
