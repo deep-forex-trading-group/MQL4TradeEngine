@@ -41,6 +41,7 @@ class OrderGroup : public OrderGroupObserver {
         bool CreateBuyOrder(double pip, string comment);
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
+        bool CloseAllOrders() { return this.ou_close.CloseAllOrders(this.group_magic_number_); }
         // Gets the information about some important information about OrderGroup
         double GetCurrentProfit();
         double GetMaxFloatingProfit();
