@@ -73,7 +73,7 @@ bool OrderCloseUtils::CloseAllBuyProfitOrders(int magic_number, double profit) {
           RefreshRates();
           if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
                           && OrderType() == OP_BUY && OrderMagicNumber() == magic_number
-                          && OrderProfit() >= profit) {
+                          && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
                 RefreshRates();
                 CloseOrderByOrderTicket(OrderTicket(), 0);
           }
@@ -108,11 +108,9 @@ bool OrderCloseUtils::CloseAllSellProfitOrders(int magic_number, double profit) 
     int total_orders_num = OrdersTotal();
     bool is_success = false;
     for (int i = total_orders_num - 1; i >= 0; i--) {
-        //  Print(OrderTicket() + " magic_number: " + magic_number + ", " + OrderMagicNumber());
-        //  Print(OrderTicket() + " OrderProfit(): " + OrderProfit() + ", " + profit);
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL && OrderMagicNumber() == magic_number
-            && OrderProfit() >= profit) {
+            && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
             RefreshRates();
             CloseOrderByOrderTicket(OrderTicket(), 1);
             PrintFormat("Activate close: %d", OrderTicket());
@@ -157,7 +155,7 @@ bool OrderCloseUtils::CloseSingleOrderByProfit(double profit) {
         // OrderPrint();
         // Print("----------------------- profit", profit, "----------------------");
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && OrderProfit() >= profit) {
+            && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
             RefreshRates();
             if (OrderType() == OP_BUY) CloseOrderByOrderTicket(OrderTicket(), 0);
             if (OrderType() == OP_SELL) CloseOrderByOrderTicket(OrderTicket(), 1);
@@ -171,7 +169,7 @@ bool OrderCloseUtils::CloseSingleOrderByLoss(double loss) {
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-        && OrderProfit() <= -loss) {
+        && (OrderProfit() + OrderSwap() + OrderCommission()) <= -loss) {
             // Print("----------------------- loss: ", loss, "----------------------");
             // OrderPrint();
             // Print("----------------------- loss: ", loss, "----------------------");
