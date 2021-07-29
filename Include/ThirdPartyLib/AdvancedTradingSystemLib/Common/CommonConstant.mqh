@@ -6,3 +6,4 @@
 #define DEFAULT_ORDER_MAGIC_NUMBER                                   0
 #define SUCCEEDED                                                    0
 #define FAILED                                                      -1
+#define ARR_DEFAULT_SIZE                                           500

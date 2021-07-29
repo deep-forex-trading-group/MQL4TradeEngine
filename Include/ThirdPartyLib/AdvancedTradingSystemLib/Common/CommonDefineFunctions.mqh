@@ -1,4 +1,5 @@
 #include <stdlib.mqh>; 
+#include "CommonConstant.mqh"
 
 #define IsPtrInvalid(ptr) \
 (CheckPointer(ptr) == POINTER_INVALID)
@@ -45,3 +46,8 @@ switch(reason_code)  { \
         text="Another reason"; \
 } \
 PrintFormat("The Deinit Reason is [%s], Reason Code is {%d}", text, reason_code);
+
+#define MakeSureArraySize(arr) \
+if (ArraySize(arr) <= ARR_DEFAULT_SIZE) { \
+    ArrayResize(arr, ARR_DEFAULT_SIZE); \
+}
