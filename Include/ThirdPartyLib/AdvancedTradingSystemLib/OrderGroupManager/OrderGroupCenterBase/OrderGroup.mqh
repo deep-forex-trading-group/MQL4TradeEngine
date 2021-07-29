@@ -1,6 +1,5 @@
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderInMarket.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderArrayUtils.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderGetUtils.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/AccountInformationUtils/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
@@ -38,7 +37,11 @@ class OrderGroup : public OrderGroupObserver {
         int GetOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
                                int group_id);
         int GetTotalNumOfOrdersInTrades();
-        // Gets the information about max_floating_loss_/max_floating_profits_/cur_profit_;
+        bool CreateBuyOrder(double pip) { return this.CreateBuyOrder(pip, ""); }
+        bool CreateBuyOrder(double pip, string comment);
+        bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
+        bool CreateSellOrder(double pip, string comment);
+        // Gets the information about some important information about OrderGroup
         double GetCurrentProfit();
         double GetMaxFloatingProfit();
         double GetMaxFloatingLoss();
@@ -49,6 +52,11 @@ class OrderGroup : public OrderGroupObserver {
 // Utils Variables
     protected:
         OrderArrayUtils order_array_utils;
+        OrderSendUtils ou_send;
+        OrderCloseUtils ou_close;
+        OrderGetUtils ou_get;
+        OrderPrintUtils ou_print;
+        AccountInfoUtils ac_utils;
 
 // Member Variables
     protected:

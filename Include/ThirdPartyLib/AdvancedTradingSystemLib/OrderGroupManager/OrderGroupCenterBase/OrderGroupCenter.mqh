@@ -28,7 +28,8 @@ class OrderGroupCenter : public OrderGroupSubject {
         int GetNumOfObservers();
         void SomeBusinessLogic();
         void CreateMsg(string msg);
-        void SetName(string name);
+        string GetName() { return this.group_center_name_; };
+        void SetName(string name) { this.group_center_name_ = name; };
 
     public:
         int GetMagicNumberByGroupId(int group_id);

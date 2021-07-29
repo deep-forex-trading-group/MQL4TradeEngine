@@ -56,6 +56,32 @@ int OrderGroup::GetTotalNumOfOrdersInTrades() {
     this.GetOrdersByGroupId();
     return ArraySize(orders_in_trades);
 }
+bool OrderGroup::CreateBuyOrder(double pip, string comment) {
+    string comm_for_group = StringFormat("#buy#%s#%s#%s#%s#",
+                                        this.order_group_center_ptr_.GetName(),
+                                        this.group_name_,
+                                        IntegerToString(this.group_id_),
+                                        IntegerToString(this.group_magic_number_));
+    StringAdd(comment, comm_for_group);
+    if (this.ou_send.CreateBuyOrder(this.group_magic_number_, pip) == -1) {
+        PrintFormat("Create Buy Order {%s} failed.", comm_for_group);
+        return false;
+    }
+    return true;
+}
+bool OrderGroup::CreateSellOrder(double pip, string comment) {
+    string comm_for_group = StringFormat("#sell#%s#%s#%s#%s#",
+                                        this.order_group_center_ptr_.GetName(),
+                                        this.group_name_,
+                                        IntegerToString(this.group_id_),
+                                        IntegerToString(this.group_magic_number_));
+    StringAdd(comment, comm_for_group);
+    if (this.ou_send.CreateSellOrder(this.group_magic_number_, pip) == -1) {
+        PrintFormat("Create Sell Order {%s} failed.", comm_for_group);
+        return false;
+    }
+    return true;
+}
 double OrderGroup::GetCurrentProfit() {
     this.GetOrdersByGroupId();
     this.cur_profit_ = 0;

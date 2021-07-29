@@ -47,9 +47,6 @@ void OrderGroupCenter::PrintInfo() {
         observer.PrintInfo();
     }
 }
-void OrderGroupCenter::SetName(string name) {
-    this.group_center_name_ = name;
-}
 int OrderGroupCenter::GetMagicNumberByGroupId(int group_id) {
     return this.order_center_magic_number_base_ + group_id;
 }
