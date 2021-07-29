@@ -14,3 +14,4 @@
 #include "SortComparer.mqh"
 #include "SortedArray.mqh"
 #include "Vector.mqh"
+#include "ArrayAdvancedUtils.mqh"
