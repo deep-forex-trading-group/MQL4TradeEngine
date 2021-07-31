@@ -34,6 +34,7 @@ class ConfigFile : public ConfigFileBase {
         }
 
     public:
+        bool CheckConfigFileValid() { TextFile txt(this.file_path_, FILE_READ); return txt.valid(); }
         int RefreshConfigFile();
         // Returns the field string
         bool CheckConfigFieldExistByTitleAndFieldName(string title, string field_name);
