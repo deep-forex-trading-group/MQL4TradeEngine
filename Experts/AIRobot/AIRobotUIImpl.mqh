@@ -65,10 +65,8 @@ void AIRobotUI::RefreshButtonsStates() {
     }
 
     if (this.btn7.IsButtonPressed()) {
-        PrintFormat("act btn7 st");
         mt_manager.StartTestOne();
         this.btn7.UnPressButton();
-        PrintFormat("act btn7 end");
     }
 
     if (this.btn8.IsButtonPressed()) {

@@ -1,0 +1,3 @@
+[system]
+// "TestMode" for testing, and "ProductionMode" for production
+system_mode:TestMode
