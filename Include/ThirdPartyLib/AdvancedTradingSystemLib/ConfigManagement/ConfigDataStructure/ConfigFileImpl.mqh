@@ -28,7 +28,7 @@ int ConfigFile::RefreshConfigFile() {
         string line= txt.readLine();
         // If the blank or invalid line, reset all ConfigSection settings.
         if (!this.IsTitleString(line) && !this.IsFieldString(line)) {
-            cur_title = "";
+            continue;
         }
         // If current line is a valid title string, set the ConfigSection setting
         if (this.IsTitleString(line)) {
@@ -45,6 +45,19 @@ int ConfigFile::RefreshConfigFile() {
     }
 
     return 0;
+}
+bool ConfigFile::CheckConfigFieldExistByTitleAndFieldName(string title, string field_name) {
+    if (!this.config_titles_map_.contains(title)) {
+        PrintFormat("title %s is not in config_titles_map_", title);
+        return false;
+    }
+    ConfigSection* c_sec = this.config_titles_map_[title];
+    string field_value = c_sec.GetConfigField(field_name);
+    if (field_value == "") {
+        PrintFormat("title %s, field_name: %s is not in the config_section_map_.", title, field_name);
+        return false;
+    }
+    return true;
 }
 string ConfigFile::GetConfigFieldByTitleAndFieldName(string title, string field_name) {
     if (!this.config_titles_map_.contains(title)) {
