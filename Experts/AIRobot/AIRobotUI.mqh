@@ -14,23 +14,22 @@ class AIRobotUI {
             this.InitGraphItems();
         }
         ~AIRobotUI() {
-            // TODO: to check why the btn objects can not be deleted.
-            PrintFormat("delete airobotui.");
+            PrintFormat("Deinitialize the AIRobotUI. ");
             delete &ui_utils;
             delete mt_manager;
-            delete btn1;
-            delete btn2;
-            delete btn3;
-            delete btn4;
-            delete btn5;
-            delete btn6;
-            delete btn7;
-            delete btn8;
+            delete this.btn1;
+            delete this.btn2;
+            delete this.btn3;
+            delete this.btn4;
+            delete this.btn5;
+            delete this.btn6;
+            delete this.btn7;
+            delete this.btn8;
         }
     public:
-        void InitGraphItems();
         void RefreshButtonsStates();
     private:
+        void InitGraphItems();
         UIUtils ui_utils;
         ENUM_BASE_CORNER button_section_set_pos;
         ModuleTestManager* mt_manager;
