@@ -14,8 +14,6 @@ AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
 SYSTEM_MODE system_mode = PRODUCTION_MODE;
 
-bool is_testing_ok = False;
-
 int OnInit() {
     system_mode_config = new ConfigFile("system_mode_config.txt");
     if (!system_mode_config.CheckConfigFileValid()) {
