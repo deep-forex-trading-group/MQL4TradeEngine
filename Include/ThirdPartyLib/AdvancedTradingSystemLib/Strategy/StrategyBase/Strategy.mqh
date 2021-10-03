@@ -3,7 +3,9 @@
 
 class Strategy {
     public:
-        virtual ~Strategy() {};
+        virtual ~Strategy() {
+            SaveDeletePtr(this.config_file_);
+        };
 // OnTick is for every tick check to execute strategy
         virtual int OnTickExecute() = 0;
 // OnAction is for outer activated, such as using button to activate
