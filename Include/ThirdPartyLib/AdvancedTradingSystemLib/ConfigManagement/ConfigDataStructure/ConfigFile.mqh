@@ -9,7 +9,7 @@
 class ConfigFile : public ConfigFileBase {
     public:
         ConfigFile(string file_path_in) {
-            PrintFormat("Initializing the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)", 
+            PrintFormat("Initialize the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)",
                          file_path_in, CONFIG_DIR_PATH);
             StringAdd(this.file_path_, CONFIG_DIR_PATH);
             StringAdd(this.file_path_, "/");
@@ -21,7 +21,7 @@ class ConfigFile : public ConfigFileBase {
             }
         }
         ConfigFile(string config_dir, string file_path_in) {
-            PrintFormat("Initializing the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)",
+            PrintFormat("Initialize the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)",
                          file_path_in, CONFIG_DIR_PATH);
             StringAdd(this.file_path_, config_dir);
             StringAdd(this.file_path_, "/");

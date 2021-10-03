@@ -16,7 +16,7 @@ class OrderGroup : public OrderGroupObserver {
             this.max_floating_loss_ = 0;
             this.max_floating_profits_ = 0;
             this.msg_from_subject_ = "Init subject msg";
-            PrintFormat("Initialized Order Group [%d].", this.group_id_);
+            PrintFormat("Initialize Order Group [%d].", this.group_id_);
         };
         virtual ~OrderGroup() {
             PrintFormat("Deinitialize order group [%d]", this.group_id_);
