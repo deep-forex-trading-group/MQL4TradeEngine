@@ -46,6 +46,8 @@ class OrderGroup : public OrderGroupObserver {
         bool CreateBuyOrder(double pip, string comment);
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
+// Adds Order
+        bool AddOneOrderByStepPipReverse(int direction, double step_pip, double lots);
 // Close Order Functions
         bool CloseAllOrders() { return this.ou_close.CloseAllOrders(this.group_magic_number_); }
 // Gets the information about some important information about OrderGroup

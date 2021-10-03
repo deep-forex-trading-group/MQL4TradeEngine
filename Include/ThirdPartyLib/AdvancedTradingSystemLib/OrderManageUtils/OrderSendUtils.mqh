@@ -1,5 +1,8 @@
 #include "OrderManageUtils.mqh"
 #include "OrderInMarket.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
 
 class OrderSendUtils : public OrderManageUtils {
     public:
@@ -7,7 +10,9 @@ class OrderSendUtils : public OrderManageUtils {
         ~OrderSendUtils() {}
     public:
         // 下单函数
-        bool AddOneOrderByStepPip(int magic_number, int direction, double StepPip, double Lot);
+        bool AddOneOrderByStepPipReverse(int magic_number, int direction, double step_pip, double Lot);
+        bool AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set, int magic_number_add,
+                                  int direction, double step_pip, double Lot);
         int CreateBuyOrder(int magic_number, double Lots, int TP, int SL);
         int CreateBuyOrder(int magic_number, double Lots);
         int CreateBuyOrder(int magic_number, double Lots, string comment);
@@ -24,22 +29,19 @@ class OrderSendUtils : public OrderManageUtils {
 };
 
 // 下单函数
-bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
-                                          double StepPip, double Lot) {
+bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction,
+                                                 double step_pip, double Lot) {
     OrderInMarket order_in_market[1000];
 
-    if (direction == 0) {
+    if (direction == -1) {
          int total_orders_num = OrdersTotal();
-         // if (total_orders_num == 0) {
-         //    return CreateBuyOrder(Lot,0,0) >= 0;
-         // }
 
          double highest_price = -1;
          int higest_ticket = -1;
          for (int i = total_orders_num - 1; i >= 0; i--) {
             RefreshRates();
             if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+                && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
                 RefreshRates();
                 if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
                     highest_price = OrderOpenPrice();
@@ -48,8 +50,8 @@ bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
             }
          }
 
-        if (NormalizeDouble(Ask, Digits) - highest_price >= StepPip*Point) {
-            return CreateBuyOrder(magic_number,Lot,0,0) >= 0;
+        if (NormalizeDouble(Bid, Digits) - highest_price >= step_pip*MarketInfoUtils::GetPoints()) {
+            return CreateSellOrder(magic_number,Lot,0,0) >= 0;
         }
     }
 
@@ -64,7 +66,63 @@ bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
             RefreshRates();
             if (OrderSelect(dir_1_i, SELECT_BY_POS, MODE_TRADES)
                 && OrderSymbol() == Symbol()
-                && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
+                && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+                RefreshRates();
+                if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
+                    lowest_price = OrderOpenPrice();
+                    lowest_ticket = OrderTicket();
+                }
+            }
+         }
+         if (lowest_price - NormalizeDouble(Ask, Digits) >= step_pip * MarketInfoUtils::GetPoints()) {
+            return CreateBuyOrder(magic_number,Lot,0,0) >= 0;
+         }
+    }
+
+    return false;
+}
+bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set, int magic_number_add,
+                          int direction, double step_pip, double Lot) {
+    OrderInMarket order_in_market[1000];
+    if (IsPtrInvalid(magic_number_set)) {
+        PrintFormat("magic_number_set is invalid in AddOneOrderByStepPipReverse. ");
+        return false;
+    }
+
+    if (direction == -1) {
+         int total_orders_num = OrdersTotal();
+
+         double highest_price = -1;
+         int higest_ticket = -1;
+         for (int i = total_orders_num - 1; i >= 0; i--) {
+            RefreshRates();
+            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                && OrderType() == OP_SELL && magic_number_set.contains(OrderMagicNumber())) {
+                RefreshRates();
+                if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
+                    highest_price = OrderOpenPrice();
+                    higest_ticket = OrderTicket();
+                }
+            }
+         }
+
+        if (NormalizeDouble(Bid, Digits) - highest_price >= step_pip * MarketInfoUtils::GetPoints()) {
+            return CreateSellOrder(magic_number_add,Lot,0,0) >= 0;
+        }
+    }
+
+    if (direction == 1) {
+         int dir_1_total_orders_num = OrdersTotal();
+         double lowest_price = -1;
+         int lowest_ticket = -1;
+         // if (total_orders_num == 0) {
+         //    return CreateSellOrder(Lot,0,0) >= 0;
+         // }
+         for (int dir_1_i = dir_1_total_orders_num - 1; dir_1_i >= 0; dir_1_i--) {
+            RefreshRates();
+            if (OrderSelect(dir_1_i, SELECT_BY_POS, MODE_TRADES)
+                && OrderSymbol() == Symbol()
+                && OrderType() == OP_BUY && magic_number_set.contains(OrderMagicNumber())) {
             RefreshRates();
                 if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
                     lowest_price = OrderOpenPrice();
@@ -72,8 +130,8 @@ bool OrderSendUtils::AddOneOrderByStepPip(int magic_number, int direction,
                 }
             }
          }
-         if (NormalizeDouble(Bid, Digits) -  lowest_price <= -StepPip*Point) {
-            return CreateSellOrder(magic_number,Lot,0,0) >= 0;
+         if (lowest_price - NormalizeDouble(Ask, Digits) >= step_pip*MarketInfoUtils::GetPoints()) {
+            return CreateBuyOrder(magic_number_add,Lot,0,0) >= 0;
          }
     }
 
@@ -134,8 +192,8 @@ int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
            Price = NormalizeDouble(Ask, Digits);
         else
            Price = NormalizeDouble(MarketInfo(mSymbol, MODE_ASK), Digits);
-        Take = IIFd(TP == 0, 0, NormalizeDouble( Price + TP * Point, Digits));
-        Stop = IIFd(SL == 0, 0, NormalizeDouble( Price - SL * Point, Digits));
+        Take = IIFd(TP == 0, 0, NormalizeDouble( Price + TP * MarketInfoUtils::GetPoints(), Digits));
+        Stop = IIFd(SL == 0, 0, NormalizeDouble( Price - SL * MarketInfoUtils::GetPoints(), Digits));
         Color = Blue;
         break;
         case OP_SELL:
@@ -144,8 +202,8 @@ int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
         else
            Price = NormalizeDouble(MarketInfo(mSymbol, MODE_BID), Digits);
         Price = NormalizeDouble( Bid, Digits);
-        Take = IIFd(TP == 0, 0, NormalizeDouble( Price - TP * Point, Digits));
-        Stop = IIFd(SL == 0, 0, NormalizeDouble( Price + SL * Point, Digits));
+        Take = IIFd(TP == 0, 0, NormalizeDouble( Price - TP * MarketInfoUtils::GetPoints(), Digits));
+        Stop = IIFd(SL == 0, 0, NormalizeDouble( Price + SL * MarketInfoUtils::GetPoints(), Digits));
         Color = Red;
         break;
         default:
