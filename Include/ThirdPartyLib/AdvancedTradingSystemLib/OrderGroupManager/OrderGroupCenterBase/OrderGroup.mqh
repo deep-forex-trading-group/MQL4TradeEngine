@@ -53,24 +53,7 @@ class OrderGroup : public OrderGroupObserver {
         double GetMaxFloatingProfit();
         double GetMaxFloatingLoss();
 // Print Orders Information
-        void PrintAllOrders() {
-            this.RefreshOrderInfo();
-            Print("--------------------- OrdersHistory Starts ---------------------");
-            int arr_print_size = ArraySize(this.orders_in_history);
-            for (int arr_print_i = 0; arr_print_i < arr_print_size; arr_print_i++) {
-                OrderInMarket oi = this.orders_in_history[arr_print_i];
-                oi.PrintOrderInMarket();
-            }
-            Print("--------------------- OrdersHistory Ends ---------------------");
-
-            Print("--------------------- OrdersInTrade Starts ---------------------");
-            arr_print_size = ArraySize(this.orders_in_trades);
-            for (int arr_print_i = 0; arr_print_i < arr_print_size; arr_print_i++) {
-                OrderInMarket oi = this.orders_in_trades[arr_print_i];
-                oi.PrintOrderInMarket();
-            }
-            Print("--------------------- OrdersInTrade Ends ---------------------");
-        }
+        void PrintAllOrders();
 // Maintains the extra orders
         bool AddsExtraOrderMagicNumber(long extra_order_magic_number) {
             return this.whole_order_magic_number_set_.add((int) extra_order_magic_number);
