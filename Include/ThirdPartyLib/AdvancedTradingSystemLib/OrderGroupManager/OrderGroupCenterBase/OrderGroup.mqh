@@ -33,16 +33,19 @@ class OrderGroup : public OrderGroupObserver {
         int GetGroupId() { return this.group_id_; };
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
         int RefreshOrderInfo();
+// Get Order Functions
         int GetOrdersByGroupId(int group_id);
         int GetOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
                                int group_id);
         int GetTotalNumOfOrdersInTrades();
+// Create Order Functions
         bool CreateBuyOrder(double pip) { return this.CreateBuyOrder(pip, ""); }
         bool CreateBuyOrder(double pip, string comment);
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
+// Close Order Functions
         bool CloseAllOrders() { return this.ou_close.CloseAllOrders(this.group_magic_number_); }
-        // Gets the information about some important information about OrderGroup
+// Gets the information about some important information about OrderGroup
         double GetCurrentProfit();
         double GetMaxFloatingProfit();
         double GetMaxFloatingLoss();
