@@ -17,14 +17,14 @@ class AIRobotUI {
             PrintFormat("Deinitialize the AIRobotUI. ");
             delete &ui_utils;
             delete mt_manager;
-            delete this.btn1;
-            delete this.btn2;
-            delete this.btn3;
-            delete this.btn4;
-            delete this.btn5;
-            delete this.btn6;
-            delete this.btn7;
-            delete this.btn8;
+            delete this.btn_close_buy;
+            delete this.btn_close_sell;
+            delete this.btn_close_profit_buy;
+            delete this.btn_close_profit_sell;
+            delete this.btn_close_all;
+            delete this.ea_openclose;
+            delete this.ea_test;
+            delete this.ea_test_sec;
         }
     public:
         void RefreshButtonsStates();
@@ -40,12 +40,12 @@ class AIRobotUI {
         int button_inter_y;
         int button_length;
         int button_width;
-        Button* btn1;
-        Button* btn2;
-        Button* btn3;
-        Button* btn4;
-        Button* btn5;
-        Button* btn6;
-        Button* btn7;
-        Button* btn8;
+        Button* btn_close_buy;
+        Button* btn_close_sell;
+        Button* btn_close_profit_buy;
+        Button* btn_close_profit_sell;
+        Button* btn_close_all;
+        Button* ea_openclose;
+        Button* ea_test;
+        Button* ea_test_sec;
 };
