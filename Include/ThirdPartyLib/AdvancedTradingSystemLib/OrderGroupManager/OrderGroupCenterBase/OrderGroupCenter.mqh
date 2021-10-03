@@ -10,7 +10,7 @@ class OrderGroupCenter : public OrderGroupSubject {
             this.group_center_name_ = name;
             this.group_id_max_ = 0;
             this.order_center_magic_number_base_ = this.GetOrderCenterMagicNumberBase();
-            PrintFormat("Initialize OrderGroupCenter.");
+            PrintFormat("Initialize OrderGroupCenter [%s].", this.group_center_name_);
         }
         virtual ~OrderGroupCenter() {
             PrintFormat("Deinitialize OrderGroupCenter [%s].", this.group_center_name_);
