@@ -58,32 +58,32 @@ void ModuleTestManager::TestExecuteStrategy() {
     TestingStrategy* ts_2 = new TestingStrategy("ts_2");
     TestingStrategy* ts_3 = new TestingStrategy("ts_3");
 
-    StrategyContext *st_ctx = new StrategyContext(ts_1);
+    StrategyContext *st_test_ctx = new StrategyContext(ts_1);
     PrintFormat("------------ testing TestingStrategy for ts_1 ------------------");
    
     ts_1.SetTestingStrategyParams(ts_params);
-    st_ctx.ExecuteStrategy();
+    st_test_ctx.ExecuteStrategy();
     ConfigFile* config_file_testing = new ConfigFile("config.txt");
-    st_ctx.ExecuteStrategy();
+    st_test_ctx.ExecuteStrategy();
 
     PrintFormat("------------ testing TestingStrategy for ts_2 ------------------");
     
     ts_2.SetTestingStrategyParams(ts_params);
-    st_ctx.SetStrategy(ts_2);
-    st_ctx.ExecuteStrategy();
+    st_test_ctx.SetStrategy(ts_2);
+    st_test_ctx.ExecuteStrategy();
     ConfigFile* config_file_testing_2 = new ConfigFile("config.txt");
-    st_ctx.ExecuteStrategy();
+    st_test_ctx.ExecuteStrategy();
 
     PrintFormat("------------ testing TestingStrategy for ts_3 with no params ------------------");
-    st_ctx.SetStrategy(ts_3);
-    st_ctx.ExecuteStrategy();
+    st_test_ctx.SetStrategy(ts_3);
+    st_test_ctx.ExecuteStrategy();
 
     SaveDeletePtr(config_file_testing_2);
     SaveDeletePtr(config_file_testing);
     SaveDeletePtr(ts_params);
     SaveDeletePtr(ts_1);
     SaveDeletePtr(ts_2);
-    SaveDeletePtr(st_ctx);
+    SaveDeletePtr(st_test_ctx);
 }
 
 void ModuleTestManager::TestOrderGroupCenter() {
@@ -135,9 +135,9 @@ void ModuleTestManager::TestCopyMap() {
 }
 
 void ModuleTestManager::TestAutoAdjustStrategyOnTick() {
-    this.st_ctx.OnTickExecuteStrategy();
+    this.st_test_ctx.OnTickExecuteStrategy();
 }
 
 void ModuleTestManager::TestAutoAdjustStrategyOnAction() {
-    this.st_ctx.OnActionExecuteStrategy();
+    this.st_test_ctx.OnActionExecuteStrategy();
 }

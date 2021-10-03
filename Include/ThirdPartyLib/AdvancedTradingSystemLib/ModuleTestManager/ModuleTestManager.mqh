@@ -15,14 +15,14 @@ class ModuleTestManager {
             this.adjust_strategy = new AutoAdjustStrategy("ad_test", this.aa_group);
             this.config_file_adjust = new ConfigFile("Config", "adjust_config.txt");
             this.adjust_strategy.SetConfigFile(this.config_file_adjust);
-            this.st_ctx = new StrategyContext(this.adjust_strategy);
+            this.st_test_ctx = new StrategyContext(this.adjust_strategy);
         };
         ~ModuleTestManager() {
             SaveDeletePtr(aa_order_group_center);
             SaveDeletePtr(adjust_strategy);
             SaveDeletePtr(aa_group);
             SaveDeletePtr(config_file_adjust);
-            SaveDeletePtr(st_ctx);
+            SaveDeletePtr(st_test_ctx);
         };
 // Some test cases for the functions in project.
     public:
@@ -39,5 +39,5 @@ class ModuleTestManager {
         AutoAdjustStrategy* adjust_strategy;
         AutoAdjustOrderGroup* aa_group;
         ConfigFile* config_file_adjust;
-        StrategyContext* st_ctx;
+        StrategyContext* st_test_ctx;
 };
