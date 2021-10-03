@@ -31,6 +31,12 @@ class OrderGetUtils : OrderManageUtils {
         bool GetLowestOpenPriceOrder(int magic_number, OrderInMarket& res[]);
         bool GetLowestSellOpenPriceOrder(int magic_number, OrderInMarket& res[]);
         bool GetLowestBuyOpenPriceOrder(int magic_number, OrderInMarket& res[]);
+        bool GetHighestOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
+        bool GetHighestBuyOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
+        bool GetHighestSellOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
+        bool GetLowestOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
+        bool GetLowestSellOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
+        bool GetLowestBuyOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
 };
 
 // 订单信息函数
@@ -326,7 +332,7 @@ bool OrderGetUtils::GetHighestBuyOpenPriceOrder(int magic_number, OrderInMarket&
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
             && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number
-            && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+            && OrderType() == OP_BUY) {
               RefreshRates();
               if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
                  highest_price = OrderOpenPrice();
@@ -417,6 +423,168 @@ bool OrderGetUtils::GetLowestBuyOpenPriceOrder(int magic_number, OrderInMarket& 
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderMagicNumber() == magic_number && OrderType() == OP_BUY) {
+            RefreshRates();
+            if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
+                lowest_price = OrderOpenPrice();
+                lowest_ticket = OrderTicket();
+
+                oi.GetOrderFromMarket(i);
+            }
+        }
+    }
+
+    res[0] = oi;
+    ArrayResize(res, 1);
+    return true;
+}
+bool OrderGetUtils::GetHighestOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
+    if (IsPtrInvalid(group_magic_number_set)) {
+        PrintFormat("group_magic_number_set pointer is invalid in GetHighestOpenPriceOrder");
+        return false;
+    }
+    int total_orders_num = OrdersTotal();
+    double highest_price = -1;
+    int higest_ticket = -1;
+    OrderInMarket oi();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                        && group_magic_number_set.contains(OrderMagicNumber())) {
+            RefreshRates();
+            if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
+                highest_price = OrderOpenPrice();
+                higest_ticket = OrderTicket();
+
+                oi.GetOrderFromMarket(i);
+            }
+        }
+    }
+    res[0] = oi;
+    ArrayResize(res, 1);
+    return true;
+}
+bool OrderGetUtils::GetHighestBuyOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
+    if (IsPtrInvalid(group_magic_number_set)) {
+        PrintFormat("group_magic_number_set pointer is invalid in GetHighestBuyOpenPriceOrder");
+        return false;
+    }
+    int total_orders_num = OrdersTotal();
+    double highest_price = -1;
+    int higest_ticket = -1;
+    OrderInMarket oi();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+    RefreshRates();
+    if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+        && OrderSymbol() == Symbol()
+        && OrderType() == OP_BUY && group_magic_number_set.contains(OrderMagicNumber())) {
+          RefreshRates();
+          if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
+             highest_price = OrderOpenPrice();
+             higest_ticket = OrderTicket();
+
+             oi.GetOrderFromMarket(i);
+          }
+    }
+    }
+    res[0] = oi;
+    ArrayResize(res, 1);
+    return true;
+}
+bool OrderGetUtils::GetHighestSellOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
+    if (IsPtrInvalid(group_magic_number_set)) {
+        PrintFormat("group_magic_number_set pointer is invalid in GetHighestSellOpenPriceOrder");
+        return false;
+    }
+    int total_orders_num = OrdersTotal();
+    double highest_price = -1;
+    int higest_ticket = -1;
+    OrderInMarket oi();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+     RefreshRates();
+     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_SELL && group_magic_number_set.contains(OrderMagicNumber())) {
+        RefreshRates();
+        if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
+          highest_price = OrderOpenPrice();
+          higest_ticket = OrderTicket();
+
+          oi.GetOrderFromMarket(i);
+        }
+     }
+    }
+    res[0] = oi;
+    ArrayResize(res, 1);
+    return true;
+}
+bool OrderGetUtils::GetLowestOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
+    if (IsPtrInvalid(group_magic_number_set)) {
+        PrintFormat("group_magic_number_set pointer is invalid in GetLowestOpenPriceOrder");
+        return false;
+    }
+
+    int total_orders_num = OrdersTotal();
+    double lowest_price = -1;
+    int lowest_ticket = -1;
+    OrderInMarket oi();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                        && group_magic_number_set.contains(OrderMagicNumber())) {
+           RefreshRates();
+           if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
+              lowest_price = OrderOpenPrice();
+              lowest_ticket = OrderTicket();
+
+              oi.GetOrderFromMarket(i);
+           }
+        }
+    }
+
+    res[0] = oi;
+    ArrayResize(res, 1);
+    return true;
+}
+bool OrderGetUtils::GetLowestSellOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
+    if (IsPtrInvalid(group_magic_number_set)) {
+        PrintFormat("group_magic_number_set pointer is invalid in GetLowestSellOpenPriceOrder");
+        return false;
+    }
+
+    int total_orders_num = OrdersTotal();
+     double lowest_price = -1;
+     int lowest_ticket = -1;
+     OrderInMarket oi();
+     for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && group_magic_number_set.contains(OrderMagicNumber()) && OrderType() == OP_SELL) {
+              RefreshRates();
+              if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
+                 lowest_price = OrderOpenPrice();
+                 lowest_ticket = OrderTicket();
+
+                 oi.GetOrderFromMarket(i);
+              }
+        }
+     }
+
+     res[0] = oi;
+     ArrayResize(res, 1);
+     return true;
+}
+bool OrderGetUtils::GetLowestBuyOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
+    if (IsPtrInvalid(group_magic_number_set)) {
+        PrintFormat("group_magic_number_set pointer is invalid in GetLowestBuyOpenPriceOrder");
+        return false;
+    }
+    int total_orders_num = OrdersTotal();
+    double lowest_price = -1;
+    int lowest_ticket = -1;
+    OrderInMarket oi();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && group_magic_number_set.contains(OrderMagicNumber()) && OrderType() == OP_BUY) {
             RefreshRates();
             if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
                 lowest_price = OrderOpenPrice();
