@@ -8,24 +8,24 @@
 
 class ConfigFile : public ConfigFileBase {
     public:
-        ConfigFile(string file_path_in) {
-            PrintFormat("Initialize the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)",
-                         file_path_in, CONFIG_DIR_PATH);
+        ConfigFile(string config_file_name) {
+            PrintFormat("Initialize the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
+                         config_file_name, CONFIG_DIR_PATH);
             StringAdd(this.file_path_, CONFIG_DIR_PATH);
             StringAdd(this.file_path_, "/");
-            StringAdd(this.file_path_, file_path_in);
+            StringAdd(this.file_path_, config_file_name);
             this.config_titles_map_ = new HashMap<string, ConfigSection*>;
             if (this.RefreshConfigFile() != 0) {
-                PrintFormat("Failed initializeing the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)",
-                            file_path_in, CONFIG_DIR_PATH);
+                PrintFormat("Failed initializeing the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
+                            config_file_name, CONFIG_DIR_PATH);
             }
         }
-        ConfigFile(string config_dir, string file_path_in) {
-            PrintFormat("Initialize the ConfigFile(file_path_in=%s, CONFIG_DIR_PATH=%s)",
-                         file_path_in, CONFIG_DIR_PATH);
+        ConfigFile(string config_dir, string config_file_name) {
+            PrintFormat("Initialize the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
+                         config_file_name, CONFIG_DIR_PATH);
             StringAdd(this.file_path_, config_dir);
             StringAdd(this.file_path_, "/");
-            StringAdd(this.file_path_, file_path_in);
+            StringAdd(this.file_path_, config_file_name);
             this.config_titles_map_ = new HashMap<string, ConfigSection*>;
             this.RefreshConfigFile();
         }
