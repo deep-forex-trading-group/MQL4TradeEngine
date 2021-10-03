@@ -13,7 +13,8 @@ class OrderGetUtils : OrderManageUtils {
         int GetNumOfBuyOrders(int magic_number);
         int GetNumOfSellOrders(int magic_number);
         int GetNumOfLossOrders(int magic_number);
-        static bool CheckOrderWithCommentInTrades(string comm);
+        static bool CheckOrder(string comm, long magic_number);
+        static bool CheckOrder(string comm);
         static bool GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         static bool GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         static bool GetOrdersInHistoryWithMagicNumber(int group_magic_number, OrderInMarket& res[]);
@@ -78,7 +79,17 @@ int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
   }
   return total_loss_num;
 }
-bool OrderGetUtils::CheckOrderWithCommentInTrades(string comm) {
+bool OrderGetUtils::CheckOrder(string comm, long magic_number) {
+    int total_num = OrdersTotal();
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && (OrderComment() == comm && OrderMagicNumber() == magic_number)) {
+            return true;
+        }
+    }
+    return false;
+}
+bool OrderGetUtils::CheckOrder(string comm) {
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
