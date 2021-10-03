@@ -13,6 +13,7 @@ class OrderGetUtils : OrderManageUtils {
         int GetNumOfBuyOrders(int magic_number);
         int GetNumOfSellOrders(int magic_number);
         int GetNumOfLossOrders(int magic_number);
+        static bool CheckOrderWithCommentInTrades(string comm);
         static bool GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         static bool GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         static bool GetOrdersInHistoryWithMagicNumber(int group_magic_number, OrderInMarket& res[]);
@@ -76,6 +77,16 @@ int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
      }
   }
   return total_loss_num;
+}
+bool OrderGetUtils::CheckOrderWithCommentInTrades(string comm) {
+    int total_num = OrdersTotal();
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && (OrderComment() == comm)) {
+            return true;
+        }
+    }
+    return false;
 }
 bool OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_magic_number_set, OrderInMarket& res[]) {
     // Gets the order in history pool
