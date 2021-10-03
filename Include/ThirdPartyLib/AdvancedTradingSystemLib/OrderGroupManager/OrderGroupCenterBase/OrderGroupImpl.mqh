@@ -40,13 +40,13 @@ int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
     int group_magic_number = this.order_group_center_ptr_.GetMagicNumberByGroupId(this.group_id_);
 
     ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
-    if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumber(
-                        this.group_magic_number_, orders_in_history_out)) {
+    if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(
+                        this.whole_order_magic_number_set_, orders_in_history_out)) {
         return -1;
     }
     ArrayResize(orders_in_trades_out, ORDER_GROUP_MAX_ORDERS);
-    if (!OrderGetUtils::GetOrdersInTradesWithMagicNumber(
-                        this.group_magic_number_, orders_in_trades_out)) {
+    if (!OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(
+                        this.whole_order_magic_number_set_, orders_in_trades_out)) {
         return -1;
     }
     return 0;

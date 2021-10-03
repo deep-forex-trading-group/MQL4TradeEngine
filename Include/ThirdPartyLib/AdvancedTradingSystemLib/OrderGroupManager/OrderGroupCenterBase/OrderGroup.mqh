@@ -12,6 +12,8 @@ class OrderGroup : public OrderGroupObserver {
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
             this.group_magic_number_ = this.order_group_center_ptr_
                                             .GetMagicNumberByGroupId(this.group_id_);
+            this.whole_order_magic_number_set_ = new HashSet<int>();
+            this.whole_order_magic_number_set_.add(this.group_magic_number_);
             this.cur_profit_ = 0;
             this.max_floating_loss_ = 0;
             this.max_floating_profits_ = 0;
@@ -21,6 +23,7 @@ class OrderGroup : public OrderGroupObserver {
         virtual ~OrderGroup() {
             PrintFormat("Deinitialize order group [%d]", this.group_id_);
             delete &order_array_utils;
+            delete whole_order_magic_number_set_;
         };
 
 // Observer communications functionality
@@ -49,7 +52,29 @@ class OrderGroup : public OrderGroupObserver {
         double GetCurrentProfit();
         double GetMaxFloatingProfit();
         double GetMaxFloatingLoss();
+// Print Orders Information
+        void PrintAllOrders() {
+            this.RefreshOrderInfo();
+            Print("--------------------- OrdersHistory Starts ---------------------");
+            int arr_print_size = ArraySize(this.orders_in_history);
+            for (int arr_print_i = 0; arr_print_i < arr_print_size; arr_print_i++) {
+                OrderInMarket oi = this.orders_in_history[arr_print_i];
+                oi.PrintOrderInMarket();
+            }
+            Print("--------------------- OrdersHistory Ends ---------------------");
 
+            Print("--------------------- OrdersInTrade Starts ---------------------");
+            arr_print_size = ArraySize(this.orders_in_trades);
+            for (int arr_print_i = 0; arr_print_i < arr_print_size; arr_print_i++) {
+                OrderInMarket oi = this.orders_in_trades[arr_print_i];
+                oi.PrintOrderInMarket();
+            }
+            Print("--------------------- OrdersInTrade Ends ---------------------");
+        }
+// Maintains the extra orders
+        bool AddsExtraOrderMagicNumber(long extra_order_magic_number) {
+            return this.whole_order_magic_number_set_.add((int) extra_order_magic_number);
+        }
     protected:
         OrderGroupCenter *order_group_center_ptr_;
 
@@ -73,4 +98,5 @@ class OrderGroup : public OrderGroupObserver {
         double cur_profit_;
         double max_floating_loss_;
         double max_floating_profits_;
+        HashSet<int>* whole_order_magic_number_set_;
 };
