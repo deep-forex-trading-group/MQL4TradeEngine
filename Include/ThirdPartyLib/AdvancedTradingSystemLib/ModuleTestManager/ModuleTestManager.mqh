@@ -30,6 +30,7 @@ class ModuleTestManager {
     public:
         void StartTestOne();
         void StartTestTwo();
+        static void TestOpenSig();
         static void TestRefreshConfigFile();
         static void TestExecuteStrategy();
         static void TestOrderGroupCenter();

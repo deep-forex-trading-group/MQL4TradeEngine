@@ -17,6 +17,11 @@ void ModuleTestManager::StartTestTwo() {
     this.TestAutoAdjustStrategyOnAction();
 }
 
+void ModuleTestManager::TestOpenSig() {
+    OrderSendUtils* os_utils = new OrderSendUtils();
+    os_utils.CreateBuyOrder(-1, 0.01, "ad_sig");
+    SaveDeletePtr(os_utils);
+}
 void ModuleTestManager::TestRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
     ConfigFile* config_file = new ConfigFile("config", "config.txt");

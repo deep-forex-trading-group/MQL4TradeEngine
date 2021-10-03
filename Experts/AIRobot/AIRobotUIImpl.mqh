@@ -12,6 +12,9 @@ void AIRobotUI::InitGraphItems() {
     this.button_inter_y = 30;
     this.button_length = 65;
     this.button_width = 20;
+    this.btn_open_sig_test = new Button("信号测试按钮","信号测试","信号测试",
+                                        (button_x+button_inter_x*2),(button_y+button_inter_y*0),
+                                        button_length,button_width,button_section_set_pos,clrFireBrick,clrBlack);
     this.btn_close_buy = new Button("平多按钮","平多","平多",(button_x+button_inter_x*1),(button_y+button_inter_y*3),
                         button_length,button_width,button_section_set_pos,clrFireBrick,clrBlack);
     this.btn_close_sell = new Button("平空按钮","平空","平空",button_x+button_inter_x*0,button_y+button_inter_y*3,
@@ -31,6 +34,7 @@ void AIRobotUI::InitGraphItems() {
 }
 
 void AIRobotUI::RefreshButtonsStates() {
+    this.btn_open_sig_test.CheckButtonState();
     this.btn_close_buy.CheckButtonState();
     this.btn_close_sell.CheckButtonState();
     this.btn_close_profit_buy.CheckButtonState();
@@ -39,6 +43,11 @@ void AIRobotUI::RefreshButtonsStates() {
     this.ea_openclose.CheckButtonState();
     this.ea_test.CheckButtonState();
     this.ea_test_sec.CheckButtonState();
+
+    if(this.btn_open_sig_test.IsButtonPressed()) {
+        mt_manager.TestOpenSig();
+        this.btn_open_sig_test.UnPressButton();
+    }
 
     if(this.btn_close_buy.IsButtonPressed()) {
         this.btn_close_buy.UnPressButton();
