@@ -1,2 +1,2 @@
-#include "TestingStrategies\all.mqh"
-#include "AutoAdjustStrategies\all.mqh"
+#include "TestingStrategy\all.mqh"
+#include "AutoAdjustStrategy\all.mqh"

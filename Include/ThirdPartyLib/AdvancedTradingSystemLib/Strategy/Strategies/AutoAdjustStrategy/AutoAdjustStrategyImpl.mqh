@@ -3,7 +3,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategies/DataStructure.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategy/DataStructure.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
