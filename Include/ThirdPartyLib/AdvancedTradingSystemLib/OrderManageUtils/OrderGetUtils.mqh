@@ -9,6 +9,8 @@ class OrderGetUtils : OrderManageUtils {
         ~OrderGetUtils() {}
     public:
         // 订单信息函数
+        bool GetOrder(int magic_number, OrderInMarket& res[]);
+        bool GetOrder(HashSet<int>* magic_number_set, OrderInMarket& res[]);
         int GetNumOfAllOrders(int magic_number);
         int GetNumOfBuyOrders(int magic_number);
         int GetNumOfSellOrders(int magic_number);
@@ -38,7 +40,38 @@ class OrderGetUtils : OrderManageUtils {
         bool GetLowestSellOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         bool GetLowestBuyOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
 };
-
+bool OrderGetUtils::GetOrder(int magic_number, OrderInMarket& res[]) {
+    ArrayResize(res, 1);
+    int total_num = OrdersTotal();
+    int res_total_num = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+             && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+            OrderInMarket oi();
+            oi.GetOrderFromMarket(i);
+            res[0] = oi;
+            return true;
+        }
+    }
+    return false;
+}
+bool OrderGetUtils::GetOrder(HashSet<int>* magic_number_set, OrderInMarket& res[]) {
+    int total_num = OrdersTotal();
+    ArrayResize(res, total_num+1);
+    int res_total_num = 0;
+    int res_i = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+             && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+            OrderInMarket oi();
+            oi.GetOrderFromMarket(i);
+            res[res_i] = oi;
+            res_i++;
+        }
+    }
+    ArrayResize(res, res_i);
+    return true;
+}
 // 订单信息函数
 int OrderGetUtils::GetNumOfAllOrders(int magic_number) {
  int total_num = OrdersTotal();

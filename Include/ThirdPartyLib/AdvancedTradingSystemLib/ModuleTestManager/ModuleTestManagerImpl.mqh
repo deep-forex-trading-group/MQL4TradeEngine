@@ -19,7 +19,7 @@ void ModuleTestManager::StartTestTwo() {
 
 void ModuleTestManager::TestOpenSig() {
     OrderSendUtils* os_utils = new OrderSendUtils();
-    os_utils.CreateBuyOrder(-1, 0.01, "ad_sig");
+    os_utils.CreateBuyOrder(-2000, 0.01, "ad_sig");
     SaveDeletePtr(os_utils);
 }
 void ModuleTestManager::TestRefreshConfigFile() {

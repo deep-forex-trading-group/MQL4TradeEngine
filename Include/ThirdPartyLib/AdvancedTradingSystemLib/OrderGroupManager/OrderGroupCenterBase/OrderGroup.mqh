@@ -41,6 +41,7 @@ class OrderGroup : public OrderGroupObserver {
         int GetOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
                                int group_id);
         int GetTotalNumOfOrdersInTrades();
+        HashSet<int>* GetWholeOrderMagicSet() { return this.whole_order_magic_number_set_; }
 // Create Order Functions
         bool CreateBuyOrder(double pip) { return this.CreateBuyOrder(pip, ""); }
         bool CreateBuyOrder(double pip, string comment);

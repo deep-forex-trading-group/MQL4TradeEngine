@@ -4,17 +4,29 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategies/DataStructure.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 
 int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnTickExecute() {
-    PrintFormat("AutoAdjustStrategy {%s} executed OnTickExecute", this.strategy_name_);
-    double cur_profit = this.auto_adjust_order_group_.GetCurrentProfit();
-    double max_floating_profit = this.auto_adjust_order_group_.GetMaxFloatingProfit();
-    double max_floating_loss = this.auto_adjust_order_group_.GetMaxFloatingLoss();
-    PrintFormat("cur_profit=%.4f, max_floating_profit==%.4f, max_floating_loss==%.4f",
-                cur_profit, max_floating_profit, max_floating_loss);
+    if (!this.params_.IsParamsValid()) {
+        return FAILED;
+    }
+    double lots = 0.05;
+    int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
+    OrderInMarket res[1];
+    bool is_sig_exist = this.ou_get_.GetOrder(this.params_.sig_order_magic_number, res);
+    if (is_sig_exist) {
+        lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
+                               MarketInfoUtils::GetDigits());
+    }
+    double pip_step_add = NormalizeDouble(
+                                this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
+    PrintFormat("lots: %.4f", lots);
+    PrintFormat("pip_step_add: %.4f", pip_step_add);
+    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(1, pip_step_add, lots);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {

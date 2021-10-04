@@ -3,10 +3,19 @@ class MarketInfoUtils {
         MarketInfoUtils() {};
         ~MarketInfoUtils() {};
     public:
+        static string GetSymbol() {
+            return Symbol();
+        }
+        static int GetEURPointFactor() {
+            return 10;
+        }
         static int GetDigits() {
             return (int) MarketInfo(Symbol(), MODE_DIGITS);
         };
         static double GetPoints() {
+            if (Symbol() == "EURUSD") {
+               return MarketInfoUtils::GetEURPointFactor() * MarketInfo(Symbol(), MODE_POINT);
+            }
             return MarketInfo(Symbol(), MODE_POINT);
         }
         static double GetLotsStep() {
@@ -23,6 +32,7 @@ class MarketInfoUtils {
         }
         static void PrintMarketInfo() {
             PrintFormat("----------------- Starts Print Market Info ----------------------");
+            PrintFormat("[MarketInfo] Symbol: %s", MarketInfoUtils::GetSymbol());
             PrintFormat("[MarketInfo] Digits: %s", DoubleToString(MarketInfoUtils::GetDigits()));
             PrintFormat("[MarketInfo] Point: %s", DoubleToString(MarketInfoUtils::GetPoints()));
             PrintFormat("[MarketInfo] LotsStep: %s", DoubleToString(MarketInfoUtils::GetLotsStep()));

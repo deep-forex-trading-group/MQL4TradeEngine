@@ -5,6 +5,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/SystemConfigUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategies/all.mqh>
 #include "AIRobotUI.mqh"
 #include "AIRobotUIImpl.mqh"
 
@@ -14,9 +15,13 @@ extern SYSTEM_MODE system_mode = PRODUCTION_MODE;
 
 AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
+AutoAdjustStrategy* at_strategy;
+//StrategyContext* st_ctx;
 
 int OnInit() {
     system_mode_config = new ConfigFile("system_mode_config.txt");
+    at_strategy = new AutoAdjustStrategy("at_strategy");
+//    st_ctx = new StrategyContext(at_strategy);
     if (!system_mode_config.CheckConfigFileValid()) {
         PrintFormat("System Config File is invalid, makes sure the path as %s" ,
                      "Config/system_mode_config.txt");
@@ -36,6 +41,7 @@ TESTING_CODE_END(system_mode)
 
 void OnTick() {
     ai_robot_ui.RefreshButtonsStates();
+    at_strategy.OnTickExecute();
 }
 
 void OnDeinit(const int reason) {
@@ -43,4 +49,6 @@ void OnDeinit(const int reason) {
     ShowDeinitReason(reason);
     delete &ai_robot_ui;
     delete system_mode_config;
+    delete at_strategy;
+//    delete st_ctx;
 }

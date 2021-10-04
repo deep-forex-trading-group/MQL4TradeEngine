@@ -50,7 +50,8 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction
             }
          }
 
-        if (NormalizeDouble(Bid, Digits) - highest_price >= step_pip*MarketInfoUtils::GetPoints()) {
+        if (highest_price != -1
+            && NormalizeDouble(Bid, Digits) - highest_price >= step_pip*MarketInfoUtils::GetPoints()) {
             return CreateSellOrder(magic_number,Lot,0,0) >= 0;
         }
     }
@@ -74,7 +75,8 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction
                 }
             }
          }
-         if (lowest_price - NormalizeDouble(Ask, Digits) >= step_pip * MarketInfoUtils::GetPoints()) {
+         if (lowest_price != -1
+             && lowest_price - NormalizeDouble(Ask, Digits) >= step_pip * MarketInfoUtils::GetPoints()) {
             return CreateBuyOrder(magic_number,Lot,0,0) >= 0;
          }
     }
@@ -106,7 +108,8 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
             }
          }
 
-        if (NormalizeDouble(Bid, Digits) - highest_price >= step_pip * MarketInfoUtils::GetPoints()) {
+        if (higest_ticket != -1
+            && NormalizeDouble(Bid, Digits) - highest_price >= step_pip * MarketInfoUtils::GetPoints()) {
             return CreateSellOrder(magic_number_add,Lot,0,0) >= 0;
         }
     }
@@ -130,7 +133,8 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
                 }
             }
          }
-         if (lowest_price - NormalizeDouble(Ask, Digits) >= step_pip*MarketInfoUtils::GetPoints()) {
+         if (lowest_ticket != -1
+             && lowest_price - NormalizeDouble(Ask, Digits) >= step_pip*MarketInfoUtils::GetPoints()) {
             return CreateBuyOrder(magic_number_add,Lot,0,0) >= 0;
          }
     }
