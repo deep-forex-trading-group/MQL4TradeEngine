@@ -5,7 +5,7 @@
 
 #include "AIRobotUI.mqh"
 
-void AIRobotUI::InitGraphItems() {
+void AIRobotUI::InitButtons() {
     this.button_x = 80;
     this.button_y = 25;
     this.button_inter_x = 75;

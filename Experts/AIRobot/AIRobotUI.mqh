@@ -15,6 +15,7 @@ class AIRobotUI {
         }
         ~AIRobotUI() {
             PrintFormat("Deinitialize the AIRobotUI. ");
+            delete comment_content_;
             delete &ui_utils;
             delete mt_manager;
             delete this.btn_open_sig_test;
@@ -34,14 +35,22 @@ class AIRobotUI {
         }
     private:
         void RefreshButtonsStates();
-        void InitGraphItems();
+        void InitGraphItems() {
+            this.comment_content_ = new CommentContent();
+            this.comment_content_.UpdateTitleToFieldDoubleTerm("title_testing_1", 0.0056);
+            this.comment_content_.UpdateTitleToFieldDoubleTerm("title_testing_2", 0.0056);
+            this.comment_content_.UpdateTitleToFieldDoubleTerm("title_testing_3", 0.0056);
+            this.InitButtons();
+        }
         void ChartComment() {
-            CommentContent::ShowCurrentAccountStates();
+            this.comment_content_.ShowCommentContent();
         }
         UIUtils ui_utils;
         ENUM_BASE_CORNER button_section_set_pos;
         ModuleTestManager* mt_manager;
     private:
+        CommentContent* comment_content_;
+        void InitButtons();
         int button_x;
         int button_y;
         int button_inter_x;
