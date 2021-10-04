@@ -9,3 +9,5 @@
 #define ARR_DEFAULT_SIZE                                           500
 #define BUY_ORDER_SEND                                               1
 #define SELL_ORDER_SEND                                             -1
+#define INTEGER_MAX_INT                                     2147483647
+#define INTEGER_MIN_INT                                    -2147483648
