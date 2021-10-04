@@ -14,8 +14,8 @@ class UIUtils {
 
         void CheckButtonState(string name, string pressed_txt, string unpressed_txt,
                       color pressed_clr, color unpressed_clr);
-        void Laber(string a,color b,int jl);
-        void FixLocationLabel(string name, string content,
+        static void Laber(string a,color b,int jl);
+        static void FixLocationLabel(string name, string content,
                               int XX, int YX,
                               color C, int font_size, int corner_of_charts);
         bool IsButtonPressed(string btn_name);
