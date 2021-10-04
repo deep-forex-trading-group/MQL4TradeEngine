@@ -10,7 +10,7 @@ class AIRobotUI {
     public:
         AIRobotUI() {
             this.button_section_set_pos = CORNER_RIGHT_LOWER;
-            this.mt_manager = new ModuleTestManager();
+//            this.mt_manager = new ModuleTestManager();
             this.InitGraphItems();
         }
         ~AIRobotUI() {

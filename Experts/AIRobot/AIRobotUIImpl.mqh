@@ -76,12 +76,12 @@ void AIRobotUI::RefreshButtonsStates() {
     }
 
     if (this.ea_test.IsButtonPressed()) {
-        mt_manager.StartTestOne();
+//        mt_manager.StartTestOne();
         this.ea_test.UnPressButton();
     }
 
     if (this.ea_test_sec.IsButtonPressed()) {
-        mt_manager.StartTestTwo();
+//        mt_manager.StartTestTwo();
         this.ea_test_sec.UnPressButton();
     }
 }
