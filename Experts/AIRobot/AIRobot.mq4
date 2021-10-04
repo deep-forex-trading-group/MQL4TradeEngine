@@ -41,7 +41,10 @@ TESTING_CODE_END(system_mode)
 
 void OnTick() {
     ai_robot_ui.RefreshUI();
-    at_strategy.OnTickExecute();
+    CommentContent* cur_comment_content = ai_robot_ui.GetCommentContent();
+    if (at_strategy.OnTickExecute(cur_comment_content) == FAILED) {
+        PrintFormat("Execute [at_strategy] Failed! ");
+    }
 }
 
 void OnDeinit(const int reason) {

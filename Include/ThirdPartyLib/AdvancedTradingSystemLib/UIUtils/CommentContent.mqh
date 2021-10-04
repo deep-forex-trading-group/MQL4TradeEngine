@@ -24,14 +24,24 @@ class CommentContent {
         }
         bool RemoveTitleToFieldDoubleTerm(string title) {
             if (this.title_to_field_double_.contains(title)) {
+                ObjectDelete(title);
                 this.title_to_field_double_.remove(title);
                 return true;
             } else {
                 return false;
             }
         }
-        void ClearTitleToFieldDoubleTerm(string title) {
+        int GetNumOfTitleToFieldDoubleTerm() {
+            return this.title_to_field_double_.size();
+        }
+        void ClearTitleToFieldDoubleTerm() {
+            foreachm(string, title, double, field, this.title_to_field_double_) {
+                ObjectDelete(title);
+            }
             this.title_to_field_double_.clear();
+        }
+        void ClearAllTitleToFieldTerms() {
+            this.ClearTitleToFieldDoubleTerm();
         }
         bool ShowCommentContent();
     private:
@@ -48,7 +58,7 @@ bool CommentContent::ShowCommentContent() {
     int i_item = 0;
     foreachm(string, title, double, field, this.title_to_field_double_) {
         string showing_item = StringFormat("%s : %.5f", title, field);
-        UIUtils::FixLocationLabel(showing_item, showing_item,
+        UIUtils::FixLocationLabel(title, showing_item,
                                   this.corner_left_distance,
                                   this.corner_top_distance + this.y_axis_interval*i_item,
                                   this.font_color, this.font_size, this.corner_base);

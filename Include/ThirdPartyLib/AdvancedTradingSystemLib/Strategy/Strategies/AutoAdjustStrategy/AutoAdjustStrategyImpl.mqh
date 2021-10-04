@@ -1,16 +1,11 @@
-#include "DataStructure.mqh"
-
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategy/DataStructure.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
 int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnTickExecute() {
+    PrintFormat("Please use the api for Comment Content.");
+    return FAILED;
+}
+int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     if (!this.params_.IsParamsValid()) {
         return FAILED;
     }
@@ -31,18 +26,23 @@ int AutoAdjustStrategy::OnTickExecute() {
     double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set, MODE_TRADES);
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
-    PrintFormat("total_lots: %.4f, target_profit_factor: %.4f", total_lots, this.params_.target_profit_factor);
+    if (comment_content.GetNumOfTitleToFieldDoubleTerm() != 0) {
+        comment_content.ClearAllTitleToFieldTerms();
+    }
+    comment_content.UpdateTitleToFieldDoubleTerm("total_lots", total_lots);
+    comment_content.UpdateTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
+
     double target_profit_money =
                     NormalizeDouble(total_lots * this.params_.target_profit_factor, 2);
 
-    PrintFormat("cur_total_profit: %.4f, target_profit_money: %.4f", cur_total_profit, target_profit_money);
+    comment_content.UpdateTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
+    comment_content.UpdateTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + 0.01 <= cur_total_profit) {
         OrderCloseUtils::CloseAllOrders(magic_set);
         this.auto_adjust_order_group_.UpdateMagicNumber();
         UIUtils::Laber("盈利平仓",Red,0);
     }
-    PrintFormat("lots: %.4f", lots);
-    PrintFormat("pip_step_add: %.4f", pip_step_add);
+    comment_content.UpdateTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     this.ou_send_.AddOneOrderByStepPipReverse(magic_set, group_magic_number, BUY_ORDER_SEND, pip_step_add, lots);
     return SUCCEEDED;
 }

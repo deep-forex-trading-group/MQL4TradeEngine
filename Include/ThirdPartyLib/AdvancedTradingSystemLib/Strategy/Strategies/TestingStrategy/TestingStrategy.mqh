@@ -13,6 +13,7 @@ class TestingStrategy : public Strategy {
     public:
         int ExecuteStrategy() const;
         int OnTickExecute();
+        int OnTickExecute(CommentContent* comment_content);
         int OnActionExecute();
         void SetTestingStrategyParams(TestingStrategyParams* params);
         void PrintStrategyInfo() const;
@@ -22,6 +23,10 @@ class TestingStrategy : public Strategy {
 
 int TestingStrategy::ExecuteStrategy() const {
     PrintFormat("Execute TestingStrategy {%s} successed!", this.strategy_name_);
+    return SUCCEEDED;
+}
+
+int TestingStrategy::OnTickExecute(CommentContent* comment_content) {
     return SUCCEEDED;
 }
 

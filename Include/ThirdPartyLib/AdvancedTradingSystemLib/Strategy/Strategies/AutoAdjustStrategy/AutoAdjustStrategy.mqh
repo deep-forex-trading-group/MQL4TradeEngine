@@ -1,9 +1,11 @@
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
-#include "../../StrategyBase/all.mqh"
 #include "DataStructure.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/AutoAdjustCenter/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
 
 class AutoAdjustStrategy : public Strategy {
     public:
@@ -48,6 +50,7 @@ class AutoAdjustStrategy : public Strategy {
 // Implements the abstract methods in base class Strategy
     public:
         int ExecuteStrategy() const;
+        int OnTickExecute(CommentContent* comment_content);
         int OnTickExecute();
         int OnActionExecute();
         int SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group);

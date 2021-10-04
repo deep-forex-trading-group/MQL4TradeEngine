@@ -33,6 +33,9 @@ class AIRobotUI {
             this.RefreshButtonsStates();
             this.ChartComment();
         }
+        CommentContent* GetCommentContent() {
+            return this.comment_content_;
+        }
     private:
         void RefreshButtonsStates();
         void InitGraphItems() {

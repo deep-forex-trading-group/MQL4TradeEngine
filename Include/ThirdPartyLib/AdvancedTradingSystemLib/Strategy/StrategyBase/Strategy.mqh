@@ -1,5 +1,6 @@
 #include "../StrategyBase/StrategyConstant.mqh"
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
 
 class Strategy {
     public:
@@ -8,6 +9,7 @@ class Strategy {
         };
 // OnTick is for every tick check to execute strategy
         virtual int OnTickExecute() = 0;
+        virtual int OnTickExecute(CommentContent* comment_content) = 0;
 // OnAction is for outer activated, such as using button to activate
         virtual int OnActionExecute() = 0;
         virtual void PrintStrategyInfo() const = 0;
