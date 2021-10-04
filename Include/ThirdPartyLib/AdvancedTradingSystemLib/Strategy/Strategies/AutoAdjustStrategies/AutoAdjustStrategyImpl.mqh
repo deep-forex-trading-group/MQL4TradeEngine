@@ -27,8 +27,8 @@ int AutoAdjustStrategy::OnTickExecute() {
 
     int group_magic_number = this.auto_adjust_order_group_.GetGroupMagicNumber();
     HashSet<int>* magic_set = this.auto_adjust_order_group_.GetWholeOrderMagicSet();
-    double cur_total_profit = AccountInfoUtils::GetCurrentTotalProfit(magic_set);
-    double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set);
+    double cur_total_profit = AccountInfoUtils::GetCurrentTotalProfit(magic_set, MODE_TRADES);
+    double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set, MODE_TRADES);
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
     PrintFormat("total_lots: %.4f, target_profit_factor: %.4f", total_lots, this.params_.target_profit_factor);

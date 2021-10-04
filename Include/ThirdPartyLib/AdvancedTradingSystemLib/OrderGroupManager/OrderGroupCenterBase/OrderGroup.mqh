@@ -22,8 +22,9 @@ class OrderGroup : public OrderGroupObserver {
         };
         virtual ~OrderGroup() {
             PrintFormat("Deinitialize order group [%d]", this.group_id_);
-            delete &order_array_utils;
-            delete whole_order_magic_number_set_;
+            SaveDeletePtr(&order_array_utils);
+            SaveDeletePtr(whole_order_magic_number_set_);
+            SaveDeletePtr(&ou_send_);
         };
 
 // Observer communications functionality
@@ -75,7 +76,7 @@ class OrderGroup : public OrderGroupObserver {
 // Utils Variables
     protected:
         OrderArrayUtils order_array_utils;
-        OrderSendUtils ou_send;
+        OrderSendUtils ou_send_;
         OrderCloseUtils ou_close;
         OrderGetUtils ou_get;
         OrderPrintUtils ou_print;

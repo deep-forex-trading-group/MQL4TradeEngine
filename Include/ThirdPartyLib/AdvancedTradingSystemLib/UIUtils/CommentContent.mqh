@@ -8,7 +8,7 @@ class CommentContent {
             this.corner_left_distance = 20;
             this.corner_top_distance = 20;
             this.y_axis_interval = 30;
-            this.font_color = Yellow;
+            this.font_color = Red;
             this.font_size = 12;
             this.corner_base = CORNER_LEFT_UPPER;
         };

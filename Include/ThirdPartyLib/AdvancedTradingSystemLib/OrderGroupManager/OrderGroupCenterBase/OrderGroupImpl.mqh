@@ -61,7 +61,7 @@ bool OrderGroup::CreateBuyOrder(double pip, string comment) {
                                         IntegerToString(this.group_id_),
                                         IntegerToString(this.group_magic_number_));
     StringAdd(comment, comm_for_group);
-    if (this.ou_send.CreateBuyOrder(this.group_magic_number_, pip, comment) == -1) {
+    if (this.ou_send_.CreateBuyOrder(this.group_magic_number_, pip, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm_for_group);
         return false;
     }
@@ -74,7 +74,7 @@ bool OrderGroup::CreateSellOrder(double pip, string comment) {
                                         IntegerToString(this.group_id_),
                                         IntegerToString(this.group_magic_number_));
     StringAdd(comment, comm_for_group);
-    if (this.ou_send.CreateSellOrder(this.group_magic_number_, pip, comment) == -1) {
+    if (this.ou_send_.CreateSellOrder(this.group_magic_number_, pip, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm_for_group);
         return false;
     }

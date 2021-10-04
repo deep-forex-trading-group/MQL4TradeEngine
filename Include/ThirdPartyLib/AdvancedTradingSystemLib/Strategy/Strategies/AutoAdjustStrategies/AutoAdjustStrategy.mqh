@@ -26,6 +26,7 @@ class AutoAdjustStrategy : public Strategy {
             SaveDeletePtr(this.auto_adjust_order_group_center_);
             SaveDeletePtr(this.params_);
             SaveDeletePtr(this.ou_get_);
+            SaveDeletePtr(this.ou_send_);
         };
     private:
         bool AutoAdjustStrategyCommonConstructor(string strategy_name) {
