@@ -4,3 +4,4 @@
 #include "OrderSendUtils.mqh"
 #include "OrderInMarket.mqh"
 #include "OrderArrayUtils.mqh"
+#include "DataStructure.mqh"

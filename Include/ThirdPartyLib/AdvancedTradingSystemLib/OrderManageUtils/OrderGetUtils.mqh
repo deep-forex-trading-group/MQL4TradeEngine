@@ -1,5 +1,7 @@
 #include "OrderManageUtils.mqh"
 #include "OrderInMarket.mqh"
+#include "DataStructure.mqh"
+
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
 
@@ -9,8 +11,9 @@ class OrderGetUtils : OrderManageUtils {
         ~OrderGetUtils() {}
     public:
         // 订单信息函数
-        bool GetOrder(int magic_number, OrderInMarket& res[]);
-        bool GetOrder(HashSet<int>* magic_number_set, OrderInMarket& res[]);
+        bool GetOrderInTrade(int magic_number, OrderInMarket& res[]);
+        bool GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarket& res[]);
+        static MinMaxMagicNumber GetAllOrdersWithoutSymbol();
         int GetNumOfAllOrders(int magic_number);
         int GetNumOfBuyOrders(int magic_number);
         int GetNumOfSellOrders(int magic_number);
@@ -40,7 +43,7 @@ class OrderGetUtils : OrderManageUtils {
         bool GetLowestSellOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
         bool GetLowestBuyOpenPriceOrder(HashSet<int>* group_magic_number_set, OrderInMarket& res[]);
 };
-bool OrderGetUtils::GetOrder(int magic_number, OrderInMarket& res[]) {
+bool OrderGetUtils::GetOrderInTrade(int magic_number, OrderInMarket& res[]) {
     ArrayResize(res, 1);
     int total_num = OrdersTotal();
     int res_total_num = 0;
@@ -55,7 +58,7 @@ bool OrderGetUtils::GetOrder(int magic_number, OrderInMarket& res[]) {
     }
     return false;
 }
-bool OrderGetUtils::GetOrder(HashSet<int>* magic_number_set, OrderInMarket& res[]) {
+bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarket& res[]) {
     int total_num = OrdersTotal();
     ArrayResize(res, total_num+1);
     int res_total_num = 0;
@@ -71,6 +74,26 @@ bool OrderGetUtils::GetOrder(HashSet<int>* magic_number_set, OrderInMarket& res[
     }
     ArrayResize(res, res_i);
     return true;
+}
+MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
+    MinMaxMagicNumber res = {false, -50000000, -50000000};
+    int total_num = OrdersTotal();
+    int res_i = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, (MODE_TRADES || MODE_HISTORY))) {
+            res.is_success = true;
+            int cur_magic_number = OrderMagicNumber();
+            if (res.max_magic_number == -50000000) {
+                res.max_magic_number = cur_magic_number;
+            } else {
+                res.max_magic_number = MathMax(cur_magic_number, res.max_magic_number);
+            }
+            if (res.min_magic_number == -50000000) {
+                res.min_magic_number = MathMin(cur_magic_number, res.min_magic_number);
+            }
+        }
+    }
+    return res;
 }
 // 订单信息函数
 int OrderGetUtils::GetNumOfAllOrders(int magic_number) {
