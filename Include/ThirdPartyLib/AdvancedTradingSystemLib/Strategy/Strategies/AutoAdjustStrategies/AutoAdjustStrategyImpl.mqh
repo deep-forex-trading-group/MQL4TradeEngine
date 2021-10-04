@@ -6,7 +6,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategies/DataStructure.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
-
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
 int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
 }
@@ -17,7 +17,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     double lots = 0.05;
     int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
     OrderInMarket res[1];
-    bool is_sig_exist = this.ou_get_.GetOrder(this.params_.sig_order_magic_number, res);
+    bool is_sig_exist = this.ou_get_.GetOrderInTrade(this.params_.sig_order_magic_number, res);
     if (is_sig_exist) {
         lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
                                MarketInfoUtils::GetDigits());
@@ -38,6 +38,8 @@ int AutoAdjustStrategy::OnTickExecute() {
     PrintFormat("cur_total_profit: %.4f, target_profit_money: %.4f", cur_total_profit, target_profit_money);
     if (target_profit_money + 0.01 <= cur_total_profit) {
         OrderCloseUtils::CloseAllOrders(magic_set);
+        this.auto_adjust_order_group_.UpdateMagicNumber();
+        UIUtils::Laber("盈利平仓",Red,0);
     }
     PrintFormat("lots: %.4f", lots);
     PrintFormat("pip_step_add: %.4f", pip_step_add);

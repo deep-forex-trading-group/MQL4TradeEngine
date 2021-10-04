@@ -37,7 +37,6 @@ int OrderGroup::GetOrdersByGroupId(OrderInMarket& orders_in_history_out[],
         return -1;
     }
     int total_num = OrdersTotal();
-    int group_magic_number = this.order_group_center_ptr_.GetMagicNumberByGroupId(this.group_id_);
 
     ArrayResize(orders_in_history_out, ORDER_GROUP_MAX_ORDERS);
     if (!OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(

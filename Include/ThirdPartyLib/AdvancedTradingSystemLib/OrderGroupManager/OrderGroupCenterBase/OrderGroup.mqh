@@ -35,6 +35,15 @@ class OrderGroup : public OrderGroupObserver {
     public:
         int GetGroupId() { return this.group_id_; };
         int GetGroupMagicNumber() { return this.group_magic_number_; }
+        int UpdateMagicNumber() {
+            int group_magic_number_new = this.order_group_center_ptr_.UpdateGroupMagicNumber(this.group_id_);
+            if (this.whole_order_magic_number_set_.contains(this.group_magic_number_)) {
+                this.whole_order_magic_number_set_.remove(this.group_magic_number_);
+            }
+            this.whole_order_magic_number_set_.add(group_magic_number_new);
+            this.group_magic_number_ = group_magic_number_new;
+            return this.group_magic_number_;
+        }
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
         int RefreshOrderInfo();
 // Get Order Functions

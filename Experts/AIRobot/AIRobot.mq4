@@ -40,7 +40,7 @@ TESTING_CODE_END(system_mode)
 }
 
 void OnTick() {
-    ai_robot_ui.RefreshButtonsStates();
+    ai_robot_ui.RefreshUI();
     at_strategy.OnTickExecute();
 }
 

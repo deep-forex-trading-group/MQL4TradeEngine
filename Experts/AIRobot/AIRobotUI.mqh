@@ -28,9 +28,16 @@ class AIRobotUI {
             delete this.ea_test_sec;
         }
     public:
-        void RefreshButtonsStates();
+        void RefreshUI() {
+            this.RefreshButtonsStates();
+            this.ChartComment();
+        }
     private:
+        void RefreshButtonsStates();
         void InitGraphItems();
+        void ChartComment() {
+            CommentContent::ShowCurrentAccountStates();
+        }
         UIUtils ui_utils;
         ENUM_BASE_CORNER button_section_set_pos;
         ModuleTestManager* mt_manager;
