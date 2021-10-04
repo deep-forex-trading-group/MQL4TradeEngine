@@ -1,5 +1,7 @@
 #include "OrderManageUtils.mqh"
 #include "OrderInMarket.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
+#include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
 
 class OrderCloseUtils : public OrderManageUtils {
     public:
@@ -8,13 +10,14 @@ class OrderCloseUtils : public OrderManageUtils {
     public:
         // 平仓函数
         bool CloseAllOrders(int magic_number);
+        static bool CloseAllOrders(HashSet<int>* magic_number);
         bool CloseAllBuyOrders();
         bool CloseAllBuyOrders(int magic_number);
         bool CloseAllBuyProfitOrders(int magic_number, double profit);
         bool CloseAllSellOrders();
         bool CloseAllSellOrders(int magic_number);
         bool CloseAllSellProfitOrders(int magic_number, double profit);
-        bool CloseOrderByOrderTicket(int order_ticket, int dir);
+        static bool CloseOrderByOrderTicket(int order_ticket, int dir);
         bool CloseSingleOrderByProfit(double profit);
         bool CloseSingleOrderByLoss(double loss);
 };
@@ -39,6 +42,19 @@ bool OrderCloseUtils::CloseAllOrders(int magic_number) {
         }
      }
   return is_success;
+}
+bool OrderCloseUtils::CloseAllOrders(HashSet<int>* magic_number_set) {
+    int total_orders_num = OrdersTotal();
+    bool is_success = false;
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && magic_number_set.contains(OrderMagicNumber())) {
+              RefreshRates();
+              CloseOrderByOrderTicket(OrderTicket(), 0);
+        }
+    }
+    return is_success;
 }
 bool OrderCloseUtils::CloseAllBuyOrders() {
   int total_orders_num = OrdersTotal();
@@ -119,7 +135,7 @@ bool OrderCloseUtils::CloseAllSellProfitOrders(int magic_number, double profit) 
     return is_success;
 }
 bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
-    UpdatesSpread();
+    double spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
     bool is_success = false;
     int cnt = 100;
     while (!is_success && cnt >= 0) {
@@ -135,7 +151,7 @@ bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
     while (!is_success && cnt >= 0) {
         // (dir == 0 ? NormalizeDouble(Bid, Digits):NormalizeDouble(Ask, Digits))
         is_success = OrderClose(order_ticket,OrderLots(),OrderClosePrice(),
-                                int(2*this.Spread),clrFireBrick);
+                                int(2*spread),clrFireBrick);
         //Print("CloseOrderByOrderTicket Close Order ", order_ticket, " error, Repeat Operations!");
         cnt--;
     }

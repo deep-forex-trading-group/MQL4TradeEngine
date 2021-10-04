@@ -81,14 +81,6 @@ bool OrderGroup::CreateSellOrder(double pip, string comment) {
     }
     return true;
 }
-bool OrderGroup::AddOneOrderByStepPipReverse(int direction, double step_pip, double lots) {
-    if (!this.ou_send.AddOneOrderByStepPipReverse(this.whole_order_magic_number_set_,
-                                           this.group_magic_number_,
-                                           direction, step_pip, lots)) {
-        return false;
-    }
-    return true;
-}
 double OrderGroup::GetCurrentProfit() {
     this.RefreshOrderInfo();
     this.cur_profit_ = 0;

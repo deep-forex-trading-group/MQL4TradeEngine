@@ -34,6 +34,7 @@ class OrderGroup : public OrderGroupObserver {
 // Public Apis for users to call
     public:
         int GetGroupId() { return this.group_id_; };
+        int GetGroupMagicNumber() { return this.group_magic_number_; }
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
         int RefreshOrderInfo();
 // Get Order Functions
@@ -47,8 +48,6 @@ class OrderGroup : public OrderGroupObserver {
         bool CreateBuyOrder(double pip, string comment);
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
-// Adds Order
-        bool AddOneOrderByStepPipReverse(int direction, double step_pip, double lots);
 // Close Order Functions
         bool CloseAllOrders() { return this.ou_close.CloseAllOrders(this.group_magic_number_); }
 // Gets the information about some important information about OrderGroup

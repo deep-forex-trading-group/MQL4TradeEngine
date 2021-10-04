@@ -39,6 +39,7 @@ class AutoAdjustStrategy : public Strategy {
             this.params_.PrintAllParams();
             this.auto_adjust_order_group_.AddsExtraOrderMagicNumber(this.params_.sig_order_magic_number);
             this.ou_get_ = new OrderGetUtils();
+            this.ou_send_ = new OrderSendUtils();
             PrintFormat("Initialize AutoAdjustStrategy [%s].", this.strategy_name_);
             return true;
         }
@@ -58,4 +59,5 @@ class AutoAdjustStrategy : public Strategy {
         AutoAdjustOrderGroupCenter* auto_adjust_order_group_center_;
         AutoAdjustStrategyParams* params_;
         OrderGetUtils* ou_get_;
+        OrderSendUtils* ou_send_;
 };

@@ -7,3 +7,5 @@
 #define SUCCEEDED                                                    0
 #define FAILED                                                      -1
 #define ARR_DEFAULT_SIZE                                           500
+#define BUY_ORDER_SEND                                               1
+#define SELL_ORDER_SEND                                             -1

@@ -24,9 +24,24 @@ int AutoAdjustStrategy::OnTickExecute() {
     }
     double pip_step_add = NormalizeDouble(
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
+
+    int group_magic_number = this.auto_adjust_order_group_.GetGroupMagicNumber();
+    HashSet<int>* magic_set = this.auto_adjust_order_group_.GetWholeOrderMagicSet();
+    double cur_total_profit = AccountInfoUtils::GetCurrentTotalProfit(magic_set);
+    double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set);
+//    double target_profit_money =
+//                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
+    PrintFormat("total_lots: %.4f, target_profit_factor: %.4f", total_lots, this.params_.target_profit_factor);
+    double target_profit_money =
+                    NormalizeDouble(total_lots * this.params_.target_profit_factor, 2);
+
+    PrintFormat("cur_total_profit: %.4f, target_profit_money: %.4f", cur_total_profit, target_profit_money);
+    if (target_profit_money + 0.01 <= cur_total_profit) {
+        OrderCloseUtils::CloseAllOrders(magic_set);
+    }
     PrintFormat("lots: %.4f", lots);
     PrintFormat("pip_step_add: %.4f", pip_step_add);
-    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(1, pip_step_add, lots);
+    this.ou_send_.AddOneOrderByStepPipReverse(magic_set, group_magic_number, BUY_ORDER_SEND, pip_step_add, lots);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {

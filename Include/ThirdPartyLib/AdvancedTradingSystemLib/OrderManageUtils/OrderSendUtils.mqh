@@ -33,7 +33,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction
                                                  double step_pip, double Lot) {
     OrderInMarket order_in_market[1000];
 
-    if (direction == -1) {
+    if (direction == SELL_ORDER_SEND) {
          int total_orders_num = OrdersTotal();
 
          double highest_price = -1;
@@ -56,7 +56,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction
         }
     }
 
-    if (direction == 1) {
+    if (direction == BUY_ORDER_SEND) {
          int dir_1_total_orders_num = OrdersTotal();
          double lowest_price = -1;
          int lowest_ticket = -1;
@@ -91,7 +91,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
         return false;
     }
 
-    if (direction == -1) {
+    if (direction == SELL_ORDER_SEND) {
          int total_orders_num = OrdersTotal();
 
          double highest_price = -1;
@@ -114,7 +114,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
         }
     }
 
-    if (direction == 1) {
+    if (direction == BUY_ORDER_SEND) {
          int dir_1_total_orders_num = OrdersTotal();
          double lowest_price = -1;
          int lowest_ticket = -1;

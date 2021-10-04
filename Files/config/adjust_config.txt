@@ -1,9 +1,10 @@
 [Adjust]
 pip_start_lots:0.01
-pip_step:3
+pip_step:5
 pip_factor:1.1
-lots_exponent:1.2
+lots_exponent:1.5
 pip_step_exponent:1.1
+target_profit_factor:20
 
 
 [SignalOrder]
