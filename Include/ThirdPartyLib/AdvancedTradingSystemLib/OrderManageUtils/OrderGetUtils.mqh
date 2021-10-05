@@ -143,8 +143,8 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(int magic_number) {
     int total_num = OrdersTotal();
     int res_total_num = 0;
     for (int i = total_num - 1; i >= 0; i--) {
-    if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
-        && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+            && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
             res_total_num++;
         }
     }
@@ -162,38 +162,38 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(HashSet<int>* magic_number_set) {
     return res_total_num;
 }
 int OrderGetUtils::GetNumOfBuyOrders(int magic_number) {
-  int total_num = OrdersTotal();
-  int total_buy = 0;
-  for (int i = total_num - 1; i >= 0; i--) {
-     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-        && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
-        total_buy++;
-     }
-  }
-  return total_buy;
+    int total_num = OrdersTotal();
+    int total_buy = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+            total_buy++;
+        }
+    }
+    return total_buy;
 }
 int OrderGetUtils::GetNumOfSellOrders(int magic_number) {
-  int total_num = OrdersTotal();
-  int total_sell = 0;
-  for (int i = total_num - 1; i >= 0; i--) {
-     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
-        total_sell++;
-     }
-  }
-  return total_sell;
+    int total_num = OrdersTotal();
+    int total_sell = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
+            total_sell++;
+        }
+    }
+    return total_sell;
 }
 int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
-  int total_num = OrdersTotal();
-  int total_loss_num = 0;
-  for (int i = total_num - 1; i >= 0; i--) {
-     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && (OrderProfit() + OrderCommission() + OrderSwap()) <= 0
-         && OrderMagicNumber() == magic_number) {
-        total_loss_num++;
-     }
-  }
-  return total_loss_num;
+    int total_num = OrdersTotal();
+    int total_loss_num = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && (OrderProfit() + OrderCommission() + OrderSwap()) <= 0
+            && OrderMagicNumber() == magic_number) {
+            total_loss_num++;
+        }
+    }
+    return total_loss_num;
 }
 bool OrderGetUtils::CheckOrder(string comm, long magic_number) {
     int total_num = OrdersTotal();
