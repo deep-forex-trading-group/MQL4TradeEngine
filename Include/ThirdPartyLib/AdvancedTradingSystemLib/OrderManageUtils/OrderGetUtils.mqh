@@ -14,6 +14,7 @@ class OrderGetUtils : OrderManageUtils {
         bool GetOrderInTrade(int magic_number, OrderInMarket& res[]);
         bool GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarket& res[]);
         static MinMaxMagicNumber GetAllOrdersWithoutSymbol();
+        static bool GetAllOrders(OrderInMarket& res[]);
         int GetNumOfAllOrders(int magic_number);
         int GetNumOfBuyOrders(int magic_number);
         int GetNumOfSellOrders(int magic_number);
@@ -78,10 +79,28 @@ bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarke
 MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
     MinMaxMagicNumber res = {false, -50000000, -50000000};
     int total_num = OrdersTotal();
+    int total_history_num = OrdersHistoryTotal();
+    if (total_num + total_history_num == 0) {
+        res.is_success = false;
+        return res;
+    }
     int res_i = 0;
     for (int i = total_num - 1; i >= 0; i--) {
-        if (OrderSelect(i, SELECT_BY_POS, (MODE_TRADES || MODE_HISTORY))) {
-            res.is_success = true;
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+            int cur_magic_number = OrderMagicNumber();
+            if (res.max_magic_number == -50000000) {
+                res.max_magic_number = cur_magic_number;
+            } else {
+                res.max_magic_number = MathMax(cur_magic_number, res.max_magic_number);
+            }
+            if (res.min_magic_number == -50000000) {
+                res.min_magic_number = MathMin(cur_magic_number, res.min_magic_number);
+            }
+        }
+    }
+
+    for (int i = total_history_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)) {
             int cur_magic_number = OrderMagicNumber();
             if (res.max_magic_number == -50000000) {
                 res.max_magic_number = cur_magic_number;
@@ -96,6 +115,29 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
     return res;
 }
 // 订单信息函数
+bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
+    int res_i = 0;
+    int total_num = OrdersTotal();
+    int total_history_num = OrdersHistoryTotal();
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+            OrderInMarket oi();
+            oi.GetOrderFromMarket(i);
+            res[res_i] = oi;
+            res_i++;
+        }
+    }
+    for (int i = total_history_num; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)) {
+            OrderInMarket oi();
+            oi.GetOrderFromMarket(i);
+            res[res_i] = oi;
+            res_i++;
+        }
+    }
+    ArrayResize(res, res_i);
+    return true;
+}
 int OrderGetUtils::GetNumOfAllOrders(int magic_number) {
  int total_num = OrdersTotal();
  int res_total_num = 0;
@@ -171,8 +213,8 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_mag
         return false;
     }
     int res_i = 0;
-    int total_num = OrdersTotal();
-    for (int i = total_num - 1; i >= 0; i--) {
+    int total_history_num = OrdersHistoryTotal();
+    for (int i = total_history_num - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
             && group_magic_number_set.contains(OrderMagicNumber())) {
 
@@ -213,8 +255,8 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumber(int group_magic_number, Or
     // Gets the order in history pool
     ClearAndMakeSureArraySize(res);
     int res_i = 0;
-    int total_num = OrdersTotal();
-    for (int i = total_num - 1; i >= 0; i--) {
+    int total_history_num = OrdersHistoryTotal();
+    for (int i = total_history_num - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
             && OrderMagicNumber() == group_magic_number) {
 
