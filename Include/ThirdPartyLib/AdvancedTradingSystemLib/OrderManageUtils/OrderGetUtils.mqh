@@ -139,15 +139,15 @@ bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
     return true;
 }
 int OrderGetUtils::GetNumOfAllOrdersInTrades(int magic_number) {
- int total_num = OrdersTotal();
- int res_total_num = 0;
- for (int i = total_num - 1; i >= 0; i--) {
-    if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) 
-         && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
-       res_total_num++;
+    int total_num = OrdersTotal();
+    int res_total_num = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+    if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+        && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+            res_total_num++;
+        }
     }
- }
- return res_total_num;
+    return res_total_num;
 }
 int OrderGetUtils::GetNumOfBuyOrders(int magic_number) {
   int total_num = OrdersTotal();
