@@ -8,6 +8,7 @@
 
 class OrderGroup : public OrderGroupObserver {
     public:
+    // TODO: to separate the signal_order and auto_order with different MAGIC_NUMBER
         OrderGroup(OrderGroupCenter *order_group_center_ptr) {
             this.order_group_center_ptr_ = order_group_center_ptr;
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
@@ -37,16 +38,14 @@ class OrderGroup : public OrderGroupObserver {
     public:
         int GetGroupId() { return this.group_id_; };
         int GetGroupMagicNumber() { return this.group_magic_number_; }
-        int UpdateMagicNumber() {
-            int group_magic_number_new = this.order_group_center_ptr_.UpdateGroupMagicNumber(this.group_id_);
-            if (this.whole_order_magic_number_set_.contains(this.group_magic_number_)) {
-                this.whole_order_magic_number_set_.remove(this.group_magic_number_);
-            }
-            this.whole_order_magic_number_set_.add(group_magic_number_new);
-            this.group_magic_number_ = group_magic_number_new;
-            return this.group_magic_number_;
-        }
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
+// Order State Refreshing Functions (IMPORTANT MAINTAIN FUNCTIONS)
+        void RefreshOrderGroupState() {
+            // if the automatic group orders are all closed, update the magic number for the group
+            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_magic_number_) == 0) {
+                this.UpdateMagicNumber();
+            }
+        }
         int RefreshOrderInfo();
 // Get Order Functions
         int GetOrdersByGroupId(int group_id);
@@ -112,6 +111,15 @@ class OrderGroup : public OrderGroupObserver {
         HashSet<int>* whole_order_magic_number_set_;
 // Utils Functions
     protected:
+        int UpdateMagicNumber() {
+            int group_magic_number_new = this.order_group_center_ptr_.UpdateGroupMagicNumber(this.group_id_);
+            if (this.whole_order_magic_number_set_.contains(this.group_magic_number_)) {
+                this.whole_order_magic_number_set_.remove(this.group_magic_number_);
+            }
+            this.whole_order_magic_number_set_.add(group_magic_number_new);
+            this.group_magic_number_ = group_magic_number_new;
+            return this.group_magic_number_;
+        }
         string GetGroupComment() {
             string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
                                         this.order_group_center_ptr_.GetName(),

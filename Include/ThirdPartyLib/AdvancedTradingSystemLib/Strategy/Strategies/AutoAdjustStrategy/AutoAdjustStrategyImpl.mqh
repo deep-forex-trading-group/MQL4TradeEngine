@@ -45,7 +45,9 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     comment_content.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + 0.01 <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders();
-        this.auto_adjust_order_group_.UpdateMagicNumber();
+        // Close all orders and the state of the group changes
+        // So we just refresh the state, to update the magic number for the group
+        this.auto_adjust_order_group_.RefreshOrderGroupState();
         UIUtils::Laber("盈利平仓",Red,0);
     }
     comment_content.SetTitleToFieldDoubleTerm(

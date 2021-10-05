@@ -44,6 +44,9 @@ void OnTick() {
     if (at_strategy.OnTickExecute(cur_comment_content) == FAILED) {
         PrintFormat("Execute [at_strategy] Failed! ");
     }
+//    OrderPrintUtils::PrintAllOrders();
+//    PrintFormat(MODE_HISTORY);
+//    PrintFormat(MODE_TRADES);
     // 最后更新UI, 因为有时间差
     ai_robot_ui.RefreshUI();
 }

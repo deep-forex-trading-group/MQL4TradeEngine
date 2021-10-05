@@ -15,7 +15,7 @@ class OrderGetUtils : OrderManageUtils {
         bool GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarket& res[]);
         static MinMaxMagicNumber GetAllOrdersWithoutSymbol();
         static bool GetAllOrders(OrderInMarket& res[]);
-        int GetNumOfAllOrders(int magic_number);
+        static int GetNumOfAllOrdersInTrades(int magic_number);
         int GetNumOfBuyOrders(int magic_number);
         int GetNumOfSellOrders(int magic_number);
         int GetNumOfLossOrders(int magic_number);
@@ -138,7 +138,7 @@ bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
     ArrayResize(res, res_i);
     return true;
 }
-int OrderGetUtils::GetNumOfAllOrders(int magic_number) {
+int OrderGetUtils::GetNumOfAllOrdersInTrades(int magic_number) {
  int total_num = OrdersTotal();
  int res_total_num = 0;
  for (int i = total_num - 1; i >= 0; i--) {
