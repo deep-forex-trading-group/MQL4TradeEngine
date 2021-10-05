@@ -38,22 +38,22 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     if (comment_content.GetNumOfTitleToFieldDoubleTerm() != 0) {
         comment_content.ClearAllTitleToFieldTerms();
     }
-    comment_content.UpdateTitleToFieldDoubleTerm("total_lots", total_lots);
-    comment_content.UpdateTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
+    comment_content.SetTitleToFieldDoubleTerm("total_lots", total_lots);
+    comment_content.SetTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
 
     double target_profit_money =
                     NormalizeDouble(total_lots * this.params_.target_profit_factor, 2);
 
-    comment_content.UpdateTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
-    comment_content.UpdateTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
+    comment_content.SetTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
+    comment_content.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + 0.01 <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders();
         this.auto_adjust_order_group_.UpdateMagicNumber();
         UIUtils::Laber("盈利平仓",Red,0);
     }
-    comment_content.UpdateTitleToFieldDoubleTerm(
+    comment_content.SetTitleToFieldDoubleTerm(
                                 "cur_group_magic_number", this.auto_adjust_order_group_.GetGroupMagicNumber());
-    comment_content.UpdateTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
+    comment_content.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     if (is_sig_exist) {
         if (!this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots)) {
             PrintFormat("AddOneOrderByStepPipReverse Buy Order failed.");

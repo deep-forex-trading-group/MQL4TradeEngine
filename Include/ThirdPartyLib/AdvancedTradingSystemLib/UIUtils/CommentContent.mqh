@@ -16,7 +16,7 @@ class CommentContent {
             SaveDeletePtr(&title_to_field_double_);
         };
     public:
-        void UpdateTitleToFieldDoubleTerm(string title, double field) {
+        void SetTitleToFieldDoubleTerm(string title, double field) {
             if (this.title_to_field_double_.contains(title)) {
                 this.title_to_field_double_.set(title, field);
             }

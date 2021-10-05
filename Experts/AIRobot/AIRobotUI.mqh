@@ -40,9 +40,9 @@ class AIRobotUI {
         void RefreshButtonsStates();
         void InitGraphItems() {
             this.comment_content_ = new CommentContent();
-            this.comment_content_.UpdateTitleToFieldDoubleTerm("title_testing_1", 0.0056);
-            this.comment_content_.UpdateTitleToFieldDoubleTerm("title_testing_2", 0.0056);
-            this.comment_content_.UpdateTitleToFieldDoubleTerm("title_testing_3", 0.0056);
+            this.comment_content_.SetTitleToFieldDoubleTerm("title_testing_1", 0.0056);
+            this.comment_content_.SetTitleToFieldDoubleTerm("title_testing_2", 0.0056);
+            this.comment_content_.SetTitleToFieldDoubleTerm("title_testing_3", 0.0056);
             this.InitButtons();
         }
         void ChartComment() {
