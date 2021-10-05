@@ -27,8 +27,9 @@ void UIUtils::Button(string name,string txt1,string txt2,
                             int corner_left_dis,int corner_right_dis,
                             int XL,int YL,
                             int WZ,color A,color B) {
-    if(ObjectFind(0,name)==-1)
+    if(ObjectFind(0,name)==-1) {
         ObjectCreate(0,name,OBJ_BUTTON,0,0,0);
+    }
 
     ObjectSetInteger(0,name,OBJPROP_XDISTANCE,corner_left_dis);
     ObjectSetInteger(0,name,OBJPROP_YDISTANCE,corner_right_dis);
