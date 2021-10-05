@@ -4,6 +4,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
 
 class OrderGroupCenter : public OrderGroupSubject {
     public:
@@ -58,8 +59,12 @@ class OrderGroupCenter : public OrderGroupSubject {
         int GetOrderCenterMagicNumberBase() {
             MinMaxMagicNumber res = OrderGetUtils::GetAllOrdersWithoutSymbol();
             if (res.is_success) {
+                PrintFormat("Set magic_base [%d] using history orders.",
+                             ORDER_GROUP_CENTER_MAGIC_BASE);
                 return res.max_magic_number + 1;
             } else {
+                PrintFormat("There are no history order with current symbol [%s], set magic_base: %d",
+                             MarketInfoUtils::GetSymbol(), ORDER_GROUP_CENTER_MAGIC_BASE);
                 return ORDER_GROUP_CENTER_MAGIC_BASE;
             }
         }
