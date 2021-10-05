@@ -11,15 +11,13 @@ class CommentContent {
             this.font_color = Red;
             this.font_size = 12;
             this.corner_base = CORNER_LEFT_UPPER;
+            this.is_show = false;
         };
         ~CommentContent() {
             SaveDeletePtr(&title_to_field_double_);
         };
     public:
         void SetTitleToFieldDoubleTerm(string title, double field) {
-            if (this.title_to_field_double_.contains(title)) {
-                this.title_to_field_double_.set(title, field);
-            }
             this.title_to_field_double_.set(title, field);
         }
         bool RemoveTitleToFieldDoubleTerm(string title) {
@@ -34,17 +32,18 @@ class CommentContent {
         int GetNumOfTitleToFieldDoubleTerm() {
             return this.title_to_field_double_.size();
         }
-        void ClearTitleToFieldDoubleTerm() {
-            foreachm(string, title, double, field, this.title_to_field_double_) {
-                ObjectDelete(title);
+       void ClearAllTitleToFieldTerms() {
+            if (this.GetNumOfTitleToFieldDoubleTerm() != 0) {
+                foreachm(string, title, double, field, this.title_to_field_double_) {
+                    ObjectDelete(title);
+                }
+                this.title_to_field_double_.clear();
             }
-            this.title_to_field_double_.clear();
-        }
-        void ClearAllTitleToFieldTerms() {
-            this.ClearTitleToFieldDoubleTerm();
         }
         bool ShowCommentContent();
+        void HideCommentContent();
     private:
+        bool is_show;
         HashMap<string,double> title_to_field_double_;
         int corner_left_distance;
         int corner_top_distance;
@@ -65,4 +64,11 @@ bool CommentContent::ShowCommentContent() {
         i_item++;
     }
     return true;
+}
+
+void CommentContent::HideCommentContent() {
+    foreachm(string, title, double, field, this.title_to_field_double_) {
+        PrintFormat("delete obj :%s", title);
+        ObjectDelete(title);
+    }
 }

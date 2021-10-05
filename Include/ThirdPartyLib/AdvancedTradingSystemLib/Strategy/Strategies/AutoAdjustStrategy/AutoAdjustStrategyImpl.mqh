@@ -26,6 +26,9 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
                                MarketInfoUtils::GetDigits());
     }
+//    } else {
+//        return SUCCEEDED;
+//    }
     double pip_step_add = NormalizeDouble(
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
 
@@ -54,11 +57,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     comment_content.SetTitleToFieldDoubleTerm(
                                 "cur_group_magic_number", this.auto_adjust_order_group_.GetGroupMagicNumber());
     comment_content.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
-    if (is_sig_exist) {
-        if (!this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots)) {
-            PrintFormat("AddOneOrderByStepPipReverse Buy Order failed.");
-        }
-    }
+    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {

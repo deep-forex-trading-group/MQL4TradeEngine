@@ -51,8 +51,11 @@ void AIRobotUI::RefreshButtonsStates() {
         this.btn_open_sig_test.UnPressButton();
     }
 
-    if(this.btn_close_buy.IsButtonPressed()) {
-        this.btn_close_buy.UnPressButton();
+    if (this.btn_close_buy.IsButtonPressed()) {
+        this.comment_content_.HideCommentContent();
+//        this.btn_close_buy.UnPressButton();
+    } else {
+        this.comment_content_.ShowCommentContent();
     }
 
     if(this.btn_close_sell.IsButtonPressed()) {

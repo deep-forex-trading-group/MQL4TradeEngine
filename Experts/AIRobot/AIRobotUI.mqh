@@ -31,7 +31,7 @@ class AIRobotUI {
     public:
         void RefreshUI() {
             this.RefreshButtonsStates();
-            this.ChartComment();
+//            this.comment_content_.ShowCommentContent();
         }
         CommentContent* GetCommentContent() {
             return this.comment_content_;
@@ -44,9 +44,7 @@ class AIRobotUI {
             this.comment_content_.SetTitleToFieldDoubleTerm("title_testing_2", 0.0056);
             this.comment_content_.SetTitleToFieldDoubleTerm("title_testing_3", 0.0056);
             this.InitButtons();
-        }
-        void ChartComment() {
-            this.comment_content_.ShowCommentContent();
+            this.RefreshUI();
         }
         UIUtils ui_utils;
         ENUM_BASE_CORNER button_section_set_pos;
