@@ -38,10 +38,12 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     comment_content.UpdateTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
     comment_content.UpdateTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + 0.01 <= cur_total_profit) {
-        OrderCloseUtils::CloseAllOrders(magic_set);
+        this.auto_adjust_order_group_.CloseAllOrders();
         this.auto_adjust_order_group_.UpdateMagicNumber();
         UIUtils::Laber("盈利平仓",Red,0);
     }
+    comment_content.UpdateTitleToFieldDoubleTerm(
+                                "cur_group_magic_number", this.auto_adjust_order_group_.GetGroupMagicNumber());
     comment_content.UpdateTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     this.ou_send_.AddOneOrderByStepPipReverse(magic_set, group_magic_number, BUY_ORDER_SEND, pip_step_add, lots);
     return SUCCEEDED;

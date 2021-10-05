@@ -59,7 +59,16 @@ class OrderGroup : public OrderGroupObserver {
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
 // Close Order Functions
-        bool CloseAllOrders() { return this.ou_close.CloseAllOrders(this.group_magic_number_); }
+        bool CloseAllOrders() {
+            if (this.whole_order_magic_number_set_.size() == 0) {
+                return false;
+            } else {
+                for(Iter<int> it(this.whole_order_magic_number_set_); !it.end(); it.next()) {
+                    this.ou_close.CloseAllOrders(it.current());
+                }
+            }
+            return true;
+        }
 // Gets the information about some important information about OrderGroup
         double GetCurrentProfit();
         double GetMaxFloatingProfit();
