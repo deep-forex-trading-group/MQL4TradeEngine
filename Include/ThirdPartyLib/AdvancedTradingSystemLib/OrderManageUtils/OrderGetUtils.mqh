@@ -16,6 +16,7 @@ class OrderGetUtils : OrderManageUtils {
         static MinMaxMagicNumber GetAllOrdersWithoutSymbol();
         static bool GetAllOrders(OrderInMarket& res[]);
         static int GetNumOfAllOrdersInTrades(int magic_number);
+        static int GetNumOfAllOrdersInTrades(HashSet<int>* magic_number_set);
         static int GetNumOfBuyOrders(int magic_number);
         static int GetNumOfSellOrders(int magic_number);
         static int GetNumOfLossOrders(int magic_number);
@@ -145,6 +146,17 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(int magic_number) {
     if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
         && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
             res_total_num++;
+        }
+    }
+    return res_total_num;
+}
+int OrderGetUtils::GetNumOfAllOrdersInTrades(HashSet<int>* magic_number_set) {
+    int total_num = OrdersTotal();
+    int res_total_num = 0;
+    for (int i = total_num - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+            && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+                res_total_num++;
         }
     }
     return res_total_num;
