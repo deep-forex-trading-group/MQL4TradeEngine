@@ -10,24 +10,24 @@ class OrderSendUtils : public OrderManageUtils {
         ~OrderSendUtils() {}
     public:
         // 下单函数
-        bool AddOneOrderByStepPipReverse(int magic_number, int magic_number_new_order,
+        static bool AddOneOrderByStepPipReverse(int magic_number, int magic_number_new_order,
                                          int direction, double step_pip,
                                          double Lot, string comm);
-        bool AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set, int magic_number_new_order,
+        static bool AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set, int magic_number_new_order,
                                          int direction, double step_pip, double Lot, string comm);
-        int CreateBuyOrder(int magic_number, double Lots, int TP, int SL);
-        int CreateBuyOrder(int magic_number, double Lots);
-        int CreateBuyOrder(int magic_number, double Lots, string comment);
-        int CreateBuyOrder(int magic_number, double Lots, int TP, int SL, string comment);
-        int CreateSellOrder(int magic_number, double Lots, int TP, int SL);
-        int CreateSellOrder(int magic_number, double Lots);
-        int CreateSellOrder(int magic_number, double Lots, string comment);
-        int CreateSellOrder(int magic_number, double Lots, int TP, int SL, string comment);
-        int SendMarketOrder(int Type, double Lots, int TP, int SL,
+        static int CreateBuyOrder(int magic_number, double Lots, int TP, int SL);
+        static int CreateBuyOrder(int magic_number, double Lots);
+        static int CreateBuyOrder(int magic_number, double Lots, string comment);
+        static int CreateBuyOrder(int magic_number, double Lots, int TP, int SL, string comment);
+        static int CreateSellOrder(int magic_number, double Lots, int TP, int SL);
+        static int CreateSellOrder(int magic_number, double Lots);
+        static int CreateSellOrder(int magic_number, double Lots, string comment);
+        static int CreateSellOrder(int magic_number, double Lots, int TP, int SL, string comment);
+        static int SendMarketOrder(int Type, double Lots, int TP, int SL,
                             int Magic, string Cmnt, double OpenPrice = 0, string mSymbol = "");
     private:
         // ---------------------------- 逻辑辅助函数区域 ----------------------------
-        double OrderSendUtils::IIFd(bool condition, double ifTrue, double ifFalse);
+        static double IIFd(bool condition, double ifTrue, double ifFalse);
 };
 
 // 下单函数
@@ -172,7 +172,7 @@ int OrderSendUtils::CreateSellOrder(int magic_number, double Lots, int TP, int S
 int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
                                     int Magic, string Cmnt,
                                     double OpenPrice = 0, string mSymbol = "") {
-  UpdatesSpread();
+  double spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;;
   double Price, Take, Stop;
   int Ticket = -1;
   int Color, Err;
@@ -218,10 +218,10 @@ int OrderSendUtils::SendMarketOrder(int Type, double Lots, int TP, int SL,
      if(IsTradeAllowed())
      {
         if(mSymbol == "")
-            Ticket = OrderSend(Symbol(), Type, Lots, Price, int(2*this.Spread), 0, 0,
+            Ticket = OrderSend(Symbol(), Type, Lots, Price, int(2*spread), 0, 0,
                                 Cmnt, Magic, 0, Color); // amended code
         else
-            Ticket = OrderSend(mSymbol, Type, Lots, Price, int(2*this.Spread), Stop, Take,
+            Ticket = OrderSend(mSymbol, Type, Lots, Price, int(2*spread), Stop, Take,
                                 Cmnt, Magic, 0, Color);
 
         if(Ticket < 0)

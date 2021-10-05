@@ -26,7 +26,6 @@ class OrderGroup : public OrderGroupObserver {
             PrintFormat("Deinitialize order group [%d]", this.group_id_);
             SaveDeletePtr(&order_array_utils);
             SaveDeletePtr(whole_order_magic_number_set_);
-            SaveDeletePtr(&ou_send_);
         };
 
 // Observer communications functionality
@@ -59,9 +58,11 @@ class OrderGroup : public OrderGroupObserver {
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
         bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots) {
-            bool is_success = ou_send_.AddOneOrderByStepPipReverse(
-                                                    this.whole_order_magic_number_set_, this.group_magic_number_,
-                                                    buy_or_sell, pip_step, lots, this.GetGroupComment());
+            bool is_success = OrderSendUtils::AddOneOrderByStepPipReverse(
+                                                                this.whole_order_magic_number_set_,
+                                                                this.group_magic_number_,
+                                                                buy_or_sell, pip_step, lots,
+                                                                this.GetGroupComment());
             return is_success;
         }
 // Close Order Functions
@@ -91,8 +92,6 @@ class OrderGroup : public OrderGroupObserver {
 // Utils Variables
     protected:
         OrderArrayUtils order_array_utils;
-        OrderSendUtils ou_send_;
-        OrderPrintUtils ou_print;
         AccountInfoUtils ac_utils;
 
 // Member Variables
