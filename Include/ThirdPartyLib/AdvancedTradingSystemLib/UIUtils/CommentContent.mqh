@@ -8,8 +8,9 @@ class CommentContent {
             this.corner_left_distance = 20;
             this.corner_top_distance = 20;
             this.y_axis_interval = 30;
-            this.font_color = Red;
-            this.font_size = 12;
+            this.font_color = clrGold;
+            this.font_size = 10;
+            this.font_type = "粗体";
             this.corner_base = CORNER_LEFT_UPPER;
             this.is_show = false;
         };
@@ -56,11 +57,11 @@ class CommentContent {
 bool CommentContent::ShowCommentContent() {
     int i_item = 0;
     foreachm(string, title, double, field, this.title_to_field_double_) {
-        string showing_item = StringFormat("%s : %.5f", title, field);
+        string showing_item = StringFormat("%s: %.5f", title, field);
         UIUtils::FixLocationLabel(title, showing_item,
                                   this.corner_left_distance,
                                   this.corner_top_distance + this.y_axis_interval*i_item,
-                                  this.font_color, this.font_size, this.corner_base);
+                                  this.font_type, this.font_color, this.font_size, this.corner_base);
         i_item++;
     }
     return true;

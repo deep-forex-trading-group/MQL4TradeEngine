@@ -8,7 +8,7 @@ class UIUtils {
        // 按钮长度, 按钮高度
        // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
         void Button(string name,string txt1,string txt2,
-                    int XX,int YX,
+                    int corner_left_dis,int corner_right_dis,
                     int XL,int YL,
                     int WZ,color A,color B);
 
@@ -16,22 +16,22 @@ class UIUtils {
                       color pressed_clr, color unpressed_clr);
         static void Laber(string a,color b,int jl);
         static void FixLocationLabel(string name, string content,
-                              int XX, int YX,
-                              color C, int font_size, int corner_of_charts);
+                                     int corner_left_dis, int corner_right_dis,
+                                     string font_type, color font_color, int font_size, int corner_of_charts);
         bool IsButtonPressed(string btn_name);
         void UnPressButton(string btn_name);
         void PressButton(string btn_name);
 };
 
 void UIUtils::Button(string name,string txt1,string txt2,
-                            int XX,int YX,
+                            int corner_left_dis,int corner_right_dis,
                             int XL,int YL,
                             int WZ,color A,color B) {
     if(ObjectFind(0,name)==-1)
         ObjectCreate(0,name,OBJ_BUTTON,0,0,0);
 
-    ObjectSetInteger(0,name,OBJPROP_XDISTANCE,XX);
-    ObjectSetInteger(0,name,OBJPROP_YDISTANCE,YX);
+    ObjectSetInteger(0,name,OBJPROP_XDISTANCE,corner_left_dis);
+    ObjectSetInteger(0,name,OBJPROP_YDISTANCE,corner_right_dis);
     ObjectSetInteger(0,name,OBJPROP_XSIZE,XL);
     ObjectSetInteger(0,name,OBJPROP_YSIZE,YL);
     ObjectSetString(0,name,OBJPROP_FONT,"微软雅黑");
@@ -70,8 +70,8 @@ void UIUtils::Laber(string a,color b,int jl) {
 }
 
 void UIUtils::FixLocationLabel(string name, string content,
-                                    int XX, int YX,
-                                    color C, int font_size, int corner_of_charts) {
+                               int corner_left_dis, int corner_right_dis,
+                               string font_type, color font_color, int font_size, int corner_of_charts) {
     if(sizeof(content)==0)
         return;
 
@@ -80,9 +80,9 @@ void UIUtils::FixLocationLabel(string name, string content,
         ObjectCreate(name,OBJ_LABEL,0,0,0);
     }
 
-    ObjectSet(name, OBJPROP_XDISTANCE, XX);
-    ObjectSet(name, OBJPROP_YDISTANCE, YX);
-    ObjectSetText(name,content, font_size, "宋体", C);
+    ObjectSet(name, OBJPROP_XDISTANCE, corner_left_dis);
+    ObjectSet(name, OBJPROP_YDISTANCE, corner_right_dis);
+    ObjectSetText(name, content, font_size, font_type, font_color);
     ObjectSet(name, OBJPROP_CORNER, corner_of_charts);
 }
 
