@@ -1,8 +1,9 @@
 #include "../OrderGroupBase/OrderGroupSubjectBase.mqh"
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
-#include "OrderGroupCenter.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 
 // Observer Register management methods implementations.
 int OrderGroupCenter::Register(OrderGroupObserver *observer) {
