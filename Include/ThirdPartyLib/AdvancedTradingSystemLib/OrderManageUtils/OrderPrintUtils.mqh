@@ -23,12 +23,16 @@ void OrderPrintUtils::PrintAllOrders() {
     int total_num = OrdersTotal();
     int total_history_num = OrdersHistoryTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+            RefreshRates();
             OrderPrint();
         }
     }
     for (int i_his = total_history_num - 1; i_his >= 0; i_his--) {
+        RefreshRates();
         if (OrderSelect(i_his, SELECT_BY_POS, MODE_HISTORY)) {
+            RefreshRates();
             OrderPrint();
         }
     }
@@ -39,7 +43,9 @@ void OrderPrintUtils::PrintAllOrdersInTrade() {
     Print("----------------------PrintAllOrdersInTradeStart----------------------------------");
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+            RefreshRates();
             OrderPrint();
         }
     }
@@ -50,7 +56,9 @@ void OrderPrintUtils::PrintAllOrdersInTrade(string comm) {
     Print("----------------------PrintAllOrdersInTradeStart----------------------------------");
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && (OrderComment() == comm)) {
+            RefreshRates();
             OrderPrint();
         }
     }
@@ -61,7 +69,9 @@ void OrderPrintUtils::PrintAllOrdersInTrade(int magic_number) {
     Print("----------------------PrintAllOrdersInTradeStart----------------------------------");
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderMagicNumber() == magic_number) {
+            RefreshRates();
             OrderPrint();
         }
     }

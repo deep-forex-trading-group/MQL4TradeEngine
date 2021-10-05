@@ -50,8 +50,10 @@ bool OrderGetUtils::GetOrderInTrade(int magic_number, OrderInMarket& res[]) {
     int total_num = OrdersTotal();
     int res_total_num = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
              && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[0] = oi;
@@ -66,8 +68,10 @@ bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarke
     int res_total_num = 0;
     int res_i = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
-             && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+            && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[res_i] = oi;
@@ -87,7 +91,9 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
     }
     int res_i = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+            RefreshRates();
             int cur_magic_number = OrderMagicNumber();
             if (res.max_magic_number == -50000000) {
                 res.max_magic_number = cur_magic_number;
@@ -101,7 +107,9 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
     }
 
     for (int i = total_history_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)) {
+            RefreshRates();
             int cur_magic_number = OrderMagicNumber();
             if (res.max_magic_number == -50000000) {
                 res.max_magic_number = cur_magic_number;
@@ -121,7 +129,9 @@ bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
     int total_num = OrdersTotal();
     int total_history_num = OrdersHistoryTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[res_i] = oi;
@@ -129,7 +139,9 @@ bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
         }
     }
     for (int i = total_history_num; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)) {
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[res_i] = oi;
@@ -143,8 +155,10 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(int magic_number) {
     int total_num = OrdersTotal();
     int res_total_num = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
             && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+            RefreshRates();
             res_total_num++;
         }
     }
@@ -154,8 +168,10 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(HashSet<int>* magic_number_set) {
     int total_num = OrdersTotal();
     int res_total_num = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
             && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+                RefreshRates();
                 res_total_num++;
         }
     }
@@ -165,8 +181,10 @@ int OrderGetUtils::GetNumOfBuyOrders(int magic_number) {
     int total_num = OrdersTotal();
     int total_buy = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+            RefreshRates();
             total_buy++;
         }
     }
@@ -176,8 +194,10 @@ int OrderGetUtils::GetNumOfSellOrders(int magic_number) {
     int total_num = OrdersTotal();
     int total_sell = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
+            RefreshRates();
             total_sell++;
         }
     }
@@ -187,9 +207,11 @@ int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
     int total_num = OrdersTotal();
     int total_loss_num = 0;
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && (OrderProfit() + OrderCommission() + OrderSwap()) <= 0
             && OrderMagicNumber() == magic_number) {
+            RefreshRates();
             total_loss_num++;
         }
     }
@@ -198,8 +220,10 @@ int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
 bool OrderGetUtils::CheckOrder(string comm, long magic_number) {
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && (OrderComment() == comm && OrderMagicNumber() == magic_number)) {
+            RefreshRates();
             return true;
         }
     }
@@ -208,8 +232,10 @@ bool OrderGetUtils::CheckOrder(string comm, long magic_number) {
 bool OrderGetUtils::CheckOrder(string comm) {
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && (OrderComment() == comm)) {
+            RefreshRates();
             return true;
         }
     }
@@ -227,9 +253,10 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_mag
     int res_i = 0;
     int total_history_num = OrdersHistoryTotal();
     for (int i = total_history_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
             && group_magic_number_set.contains(OrderMagicNumber())) {
-
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[res_i] = oi;
@@ -251,9 +278,10 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magi
     int res_i = 0;
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && group_magic_number_set.contains(OrderMagicNumber())) {
-
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[res_i] = oi;
@@ -269,9 +297,10 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumber(int group_magic_number, Or
     int res_i = 0;
     int total_history_num = OrdersHistoryTotal();
     for (int i = total_history_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
             && OrderMagicNumber() == group_magic_number) {
-
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
             res[res_i] = oi;
@@ -287,9 +316,10 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumber(int group_magic_number, Ord
     int res_i = 0;
     int total_num = OrdersTotal();
     for (int i = total_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderMagicNumber() == group_magic_number) {
-
+            RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
 
@@ -304,8 +334,10 @@ bool OrderGetUtils::GetBuyOrdersReverse(int magic_number, OrderInMarket& res[], 
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
+     RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+        RefreshRates();
         OrderInMarket oi();
         oi.GetOrderFromMarket(i);
         res[res_i] = oi;
@@ -322,9 +354,11 @@ bool OrderGetUtils::GetBuyProfitOrdersReverse(int magic_number, OrderInMarket& r
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
+     RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) >= 0
          && OrderMagicNumber() == magic_number) {
+        RefreshRates();
         OrderInMarket oi();
         oi.GetOrderFromMarket(i);
         res[res_i] = oi;
@@ -341,8 +375,11 @@ bool OrderGetUtils::GetBuyLossOrdersReverse(int magic_number, OrderInMarket& res
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
+     RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-         && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) < 0 && OrderMagicNumber() == magic_number) {
+         && OrderType() == OP_BUY && (OrderProfit() + OrderCommission() + OrderSwap()) < 0
+         && OrderMagicNumber() == magic_number) {
+        RefreshRates();
         OrderInMarket oi();
         oi.GetOrderFromMarket(i);
         res[res_i] = oi;
@@ -359,8 +396,10 @@ bool OrderGetUtils::GetSellOrdersReverse(int magic_number, OrderInMarket& res[],
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
+     RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
+        RefreshRates();
         OrderInMarket oi();
         oi.GetOrderFromMarket(i);
         res[res_i] = oi;
@@ -377,9 +416,11 @@ bool OrderGetUtils::GetSellProfitOrdersReverse(int magic_number, OrderInMarket& 
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
+     RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_SELL && (OrderProfit() + OrderCommission() + OrderSwap()) >= 0
          && OrderMagicNumber() == magic_number) {
+        RefreshRates();
         OrderInMarket oi();
         oi.GetOrderFromMarket(i);
         res[res_i] = oi;
@@ -396,9 +437,11 @@ bool OrderGetUtils::GetSellLossOrdersReverse(int magic_number, OrderInMarket& re
   int total_num = OrdersTotal();
   int res_i = 0;
   for (int i = total_num - 1; i >= 0; i--) {
+     RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
          && OrderType() == OP_SELL && (OrderProfit() + OrderCommission() + OrderSwap()) < 0
          && OrderMagicNumber() == magic_number) {
+        RefreshRates();
         OrderInMarket oi();
         oi.GetOrderFromMarket(i);
         res[res_i] = oi;

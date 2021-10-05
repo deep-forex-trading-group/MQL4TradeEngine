@@ -100,6 +100,7 @@ bool OrderCloseUtils::CloseAllSellOrders() {
     int total_orders_num = OrdersTotal();
     bool is_success = false;
     for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL) {
             RefreshRates();
@@ -112,6 +113,7 @@ bool OrderCloseUtils::CloseAllSellOrders(int magic_number) {
     int total_orders_num = OrdersTotal();
     bool is_success = false;
     for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
             RefreshRates();
@@ -124,6 +126,7 @@ bool OrderCloseUtils::CloseAllSellProfitOrders(int magic_number, double profit) 
     int total_orders_num = OrdersTotal();
     bool is_success = false;
     for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL && OrderMagicNumber() == magic_number
             && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
@@ -140,6 +143,7 @@ bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
     int cnt = 100;
     while (!is_success && cnt >= 0) {
         is_success = OrderSelect(order_ticket, SELECT_BY_TICKET, MODE_TRADES);
+        RefreshRates();
         //Print("CloseOrderByOrderTicket Select Order ", order_ticket, " error, Repeat Operations!");
         cnt--;
     }

@@ -128,7 +128,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
             if (OrderSelect(dir_1_i, SELECT_BY_POS, MODE_TRADES)
                 && OrderSymbol() == Symbol()
                 && OrderType() == OP_BUY && magic_number_set.contains(OrderMagicNumber())) {
-            RefreshRates();
+                RefreshRates();
                 if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
                     lowest_price = OrderOpenPrice();
                     lowest_ticket = OrderTicket();

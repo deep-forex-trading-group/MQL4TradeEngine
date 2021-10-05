@@ -13,6 +13,7 @@ class OrderArrayUtils {
 int OrderArrayUtils::ArrayCopyOrderInMarket(OrderInMarket& dst_array[], OrderInMarket& src_array[]) {
     int total_num = ArraySize(src_array);
     for (int i = 0; i < total_num; i++) {
+        RefreshRates();
         OrderInMarket oi_origin = src_array[i];
         OrderInMarket other[1];
         oi_origin.copyOrder(other);
