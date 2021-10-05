@@ -68,7 +68,6 @@ bool CommentContent::ShowCommentContent() {
 
 void CommentContent::HideCommentContent() {
     foreachm(string, title, double, field, this.title_to_field_double_) {
-        PrintFormat("delete obj :%s", title);
         ObjectDelete(title);
     }
 }

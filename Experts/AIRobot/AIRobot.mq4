@@ -40,11 +40,12 @@ TESTING_CODE_END(system_mode)
 }
 
 void OnTick() {
-    ai_robot_ui.RefreshUI();
     CommentContent* cur_comment_content = ai_robot_ui.GetCommentContent();
     if (at_strategy.OnTickExecute(cur_comment_content) == FAILED) {
         PrintFormat("Execute [at_strategy] Failed! ");
     }
+    // 最后更新UI, 因为有时间差
+    ai_robot_ui.RefreshUI();
 }
 
 void OnDeinit(const int reason) {

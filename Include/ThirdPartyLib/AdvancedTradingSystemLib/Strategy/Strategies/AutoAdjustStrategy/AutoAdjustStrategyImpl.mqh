@@ -26,9 +26,6 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
                                MarketInfoUtils::GetDigits());
     }
-//    } else {
-//        return SUCCEEDED;
-//    }
     double pip_step_add = NormalizeDouble(
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
 
@@ -38,9 +35,6 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set, MODE_TRADES);
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
-    if (comment_content.GetNumOfTitleToFieldDoubleTerm() != 0) {
-        comment_content.ClearAllTitleToFieldTerms();
-    }
     comment_content.SetTitleToFieldDoubleTerm("total_lots", total_lots);
     comment_content.SetTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
 
