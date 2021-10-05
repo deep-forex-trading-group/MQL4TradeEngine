@@ -122,10 +122,10 @@ class OrderGroup : public OrderGroupObserver {
         }
         string GetGroupComment() {
             string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
-                                        this.order_group_center_ptr_.GetName(),
-                                        this.group_name_,
-                                        IntegerToString(this.group_id_),
-                                        IntegerToString(this.group_magic_number_));
+                                                 this.order_group_center_ptr_.GetName(),
+                                                 this.group_name_,
+                                                 IntegerToString(this.group_id_),
+                                                 IntegerToString(this.group_magic_number_));
             return comm_for_group;
         }
 
