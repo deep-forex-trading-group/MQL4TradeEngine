@@ -3,17 +3,6 @@ class UIUtils {
         UIUtils() {};
         ~UIUtils() {};
     public:
-       // 按钮name，按下时显示的文字, 抬起时显示的文字
-       // 按钮离X轴的距离, 按钮离Y轴的距离
-       // 按钮长度, 按钮高度
-       // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
-        void Button(string name,string txt1,string txt2,
-                    int corner_left_dis,int corner_right_dis,
-                    int XL,int YL,
-                    int WZ,color A,color B);
-
-        void CheckButtonState(string name, string pressed_txt, string unpressed_txt,
-                      color pressed_clr, color unpressed_clr);
         static void Laber(string a,color b,int jl);
         static void FixLocationLabel(string name, string content,
                                      int corner_left_dis, int corner_right_dis,
@@ -22,39 +11,6 @@ class UIUtils {
         void UnPressButton(string btn_name);
         void PressButton(string btn_name);
 };
-
-void UIUtils::Button(string name,string txt1,string txt2,
-                            int corner_left_dis,int corner_right_dis,
-                            int XL,int YL,
-                            int WZ,color A,color B) {
-    if(ObjectFind(0,name)==-1) {
-        ObjectCreate(0,name,OBJ_BUTTON,0,0,0);
-    }
-
-    ObjectSetInteger(0,name,OBJPROP_XDISTANCE,corner_left_dis);
-    ObjectSetInteger(0,name,OBJPROP_YDISTANCE,corner_right_dis);
-    ObjectSetInteger(0,name,OBJPROP_XSIZE,XL);
-    ObjectSetInteger(0,name,OBJPROP_YSIZE,YL);
-    ObjectSetString(0,name,OBJPROP_FONT,"微软雅黑");
-    ObjectSetInteger(0,name,OBJPROP_FONTSIZE,7);
-    ObjectSetInteger(0,name,OBJPROP_CORNER,WZ);
-
-    CheckButtonState(name, txt1, txt2, A, B);
-}
-
-void UIUtils::CheckButtonState(string name, string pressed_txt, string unpressed_txt,
-          color pressed_clr, color unpressed_clr) {
-    if (ObjectGetInteger(0,name,OBJPROP_STATE)==1) {
-        ObjectSetInteger(0,name,OBJPROP_COLOR,pressed_clr);
-        ObjectSetInteger(0,name,OBJPROP_BGCOLOR,unpressed_clr);
-        ObjectSetString(0,name,OBJPROP_TEXT,pressed_txt);
-    } else {
-        ObjectSetInteger(0,name,OBJPROP_COLOR,unpressed_clr);
-        ObjectSetInteger(0,name,OBJPROP_BGCOLOR,pressed_clr);
-        ObjectSetString(0,name,OBJPROP_TEXT,unpressed_txt);
-    }
-}
-
 void UIUtils::Laber(string a,color b,int jl) {
     if(IsOptimization())
         return;

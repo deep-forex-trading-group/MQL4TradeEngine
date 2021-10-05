@@ -1,5 +1,9 @@
 class Button {
     public:
+       // 按钮name，按下时显示的文字, 抬起时显示的文字
+       // 按钮离X轴的距离, 按钮离Y轴的距离
+       // 按钮长度, 按钮高度
+       // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
         Button(string name,string pressed_txt,string unpressed_txt,
                int XX,int YX,
                int XL,int YL,
