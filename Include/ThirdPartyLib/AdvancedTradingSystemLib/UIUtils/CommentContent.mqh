@@ -49,6 +49,7 @@ class CommentContent {
         int corner_left_distance;
         int corner_top_distance;
         int y_axis_interval;
+        string font_type;
         color font_color;
         int font_size;
         ENUM_BASE_CORNER corner_base;
