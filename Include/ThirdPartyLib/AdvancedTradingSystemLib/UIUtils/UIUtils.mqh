@@ -25,7 +25,6 @@ void UIUtils::Laber(string a,color b,int jl) {
                     OBJ_TEXT,0,Time[0],Low[0]-jl*文字小距离);
     ObjectSetText("箭头"+TimeToStr(Time[0],TIME_DATE|TIME_MINUTES)+a,a,8,"Times New Roman",b);
 }
-
 void UIUtils::FixLocationLabel(string name, string content,
                                int corner_left_dis, int corner_right_dis,
                                string font_type, color font_color, int font_size, int corner_of_charts) {
@@ -42,15 +41,12 @@ void UIUtils::FixLocationLabel(string name, string content,
     ObjectSetText(name, content, font_size, font_type, font_color);
     ObjectSet(name, OBJPROP_CORNER, corner_of_charts);
 }
-
 bool UIUtils::IsButtonPressed(string btn_name) {
     return (ObjectGetInteger(0,btn_name,OBJPROP_STATE)==1);
 }
-
 void UIUtils::UnPressButton(string btn_name) {
     ObjectSetInteger(0,btn_name,OBJPROP_STATE,0);
 }
-
 void UIUtils::PressButton(string btn_name) {
     ObjectSetInteger(0,btn_name,OBJPROP_STATE,1);
 }
