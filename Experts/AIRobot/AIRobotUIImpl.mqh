@@ -49,9 +49,7 @@ void AIRobotUI::RefreshButtonsStates() {
     this.ea_test_sec.CheckButtonState();
 
     if(this.btn_open_sig_test.IsButtonPressed()) {
-        OrderSendUtils* os_utils = new OrderSendUtils();
-        os_utils.CreateBuyOrder(-2000, 0.01, "ad_sig");
-        SaveDeletePtr(os_utils);
+        OrderSendUtils::CreateBuyOrder(-2000, 0.01, "ad_sig");
         this.btn_open_sig_test.UnPressButton();
     }
 
