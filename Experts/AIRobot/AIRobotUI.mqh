@@ -19,6 +19,7 @@ class AIRobotUI {
             delete &ui_utils;
             delete mt_manager;
             delete this.btn_open_sig_test;
+            delete this.btn_is_show_comment;
             delete this.btn_close_buy;
             delete this.btn_close_sell;
             delete this.btn_close_profit_buy;
@@ -31,7 +32,6 @@ class AIRobotUI {
     public:
         void RefreshUI() {
             this.RefreshButtonsStates();
-//            this.comment_content_.ShowCommentContent();
         }
         CommentContent* GetCommentContent() {
             return this.comment_content_;
@@ -59,6 +59,7 @@ class AIRobotUI {
         int button_length;
         int button_width;
         Button* btn_open_sig_test;
+        Button* btn_is_show_comment;
         Button* btn_close_buy;
         Button* btn_close_sell;
         Button* btn_close_profit_buy;

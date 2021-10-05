@@ -37,7 +37,7 @@ Button::Button(string name,string pressed_txt,string unpressed_txt,
     ObjectSetInteger(0,name,OBJPROP_XSIZE,XL);
     ObjectSetInteger(0,name,OBJPROP_YSIZE,YL);
     ObjectSetString(0,name,OBJPROP_FONT,"微软雅黑");
-    ObjectSetInteger(0,name,OBJPROP_FONTSIZE,7);
+    ObjectSetInteger(0,name,OBJPROP_FONTSIZE,5);
     ObjectSetInteger(0,name,OBJPROP_CORNER,WZ);
 
     this.CheckButtonState();
