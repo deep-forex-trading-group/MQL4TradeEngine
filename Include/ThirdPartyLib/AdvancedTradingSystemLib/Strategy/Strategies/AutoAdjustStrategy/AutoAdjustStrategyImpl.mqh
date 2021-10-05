@@ -54,7 +54,11 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     comment_content.UpdateTitleToFieldDoubleTerm(
                                 "cur_group_magic_number", this.auto_adjust_order_group_.GetGroupMagicNumber());
     comment_content.UpdateTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
-    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
+    if (is_sig_exist) {
+        if (!this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots)) {
+            PrintFormat("AddOneOrderByStepPipReverse Buy Order failed.");
+        }
+    }
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {

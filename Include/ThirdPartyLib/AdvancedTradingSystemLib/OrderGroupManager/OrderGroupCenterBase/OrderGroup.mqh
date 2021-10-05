@@ -63,10 +63,6 @@ class OrderGroup : public OrderGroupObserver {
             bool is_success = ou_send_.AddOneOrderByStepPipReverse(
                                                     this.whole_order_magic_number_set_, this.group_magic_number_,
                                                     buy_or_sell, pip_step, lots, this.GetGroupComment());
-            if (!is_success) {
-                PrintFormat("AddOneOrderByStepPipReverse %s Order failed.",
-                            (buy_or_sell == BUY_ORDER_SEND ? "BUY":"SELL"));
-            }
             return is_success;
         }
 // Close Order Functions
