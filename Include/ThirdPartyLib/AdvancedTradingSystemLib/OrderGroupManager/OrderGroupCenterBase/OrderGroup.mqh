@@ -93,7 +93,6 @@ class OrderGroup : public OrderGroupObserver {
         OrderArrayUtils order_array_utils;
         OrderSendUtils ou_send_;
         OrderCloseUtils ou_close;
-        OrderGetUtils ou_get;
         OrderPrintUtils ou_print;
         AccountInfoUtils ac_utils;
 

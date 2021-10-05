@@ -21,7 +21,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     double lots = 0.05;
     int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
     OrderInMarket res[1];
-    bool is_sig_exist = this.ou_get_.GetOrderInTrade(this.params_.sig_order_magic_number, res);
+    bool is_sig_exist = OrderGetUtils::GetOrderInTrade(this.params_.sig_order_magic_number, res);
     if (is_sig_exist) {
         lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
                                MarketInfoUtils::GetDigits());
