@@ -9,17 +9,17 @@ class OrderCloseUtils : public OrderManageUtils {
         ~OrderCloseUtils() {}
     public:
         // 平仓函数
-        bool CloseAllOrders(int magic_number);
+        static bool CloseAllOrders(int magic_number);
         static bool CloseAllOrders(HashSet<int>* magic_number);
-        bool CloseAllBuyOrders();
-        bool CloseAllBuyOrders(int magic_number);
-        bool CloseAllBuyProfitOrders(int magic_number, double profit);
-        bool CloseAllSellOrders();
-        bool CloseAllSellOrders(int magic_number);
-        bool CloseAllSellProfitOrders(int magic_number, double profit);
+        static bool CloseAllBuyOrders();
+        static bool CloseAllBuyOrders(int magic_number);
+        static bool CloseAllBuyProfitOrders(int magic_number, double profit);
+        static bool CloseAllSellOrders();
+        static bool CloseAllSellOrders(int magic_number);
+        static bool CloseAllSellProfitOrders(int magic_number, double profit);
         static bool CloseOrderByOrderTicket(int order_ticket, int dir);
-        bool CloseSingleOrderByProfit(double profit);
-        bool CloseSingleOrderByLoss(double loss);
+        static bool CloseSingleOrderByProfit(double profit);
+        static bool CloseSingleOrderByLoss(double loss);
 };
 
 // 平仓函数

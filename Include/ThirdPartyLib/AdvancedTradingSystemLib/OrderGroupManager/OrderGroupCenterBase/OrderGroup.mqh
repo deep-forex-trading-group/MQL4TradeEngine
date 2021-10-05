@@ -70,7 +70,7 @@ class OrderGroup : public OrderGroupObserver {
                 return false;
             } else {
                 for(Iter<int> it(this.whole_order_magic_number_set_); !it.end(); it.next()) {
-                    this.ou_close.CloseAllOrders(it.current());
+                    OrderCloseUtils::CloseAllOrders(it.current());
                 }
             }
             return true;
@@ -92,7 +92,6 @@ class OrderGroup : public OrderGroupObserver {
     protected:
         OrderArrayUtils order_array_utils;
         OrderSendUtils ou_send_;
-        OrderCloseUtils ou_close;
         OrderPrintUtils ou_print;
         AccountInfoUtils ac_utils;
 
