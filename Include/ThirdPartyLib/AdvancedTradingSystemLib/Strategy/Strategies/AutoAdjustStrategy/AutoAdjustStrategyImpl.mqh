@@ -1,3 +1,12 @@
+#include "DataStructure.mqh"
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/AutoAdjustCenter/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
+
 int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
 }
@@ -45,7 +54,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     comment_content.UpdateTitleToFieldDoubleTerm(
                                 "cur_group_magic_number", this.auto_adjust_order_group_.GetGroupMagicNumber());
     comment_content.UpdateTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
-    this.ou_send_.AddOneOrderByStepPipReverse(magic_set, group_magic_number, BUY_ORDER_SEND, pip_step_add, lots);
+    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {

@@ -55,27 +55,17 @@ int OrderGroup::GetTotalNumOfOrdersInTrades() {
     return ArraySize(this.orders_in_trades);
 }
 bool OrderGroup::CreateBuyOrder(double pip, string comment) {
-    string comm_for_group = StringFormat("#b#%s#%s#%s#%s#",
-                                        this.order_group_center_ptr_.GetName(),
-                                        this.group_name_,
-                                        IntegerToString(this.group_id_),
-                                        IntegerToString(this.group_magic_number_));
-    StringAdd(comment, comm_for_group);
+    string comm = this.GetGroupComment();
     if (this.ou_send_.CreateBuyOrder(this.group_magic_number_, pip, comment) == -1) {
-        PrintFormat("Create Buy Order {%s} failed.", comm_for_group);
+        PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
     }
     return true;
 }
 bool OrderGroup::CreateSellOrder(double pip, string comment) {
-    string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
-                                        this.order_group_center_ptr_.GetName(),
-                                        this.group_name_,
-                                        IntegerToString(this.group_id_),
-                                        IntegerToString(this.group_magic_number_));
-    StringAdd(comment, comm_for_group);
+    string comm = this.GetGroupComment();
     if (this.ou_send_.CreateSellOrder(this.group_magic_number_, pip, comment) == -1) {
-        PrintFormat("Create Sell Order {%s} failed.", comm_for_group);
+        PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
     }
     return true;

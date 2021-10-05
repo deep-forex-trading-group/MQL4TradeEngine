@@ -1,6 +1,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/AccountInformationUtils/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include "OrderGroupCenter.mqh"
@@ -58,6 +59,16 @@ class OrderGroup : public OrderGroupObserver {
         bool CreateBuyOrder(double pip, string comment);
         bool CreateSellOrder(double pip) { return this.CreateSellOrder(pip, ""); }
         bool CreateSellOrder(double pip, string comment);
+        bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots) {
+            bool is_success = ou_send_.AddOneOrderByStepPipReverse(
+                                                    this.whole_order_magic_number_set_, this.group_magic_number_,
+                                                    buy_or_sell, pip_step, lots, this.GetGroupComment());
+            if (!is_success) {
+                PrintFormat("AddOneOrderByStepPipReverse %s Order failed.",
+                            (buy_or_sell == BUY_ORDER_SEND ? "BUY":"SELL"));
+            }
+            return is_success;
+        }
 // Close Order Functions
         bool CloseAllOrders() {
             if (this.whole_order_magic_number_set_.size() == 0) {
@@ -103,4 +114,15 @@ class OrderGroup : public OrderGroupObserver {
         double max_floating_loss_;
         double max_floating_profits_;
         HashSet<int>* whole_order_magic_number_set_;
+// Utils Functions
+    protected:
+        string GetGroupComment() {
+            string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
+                                        this.order_group_center_ptr_.GetName(),
+                                        this.group_name_,
+                                        IntegerToString(this.group_id_),
+                                        IntegerToString(this.group_magic_number_));
+            return comm_for_group;
+        }
+
 };

@@ -10,9 +10,11 @@ class OrderSendUtils : public OrderManageUtils {
         ~OrderSendUtils() {}
     public:
         // 下单函数
-        bool AddOneOrderByStepPipReverse(int magic_number, int direction, double step_pip, double Lot);
+        bool AddOneOrderByStepPipReverse(int magic_number, int magic_number_new_order,
+                                         int direction, double step_pip,
+                                         double Lot, string comm);
         bool AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set, int magic_number_new_order,
-                                  int direction, double step_pip, double Lot);
+                                         int direction, double step_pip, double Lot, string comm);
         int CreateBuyOrder(int magic_number, double Lots, int TP, int SL);
         int CreateBuyOrder(int magic_number, double Lots);
         int CreateBuyOrder(int magic_number, double Lots, string comment);
@@ -29,8 +31,8 @@ class OrderSendUtils : public OrderManageUtils {
 };
 
 // 下单函数
-bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction,
-                                                 double step_pip, double Lot) {
+bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int magic_number_new_order, int direction,
+                                                 double step_pip, double Lot, string comm) {
     OrderInMarket order_in_market[1000];
 
     if (direction == SELL_ORDER_SEND) {
@@ -52,7 +54,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction
 
         if (highest_price != -1
             && NormalizeDouble(Bid, Digits) - highest_price >= step_pip*MarketInfoUtils::GetPoints()) {
-            return CreateSellOrder(magic_number,Lot,0,0) >= 0;
+            return CreateSellOrder(magic_number_new_order,Lot,0,0,comm) >= 0;
         }
     }
 
@@ -77,14 +79,14 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int direction
          }
          if (lowest_price != -1
              && lowest_price - NormalizeDouble(Ask, Digits) >= step_pip * MarketInfoUtils::GetPoints()) {
-            return CreateBuyOrder(magic_number,Lot,0,0) >= 0;
+            return CreateBuyOrder(magic_number_new_order,Lot,0,0,comm) >= 0;
          }
     }
 
     return false;
 }
 bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set, int magic_number_new_order,
-                          int direction, double step_pip, double Lot) {
+                                                 int direction, double step_pip, double Lot, string comm) {
     OrderInMarket order_in_market[1000];
     if (IsPtrInvalid(magic_number_set)) {
         PrintFormat("magic_number_set is invalid in AddOneOrderByStepPipReverse. ");
@@ -110,7 +112,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
 
         if (higest_ticket != -1
             && NormalizeDouble(Bid, Digits) - highest_price >= step_pip * MarketInfoUtils::GetPoints()) {
-            return CreateSellOrder(magic_number_new_order,Lot,0,0) >= 0;
+            return CreateSellOrder(magic_number_new_order,Lot,0,0,comm) >= 0;
         }
     }
 
@@ -135,7 +137,7 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(HashSet<int>* magic_number_set,
          }
          if (lowest_ticket != -1
              && lowest_price - NormalizeDouble(Ask, Digits) >= step_pip*MarketInfoUtils::GetPoints()) {
-            return CreateBuyOrder(magic_number_new_order,Lot,0,0) >= 0;
+            return CreateBuyOrder(magic_number_new_order,Lot,0,0,comm) >= 0;
          }
     }
 
