@@ -15,6 +15,7 @@ class CommentContent {
             this.is_show = false;
         };
         ~CommentContent() {
+            this.ClearAllTitleToFieldTerms();
             SafeDeletePtr(&title_to_field_double_);
         };
     public:
