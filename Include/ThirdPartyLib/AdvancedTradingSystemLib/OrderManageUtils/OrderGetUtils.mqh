@@ -82,7 +82,7 @@ bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarke
     return true;
 }
 MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
-    MinMaxMagicNumber res = {false, INTEGER_MAX_INT, INTEGER_MIN_INT};
+    MinMaxMagicNumber res = {false, 0, 0};
     int total_num = OrdersTotal();
     int total_history_num = OrdersHistoryTotal();
     if (total_num + total_history_num == 0) {
@@ -96,12 +96,12 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
             RefreshRates();
             int cur_magic_number = OrderMagicNumber();
             PrintFormat("cur_magic_number=%d", cur_magic_number);
-            if (res.max_magic_number == INTEGER_MIN_INT) {
+            if (res.max_magic_number == 0) {
                 res.max_magic_number = cur_magic_number;
             } else {
                 res.max_magic_number = MathMax(cur_magic_number, res.max_magic_number);
             }
-            if (res.min_magic_number == INTEGER_MAX_INT) {
+            if (res.min_magic_number == 0) {
                 res.min_magic_number = cur_magic_number;
             } else {
                 res.min_magic_number = MathMin(cur_magic_number, res.min_magic_number);
@@ -114,12 +114,12 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderMagicNumber() != 0) {
             RefreshRates();
             int cur_magic_number = OrderMagicNumber();
-            if (res.max_magic_number == INTEGER_MIN_INT) {
+            if (res.max_magic_number == 0) {
                 res.max_magic_number = cur_magic_number;
             } else {
                 res.max_magic_number = MathMax(cur_magic_number, res.max_magic_number);
             }
-            if (res.min_magic_number == INTEGER_MAX_INT) {
+            if (res.min_magic_number == 0) {
                 res.min_magic_number = cur_magic_number;
             } else {
                 res.min_magic_number = MathMin(cur_magic_number, res.min_magic_number);
