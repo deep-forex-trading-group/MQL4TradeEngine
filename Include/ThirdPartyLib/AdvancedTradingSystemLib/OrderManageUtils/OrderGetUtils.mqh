@@ -13,7 +13,7 @@ class OrderGetUtils : OrderManageUtils {
         // 订单信息函数
         static bool GetOrderInTrade(int magic_number, OrderInMarket& res[]);
         static bool GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarket& res[]);
-        static MinMaxMagicNumber GetAllOrdersWithoutSymbol();
+        static MinMaxMagicNumber GetAllOrdersWithoutSymbolAndZeroMN();
         static bool GetAllOrders(OrderInMarket& res[]);
         static int GetNumOfAllOrdersInTrades(int magic_number);
         static int GetNumOfAllOrdersInTrades(HashSet<int>* magic_number_set);
@@ -81,19 +81,18 @@ bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarke
     ArrayResize(res, res_i);
     return true;
 }
-MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
+MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
     MinMaxMagicNumber res = {false, INTEGER_MAX_INT, INTEGER_MIN_INT};
     int total_num = OrdersTotal();
     int total_history_num = OrdersHistoryTotal();
     if (total_num + total_history_num == 0) {
-        PrintFormat("exe1 %d, %d", total_num, total_history_num);
         res.is_success = false;
         return res;
     }
     int res_i = 0;
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
-        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderMagicNumber() != 0) {
             RefreshRates();
             int cur_magic_number = OrderMagicNumber();
             PrintFormat("cur_magic_number=%d", cur_magic_number);
@@ -112,10 +111,9 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
 
     for (int i = total_history_num - 1; i >= 0; i--) {
         RefreshRates();
-        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderMagicNumber() != 0) {
             RefreshRates();
             int cur_magic_number = OrderMagicNumber();
-            PrintFormat("cur_magic_number=%d", cur_magic_number);
             if (res.max_magic_number == INTEGER_MIN_INT) {
                 res.max_magic_number = cur_magic_number;
             } else {
