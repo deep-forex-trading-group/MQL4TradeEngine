@@ -10,15 +10,15 @@ int OrderGroupCenter::Register(OrderGroupObserver *observer) {
     this.order_group_observer_list_.add(observer);
     int cur_order_group_id = this.registered_magic_number_max_;
     int cur_magic_number = this.AllocateMagicNumber();
-    this.group_id_to_magic_number.set(cur_order_group_id, cur_magic_number);
+    this.group_id_to_magic_number_.set(cur_order_group_id, cur_magic_number);
     return cur_order_group_id;
 }
 void OrderGroupCenter::UnRegister(OrderGroupObserver *observer) {
     this.order_group_observer_list_.remove(observer);
 }
 void OrderGroupCenter::UnRegister(OrderGroupObserver *observer, int group_id) {
-    if (this.group_id_to_magic_number.contains(group_id)) {
-        this.group_id_to_magic_number.remove(group_id);
+    if (this.group_id_to_magic_number_.contains(group_id)) {
+        this.group_id_to_magic_number_.remove(group_id);
     } else {
         PrintFormat("[GroupRemoveFailed] %s center does not have the group with %d", this.group_center_name_, group_id);
     }
@@ -46,7 +46,7 @@ void OrderGroupCenter::SomeBusinessLogic() {
 int OrderGroupCenter::UpdateGroupMagicNumber(int group_id) {
     this.observer_msg_ = StringFormat("update the magic number for group with group_id[%d]", group_id);
     int magic_number_rtn = this.AllocateMagicNumber();
-    this.group_id_to_magic_number.set(group_id, magic_number_rtn);
+    this.group_id_to_magic_number_.set(group_id, magic_number_rtn);
     Notify();
     return magic_number_rtn;
 }

@@ -14,13 +14,15 @@ class OrderGroupCenter : public OrderGroupSubject {
             MinMaxMagicNumber min_max_mn = this.GetOrderCenterMagicNumberBase();
             this.registered_magic_number_max_ = min_max_mn.max_magic_number;
             this.registered_magic_number_min_ = min_max_mn.min_magic_number;
+            this.order_group_observer_list_ = new LinkedList<OrderGroupObserver*>();
+            this.group_id_to_magic_number_ = new HashMap<int, int>();
             PrintFormat("Initialize OrderGroupCenter [%s].", this.group_center_name_);
         }
         virtual ~OrderGroupCenter() {
             PrintFormat("Deinitialize OrderGroupCenter [%s].", this.group_center_name_);
             this.SaveDeleteOrderGroups();
             SaveDeletePtr(order_group_observer_list_);
-            SaveDeletePtr(group_id_to_magic_number);
+            SaveDeletePtr(group_id_to_magic_number_);
         }
 
     // Observer communications management methods
@@ -43,7 +45,7 @@ class OrderGroupCenter : public OrderGroupSubject {
     // Member variables
     protected:
         LinkedList<OrderGroupObserver*>* order_group_observer_list_;
-        HashMap<int,int>* group_id_to_magic_number;
+        HashMap<int,int>* group_id_to_magic_number_;
         string observer_msg_;
         string group_center_name_;
         int registered_magic_number_max_;
