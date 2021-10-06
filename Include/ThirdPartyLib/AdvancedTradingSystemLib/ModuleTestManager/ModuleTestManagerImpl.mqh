@@ -20,7 +20,7 @@ void ModuleTestManager::StartTestTwo() {
 void ModuleTestManager::TestOpenSig() {
     OrderSendUtils* os_utils = new OrderSendUtils();
     os_utils.CreateBuyOrder(-2000, 0.01, "ad_sig");
-    SaveDeletePtr(os_utils);
+    SafeDeletePtr(os_utils);
 }
 void ModuleTestManager::TestRefreshConfigFile() {
 //    this.ai_robot_config.refreshConfig();
@@ -54,7 +54,7 @@ void ModuleTestManager::TestRefreshConfigFile() {
     PrintFormat("<PrintAllConfigItems>");
     config_file.PrintAllConfigItems();
     PrintFormat("</PrintAllConfigItems>");
-    SaveDeletePtr(config_file);
+    SafeDeletePtr(config_file);
 }
 
 void ModuleTestManager::TestExecuteStrategy() {
@@ -83,12 +83,12 @@ void ModuleTestManager::TestExecuteStrategy() {
     st_test_ctx.SetStrategy(ts_3);
     st_test_ctx.ExecuteStrategy();
 
-    SaveDeletePtr(config_file_testing_2);
-    SaveDeletePtr(config_file_testing);
-    SaveDeletePtr(ts_params);
-    SaveDeletePtr(ts_1);
-    SaveDeletePtr(ts_2);
-    SaveDeletePtr(st_test_ctx);
+    SafeDeletePtr(config_file_testing_2);
+    SafeDeletePtr(config_file_testing);
+    SafeDeletePtr(ts_params);
+    SafeDeletePtr(ts_1);
+    SafeDeletePtr(ts_2);
+    SafeDeletePtr(st_test_ctx);
 }
 
 void ModuleTestManager::TestOrderGroupCenter() {
@@ -115,9 +115,9 @@ void ModuleTestManager::TestOrderGroupCenter() {
     order_group_center.CreateMsg("After unRegitstered og2");
 
 
-    SaveDeletePtr(og1);
-    SaveDeletePtr(og2);
-    SaveDeletePtr(order_group_center);
+    SafeDeletePtr(og1);
+    SafeDeletePtr(og2);
+    SafeDeletePtr(order_group_center);
 }
 
 void ModuleTestManager::TestCopyMap() {
@@ -134,9 +134,9 @@ void ModuleTestManager::TestCopyMap() {
         PrintFormat("<%s, %s>", key, val);
     }
 
-    SaveDeletePtr(collection_copy_utils);
-    SaveDeletePtr(map_src);
-    SaveDeletePtr(map_dst);
+    SafeDeletePtr(collection_copy_utils);
+    SafeDeletePtr(map_src);
+    SafeDeletePtr(map_dst);
 }
 
 void ModuleTestManager::TestAutoAdjustStrategyOnTick() {

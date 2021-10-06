@@ -20,11 +20,11 @@ class ModuleTestManager {
         };
         ~ModuleTestManager() {
             PrintFormat("Deinitiazlie ModuleTestManager. ");
-            SaveDeletePtr(aa_order_group_center);
-            SaveDeletePtr(adjust_strategy);
-            SaveDeletePtr(aa_group);
-            SaveDeletePtr(config_file_adjust);
-            SaveDeletePtr(st_test_ctx);
+            SafeDeletePtr(aa_order_group_center);
+            SafeDeletePtr(adjust_strategy);
+            SafeDeletePtr(aa_group);
+            SafeDeletePtr(config_file_adjust);
+            SafeDeletePtr(st_test_ctx);
         };
 // Some test cases for the functions in project.
     public:

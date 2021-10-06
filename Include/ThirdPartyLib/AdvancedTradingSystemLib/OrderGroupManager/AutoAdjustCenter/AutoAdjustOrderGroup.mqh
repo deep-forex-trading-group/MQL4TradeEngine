@@ -12,7 +12,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
             this.group_name_ = name;
         };
         ~AutoAdjustOrderGroup() {
-            SaveDeletePtr(this.config_file_);
+            SafeDeletePtr(this.config_file_);
         };
 
     private:

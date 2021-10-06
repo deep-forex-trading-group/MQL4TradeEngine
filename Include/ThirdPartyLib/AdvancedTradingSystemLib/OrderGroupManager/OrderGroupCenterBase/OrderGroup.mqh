@@ -24,8 +24,8 @@ class OrderGroup : public OrderGroupObserver {
         };
         virtual ~OrderGroup() {
             PrintFormat("Deinitialize order group [%d]", this.group_id_);
-            SaveDeletePtr(&order_array_utils);
-            SaveDeletePtr(whole_order_magic_number_set_);
+            SafeDeletePtr(&order_array_utils);
+            SafeDeletePtr(whole_order_magic_number_set_);
         };
 
 // Observer communications functionality

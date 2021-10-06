@@ -24,9 +24,9 @@ class AutoAdjustStrategy : public Strategy {
         };
         ~AutoAdjustStrategy() {
             PrintFormat("Deinitialize AutoAdjustStrategy [%s].", this.strategy_name_);
-            SaveDeletePtr(this.auto_adjust_order_group_);
-            SaveDeletePtr(this.auto_adjust_order_group_center_);
-            SaveDeletePtr(this.params_);
+            SafeDeletePtr(this.auto_adjust_order_group_);
+            SafeDeletePtr(this.auto_adjust_order_group_center_);
+            SafeDeletePtr(this.params_);
         };
     private:
         bool AutoAdjustStrategyCommonConstructor(string strategy_name) {

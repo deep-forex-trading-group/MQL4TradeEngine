@@ -15,7 +15,7 @@ class CommentContent {
             this.is_show = false;
         };
         ~CommentContent() {
-            SaveDeletePtr(&title_to_field_double_);
+            SafeDeletePtr(&title_to_field_double_);
         };
     public:
         void SetTitleToFieldDoubleTerm(string title, double field) {

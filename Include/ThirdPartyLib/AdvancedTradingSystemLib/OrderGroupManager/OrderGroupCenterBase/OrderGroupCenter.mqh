@@ -21,8 +21,8 @@ class OrderGroupCenter : public OrderGroupSubject {
         virtual ~OrderGroupCenter() {
             PrintFormat("Deinitialize OrderGroupCenter [%s].", this.group_center_name_);
             this.SaveDeleteOrderGroups();
-            SaveDeletePtr(order_group_observer_list_);
-            SaveDeletePtr(group_id_to_magic_number_);
+            SafeDeletePtr(order_group_observer_list_);
+            SafeDeletePtr(group_id_to_magic_number_);
         }
 
     // Observer communications management methods
@@ -57,7 +57,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         void SaveDeleteOrderGroups() {
             for (Iter<OrderGroupObserver*> it(this.order_group_observer_list_); !it.end(); it.next()) {
                 OrderGroupObserver* og = it.current();
-                SaveDeletePtr(og);
+                SafeDeletePtr(og);
             }
         };
         // TODO: Needs to accomplish to avoid Stoping EA,

@@ -15,19 +15,19 @@ class AIRobotUI {
         }
         ~AIRobotUI() {
             PrintFormat("Deinitialize the AIRobotUI. ");
-            delete comment_content_;
-            delete &ui_utils;
-            delete mt_manager;
-            delete this.btn_open_sig_test;
-            delete this.btn_is_show_comment;
-            delete this.btn_close_buy;
-            delete this.btn_close_sell;
-            delete this.btn_close_profit_buy;
-            delete this.btn_close_profit_sell;
-            delete this.btn_close_all;
-            delete this.ea_openclose;
-            delete this.ea_test;
-            delete this.ea_test_sec;
+            SafeDeletePtr(comment_content_);
+            SafeDeletePtr(&ui_utils);
+            SafeDeletePtr(mt_manager);
+            SafeDeletePtr(this.btn_open_sig_test);
+            SafeDeletePtr(this.btn_is_show_comment);
+            SafeDeletePtr(this.btn_close_buy);
+            SafeDeletePtr(this.btn_close_sell);
+            SafeDeletePtr(this.btn_close_profit_buy);
+            SafeDeletePtr(this.btn_close_profit_sell);
+            SafeDeletePtr(this.btn_close_all);
+            SafeDeletePtr(this.ea_openclose);
+            SafeDeletePtr(this.ea_test);
+            SafeDeletePtr(this.ea_test_sec);
         }
     public:
         void RefreshUI() {

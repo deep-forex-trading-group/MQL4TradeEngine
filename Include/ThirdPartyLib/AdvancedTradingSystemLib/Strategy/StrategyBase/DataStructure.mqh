@@ -5,7 +5,7 @@ class StrategyParams {
             this.config_file_ = config_file;
         };
         virtual ~StrategyParams() {
-            SaveDeletePtr(this.config_file_);
+            SafeDeletePtr(this.config_file_);
         };
 
     public:

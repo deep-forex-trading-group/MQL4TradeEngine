@@ -5,7 +5,7 @@
 class Strategy {
     public:
         virtual ~Strategy() {
-            SaveDeletePtr(this.config_file_);
+            SafeDeletePtr(this.config_file_);
         };
 // OnTick is for every tick check to execute strategy
         virtual int OnTickExecute() = 0;
@@ -23,7 +23,7 @@ class Strategy {
 };
 
 int Strategy::SetConfigFile(ConfigFile* config_file) {
-    SaveDeletePtr(this.config_file_);
+    SafeDeletePtr(this.config_file_);
     if (IsPtrInvalid(config_file)) {
         PrintFormat("This is a invalid pointer for the config_file in Strategy {%s}.",
                     this.strategy_name_);

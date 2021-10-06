@@ -55,8 +55,8 @@ void OnTick() {
 void OnDeinit(const int reason) {
     Print("Deinitialize the AIRobot EA.");
     ShowDeinitReason(reason);
-    delete &ai_robot_ui;
-    delete system_mode_config;
-    delete at_strategy;
-//    delete st_ctx;
+    SafeDeletePtr(&ai_robot_ui);
+    SafeDeletePtr(system_mode_config);
+    SafeDeletePtr(at_strategy);
+//    SafeDeletePtr(st_ctx);
 }

@@ -4,7 +4,7 @@ class StrategyContext {
     public:
         StrategyContext(Strategy *strategy = NULL) : strategy_(strategy) {};
         ~StrategyContext() {
-            SaveDeletePtr(this.strategy_);
+            SafeDeletePtr(this.strategy_);
         };
 
     public:
