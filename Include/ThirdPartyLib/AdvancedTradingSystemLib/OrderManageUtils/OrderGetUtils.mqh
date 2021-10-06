@@ -126,6 +126,8 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
             }
         }
     }
+    res.max_magic_number = res.max_magic_number != 0 ? res.max_magic_number : 1;
+    res.min_magic_number = res.min_magic_number != 0 ? res.min_magic_number : -1;
     res.is_success = true;
     return res;
 }
