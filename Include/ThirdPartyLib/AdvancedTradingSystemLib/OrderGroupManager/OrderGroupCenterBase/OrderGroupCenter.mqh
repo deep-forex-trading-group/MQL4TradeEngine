@@ -19,8 +19,8 @@ class OrderGroupCenter : public OrderGroupSubject {
         virtual ~OrderGroupCenter() {
             PrintFormat("Deinitialize OrderGroupCenter [%s].", this.group_center_name_);
             this.SaveDeleteOrderGroups();
-            SaveDeletePtr(&order_group_observer_list_);
-            SaveDeletePtr(&group_id_to_magic_number);
+            SaveDeletePtr(order_group_observer_list_);
+            SaveDeletePtr(group_id_to_magic_number);
         }
 
     // Observer communications management methods
@@ -42,8 +42,8 @@ class OrderGroupCenter : public OrderGroupSubject {
         int GetMagicNumberByGroupId(int group_id);
     // Member variables
     protected:
-        LinkedList<OrderGroupObserver*> order_group_observer_list_;
-        HashMap<int,int> group_id_to_magic_number;
+        LinkedList<OrderGroupObserver*>* order_group_observer_list_;
+        HashMap<int,int>* group_id_to_magic_number;
         string observer_msg_;
         string group_center_name_;
         int registered_magic_number_max_;
