@@ -65,9 +65,6 @@ void OrderGroupCenter::PrintInfo() {
         observer.PrintInfo();
     }
 }
-int OrderGroupCenter::GetMagicNumberByGroupId(int group_id) {
-    return this.order_center_magic_number_base_ + group_id;
-}
 int OrderGroupCenter::AllocateMagicNumber() {
     int allocated_magic_number = this.order_center_magic_number_base_ + this.registered_magic_number_max_;
     this.registered_magic_number_max_++;

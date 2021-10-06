@@ -41,7 +41,9 @@ class OrderGroupCenter : public OrderGroupSubject {
         void SetName(string name) { this.group_center_name_ = name; };
 
     public:
-        int GetMagicNumberByGroupId(int group_id);
+        int GetMagicNumberByGroupId(int group_id) {
+            return this.order_center_magic_number_base_ + group_id;
+        }
     // Member variables
     protected:
         LinkedList<OrderGroupObserver*>* order_group_observer_list_;
