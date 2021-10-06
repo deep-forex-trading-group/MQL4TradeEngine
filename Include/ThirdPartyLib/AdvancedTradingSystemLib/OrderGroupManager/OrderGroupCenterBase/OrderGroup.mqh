@@ -5,6 +5,7 @@
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include "OrderGroupCenter.mqh"
+#include "DataStructure.mqh"
 
 class OrderGroup : public OrderGroupObserver {
     public:
@@ -12,6 +13,11 @@ class OrderGroup : public OrderGroupObserver {
         OrderGroup(OrderGroupCenter *order_group_center_ptr) {
             this.order_group_center_ptr_ = order_group_center_ptr;
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
+            GroupMNRanges g_mn_ranges = this.order_group_center_ptr_.OnStartGetMNRanges(this.group_id_);
+            this.pos_nm_range_.left = g_mn_ranges.pos_left;
+            this.pos_nm_range_.right = g_mn_ranges.pos_right;
+            this.neg_nm_range_.left = g_mn_ranges.neg_left;
+            this.neg_nm_range_.right = g_mn_ranges.neg_right;
             this.group_auto_magic_nm_ = this.order_group_center_ptr_
                                             .GetMagicNumberByGroupId(this.group_id_);
             this.whole_order_magic_number_set_ = new HashSet<int>();
@@ -39,11 +45,15 @@ class OrderGroup : public OrderGroupObserver {
         int GetGroupMagicNumber() { return this.group_auto_magic_nm_; }
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
 // Order State Refreshing Functions (IMPORTANT MAINTAIN FUNCTIONS)
-        void RefreshOrderGroupState() {
+        bool RefreshOrderGroupState() {
             // if the automatic group orders are all closed, update the magic number for the group
             if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_auto_magic_nm_) == 0) {
-                this.UpdateMagicNumber();
+                if (!this.UpdateMagicNumber()) {
+                    PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
+                    return false;
+                }
             }
+            return true;
         }
         int RefreshOrderInfo();
 // Get Order Functions
@@ -99,30 +109,46 @@ class OrderGroup : public OrderGroupObserver {
         string group_name_;
         int group_id_;
         int group_auto_magic_nm_;
+        int group_sig_magic_nm_;
         OrderInMarket orders_in_history[];
         OrderInMarket orders_in_trades[];
         string msg_from_subject_;
         double cur_profit_;
         double max_floating_loss_;
         double max_floating_profits_;
+        MagicNumberRange pos_nm_range_;
+        MagicNumberRange neg_nm_range_;
         HashSet<int>* whole_order_magic_number_set_;
 // Utils Functions
     protected:
-        int UpdateMagicNumber() {
-            int group_auto_magic_nm_new = this.order_group_center_ptr_.UpdateGroupMagicNumber(this.group_id_);
-            if (this.whole_order_magic_number_set_.contains(this.group_auto_magic_nm_)) {
-                this.whole_order_magic_number_set_.remove(this.group_auto_magic_nm_);
+        bool UpdateMagicNumber() {
+            if (this.group_sig_magic_nm_ >= 0 || this.group_sig_magic_nm_ < this.neg_nm_range_.left) {
+                PrintFormat("UpdateMagicNumber() failed for {%s}, sig_[%d < %d]",
+                            this.group_name_, this.group_sig_magic_nm_, this.neg_nm_range_.left);
+                return false;
             }
-            this.whole_order_magic_number_set_.add(group_auto_magic_nm_new);
-            this.group_auto_magic_nm_ = group_auto_magic_nm_new;
-            return this.group_auto_magic_nm_;
+            if (this.group_auto_magic_nm_ <= 0 || this.group_auto_magic_nm_ > this.pos_nm_range_.right) {
+                PrintFormat("UpdateMagicNumber() failed for {%s}, auto_[%d > %d]",
+                            this.group_name_, this.group_auto_magic_nm_, this.pos_nm_range_.left);
+                return false;
+            }
+            this.whole_order_magic_number_set_.remove(this.group_auto_magic_nm_);
+            this.whole_order_magic_number_set_.remove(this.group_sig_magic_nm_);
+            // Updates the member variables for magic numbers
+            this.group_auto_magic_nm_ += 1;
+            this.group_sig_magic_nm_ -= 1;
+            
+            this.whole_order_magic_number_set_.add(this.group_auto_magic_nm_);
+            this.whole_order_magic_number_set_.add(this.group_sig_magic_nm_);
+            return true;
         }
         string GetGroupComment() {
-            string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
+            string comm_for_group = StringFormat("#s#%s#%s#%s#%s#%s#",
                                                  this.order_group_center_ptr_.GetName(),
                                                  this.group_name_,
                                                  IntegerToString(this.group_id_),
-                                                 IntegerToString(this.group_auto_magic_nm_));
+                                                 IntegerToString(this.group_auto_magic_nm_),
+                                                 IntegerToString(this.group_sig_magic_nm_));
             return comm_for_group;
         }
 

@@ -1,17 +1,26 @@
+#include "OrderGroupCenter.mqh"
 #include "../OrderGroupBase/OrderGroupSubjectBase.mqh"
 #include "../OrderGroupBase/OrderGroupObserverBase.mqh"
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Collection/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/all.mqh>
+#include "DataStructure.mqh"
 
 // Observer Register management methods implementations.
 int OrderGroupCenter::Register(OrderGroupObserver *observer) {
     this.order_group_observer_list_.add(observer);
-    int cur_order_group_id = this.registered_magic_number_max_;
-    int cur_magic_number = this.AllocateMagicNumber();
-    this.group_id_to_magic_number_.set(cur_order_group_id, cur_magic_number);
-    return cur_order_group_id;
+
+    OrderGroupInfo* g_info_ptr = new OrderGroupInfo();
+    g_info_ptr.group_id = this.group_id_base_;
+    this.group_id_base_ += 1;
+
+    GroupMNRanges g_mn_ranges = this.AllocateMagicNumber();
+    g_info_ptr.g_mn_ranges = g_mn_ranges;
+
+    this.group_id_to_group_info_.set(g_info_ptr.group_id, g_info_ptr);
+    this.group_id_to_magic_number_.set(g_info_ptr.group_id, g_info_ptr.g_mn_ranges.pos_right);
+    return g_info_ptr.group_id;
 }
 void OrderGroupCenter::UnRegister(OrderGroupObserver *observer) {
     this.order_group_observer_list_.remove(observer);
@@ -19,6 +28,7 @@ void OrderGroupCenter::UnRegister(OrderGroupObserver *observer) {
 void OrderGroupCenter::UnRegister(OrderGroupObserver *observer, int group_id) {
     if (this.group_id_to_magic_number_.contains(group_id)) {
         this.group_id_to_magic_number_.remove(group_id);
+        this.group_id_to_group_info_.remove(group_id);
     } else {
         PrintFormat("[GroupRemoveFailed] %s center does not have the group with %d", this.group_center_name_, group_id);
     }
@@ -43,13 +53,6 @@ void OrderGroupCenter::SomeBusinessLogic() {
     Notify();
     Print("Doing some business logics.");
 }
-int OrderGroupCenter::UpdateGroupMagicNumber(int group_id) {
-    this.observer_msg_ = StringFormat("update the magic number for group with group_id[%d]", group_id);
-    int magic_number_rtn = this.AllocateMagicNumber();
-    this.group_id_to_magic_number_.set(group_id, magic_number_rtn);
-    Notify();
-    return magic_number_rtn;
-}
 void OrderGroupCenter::CreateMsg(string msg) {
     this.observer_msg_ = msg;
     Notify();
@@ -65,8 +68,12 @@ void OrderGroupCenter::PrintInfo() {
         observer.PrintInfo();
     }
 }
-int OrderGroupCenter::AllocateMagicNumber() {
-    int allocated_magic_number = this.order_center_magic_number_base_ + this.registered_magic_number_max_;
-    this.registered_magic_number_max_++;
-    return allocated_magic_number;
+GroupMNRanges OrderGroupCenter::AllocateMagicNumber() {
+    GroupMNRanges cur_g_mn_ranges = {1,1,-1,-1};
+    cur_g_mn_ranges.pos_left = this.magic_number_max_;
+    cur_g_mn_ranges.pos_right = this.magic_number_max_ + CNT_GROUP_MAGIC_NUMBER - 1;
+    cur_g_mn_ranges.neg_left = this.magic_number_min_ - CNT_GROUP_MAGIC_NUMBER + 1;
+    this.magic_number_max_ += CNT_GROUP_MAGIC_NUMBER;
+    this.magic_number_min_ -= CNT_GROUP_MAGIC_NUMBER;
+    return cur_g_mn_ranges;
 }

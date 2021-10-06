@@ -2,3 +2,4 @@
 #include "OrderGroupImpl.mqh"
 #include "OrderGroupCenter.mqh"
 #include "OrderGroupCenterImpl.mqh"
+#include "DataStructure.mqh"
