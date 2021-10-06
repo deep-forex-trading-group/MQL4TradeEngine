@@ -11,7 +11,9 @@ class OrderGroupCenter : public OrderGroupSubject {
         OrderGroupCenter(string name) {
             this.group_center_name_ = name;
             this.registered_magic_number_max_ = 0;
-            this.order_center_magic_number_base_ = this.GetOrderCenterMagicNumberBase();
+            MinMaxMagicNumber min_max_mn = this.GetOrderCenterMagicNumberBase();
+            this.registered_magic_number_max_ = min_max_mn.max_magic_number;
+            this.registered_magic_number_min_ = min_max_mn.min_magic_number;
             PrintFormat("Initialize OrderGroupCenter [%s].", this.group_center_name_);
         }
         virtual ~OrderGroupCenter() {
@@ -45,6 +47,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         string observer_msg_;
         string group_center_name_;
         int registered_magic_number_max_;
+        int registered_magic_number_min_;
         int order_center_magic_number_base_;
     // Member functions
         void SaveDeleteOrderGroups() {
@@ -56,17 +59,18 @@ class OrderGroupCenter : public OrderGroupSubject {
         // TODO: Needs to accomplish to avoid Stoping EA,
         //       and avoid MAGIC NUMBER conflicts with previous started EA
         //       need to get the base number from a file instead of hard-coding.
-        int GetOrderCenterMagicNumberBase() {
+        MinMaxMagicNumber GetOrderCenterMagicNumberBase() {
             MinMaxMagicNumber res = OrderGetUtils::GetAllOrdersWithoutSymbol();
+            res.max_magic_number++;
+            res.min_magic_number--;
             if (res.is_success) {
-                PrintFormat("Set magic_base [%d] using history orders.",
-                             ORDER_GROUP_CENTER_MAGIC_BASE);
-                return res.max_magic_number + 1;
+                PrintFormat("Set magic_base with current symbol [%s] using history orders, set <%d:%d>",
+                             MarketInfoUtils::GetSymbol(), res.max_magic_number, res.min_magic_number);
             } else {
-                PrintFormat("There are no history order with current symbol [%s], set magic_base: %d",
-                             MarketInfoUtils::GetSymbol(), ORDER_GROUP_CENTER_MAGIC_BASE);
-                return ORDER_GROUP_CENTER_MAGIC_BASE;
+                PrintFormat("There are no history order with current symbol [%s], set <%d:%d>",
+                             MarketInfoUtils::GetSymbol(), res.max_magic_number, res.min_magic_number);
             }
+            return res;
         }
         int AllocateMagicNumber();
 };

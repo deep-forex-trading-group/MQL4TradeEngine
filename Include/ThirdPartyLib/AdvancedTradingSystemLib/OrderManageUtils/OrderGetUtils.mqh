@@ -82,7 +82,7 @@ bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarke
     return true;
 }
 MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbol() {
-    MinMaxMagicNumber res = {false, -50000000, -50000000};
+    MinMaxMagicNumber res = {false, 0, 0};
     int total_num = OrdersTotal();
     int total_history_num = OrdersHistoryTotal();
     if (total_num + total_history_num == 0) {
