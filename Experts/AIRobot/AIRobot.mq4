@@ -43,7 +43,8 @@ void OnTick() {
     CommentContent* cur_comment_content = ai_robot_ui.GetCommentContent();
     if (at_strategy.OnTickExecute(cur_comment_content) == FAILED) {
         PrintFormat("Execute [at_strategy] Failed! ");
-      }
+        // TODO: to stop EA or do sth to handle the failed cases
+    }
 //    OrderPrintUtils::PrintAllOrders();
 //    PrintFormat(MODE_HISTORY);
 //    PrintFormat(MODE_TRADES);
