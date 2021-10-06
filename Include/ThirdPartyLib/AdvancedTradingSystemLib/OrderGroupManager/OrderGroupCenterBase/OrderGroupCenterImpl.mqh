@@ -69,11 +69,13 @@ void OrderGroupCenter::PrintInfo() {
     }
 }
 GroupMNRanges OrderGroupCenter::AllocateMagicNumber() {
-    GroupMNRanges cur_g_mn_ranges = {1,1,-1,-1};
+    GroupMNRanges cur_g_mn_ranges = {INTEGER_MIN_INT, INTEGER_MIN_INT,
+                                     INTEGER_MAX_INT, INTEGER_MAX_INT};
     cur_g_mn_ranges.pos_left = this.magic_number_max_;
-    cur_g_mn_ranges.pos_right = this.magic_number_max_ + CNT_GROUP_MAGIC_NUMBER - 1;
-    cur_g_mn_ranges.neg_left = this.magic_number_min_ - CNT_GROUP_MAGIC_NUMBER + 1;
-    this.magic_number_max_ += CNT_GROUP_MAGIC_NUMBER;
-    this.magic_number_min_ -= CNT_GROUP_MAGIC_NUMBER;
+    cur_g_mn_ranges.pos_right = this.magic_number_max_ + CNT_MN_PER_GROUP - 1;
+    cur_g_mn_ranges.neg_left = this.magic_number_min_;
+    cur_g_mn_ranges.neg_right = this.magic_number_min_ - CNT_MN_PER_GROUP + 1;
+    this.magic_number_max_ += CNT_MN_PER_GROUP;
+    this.magic_number_min_ -= CNT_MN_PER_GROUP;
     return cur_g_mn_ranges;
 }

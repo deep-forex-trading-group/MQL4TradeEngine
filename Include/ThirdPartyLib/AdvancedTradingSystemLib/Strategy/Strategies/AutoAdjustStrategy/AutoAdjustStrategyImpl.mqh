@@ -29,7 +29,6 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     double pip_step_add = NormalizeDouble(
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
 
-    int group_magic_number = this.auto_adjust_order_group_.GetGroupMagicNumber();
     HashSet<int>* magic_set = this.auto_adjust_order_group_.GetWholeOrderMagicSet();
     double cur_total_profit = AccountInfoUtils::GetCurrentTotalProfit(magic_set, MODE_TRADES);
     double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set, MODE_TRADES);
@@ -47,16 +46,21 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         this.auto_adjust_order_group_.CloseAllOrders();
         // Close all orders and the state of the group changes
         // So we just refresh the state, to update the magic number for the group
-        if (this.auto_adjust_order_group_.RefreshOrderGroupState()) {
-            PrintFormat("RefreshOrderGroupState for strategy %s", this.strategy_name_);
-            return FAILED;
-        }
+        this.auto_adjust_order_group_.UpdateAutoMN();
         UIUtils::Laber("盈利平仓",Red,0);
     }
     comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_magic_number", this.auto_adjust_order_group_.GetGroupMagicNumber());
+                                "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
+    comment_content.SetTitleToFieldDoubleTerm(
+                                "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
+    comment_content.SetTitleToFieldDoubleTerm(
+                                "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
     comment_content.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
+    if (this.auto_adjust_order_group_.RefreshOrderGroupState() == FAILED) {
+        PrintFormat("RefreshOrderGroupState for strategy %s", this.strategy_name_);
+        return FAILED;
+    }
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnActionExecute() {
@@ -67,8 +71,8 @@ int AutoAdjustStrategy::OnActionExecute() {
     string pip_start_lots = this.config_file_.GetConfigFieldByTitleAndFieldName(
                                                         "Adjust", "pip_start_lots");
     double pip_start_lots_double = StringToDouble(pip_start_lots);
-//    this.auto_adjust_order_group_.CreateBuyOrder(pip_start_lots_double);
-    this.auto_adjust_order_group_.CreateSellOrder(pip_start_lots_double);
+//    this.auto_adjust_order_group_.CreateSigBuyOrder(pip_start_lots_double);
+    this.auto_adjust_order_group_.CreateSigSellOrder(pip_start_lots_double);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group) {

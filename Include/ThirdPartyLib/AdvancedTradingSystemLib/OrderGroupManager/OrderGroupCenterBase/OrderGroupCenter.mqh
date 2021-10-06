@@ -11,10 +11,15 @@ class OrderGroupCenter : public OrderGroupSubject {
     public:
         OrderGroupCenter(string name) {
             this.group_center_name_ = name;
-            MinMaxMagicNumber min_max_mn = this.GetOrderCenterMagicNumberBase();
-            this.magic_number_max_ = min_max_mn.max_magic_number;
-            this.magic_number_min_ = min_max_mn.min_magic_number;
-            this.group_id_base_ = this.magic_number_max_ % CNT_GROUP_MAGIC_NUMBER + 1;
+            MinMaxMagicNumber min_max_mn[1];
+            if (this.GetOrderCenterMagicNumberBase(min_max_mn) == FAILED) {
+                this.init_success = false;
+                return;
+            }
+            this.init_success = true;
+            this.magic_number_max_ = min_max_mn[0].max_magic_number;
+            this.magic_number_min_ = min_max_mn[0].min_magic_number;
+            this.group_id_base_ = (this.magic_number_max_ / CNT_MN_PER_GROUP) + 1;
             this.order_group_observer_list_ = new LinkedList<OrderGroupObserver*>();
             this.group_id_to_magic_number_ = new HashMap<int, int>();
             this.group_id_to_group_info_ = new HashMap<int, OrderGroupInfo*>();
@@ -23,13 +28,16 @@ class OrderGroupCenter : public OrderGroupSubject {
         virtual ~OrderGroupCenter() {
             PrintFormat("Deinitialize OrderGroupCenter [%s].", this.group_center_name_);
 
-            SaveDeletePtr(order_group_observer_list_);
-            SaveDeletePtr(group_id_to_magic_number_);
-            SaveDeletePtr(group_id_to_group_info_);
+            SafeDeleteCollectionPtr(this.order_group_observer_list_);
+            SafeDeleteCollectionPtr(this.group_id_to_magic_number_);
+            CollectionDeleteUtils<int, OrderGroupInfo*>::DeleteHashMap(this.group_id_to_group_info_);
         }
 
     // Observer communications management methods
     public:
+        int IsInitSuccess() {
+            return this.init_success;
+        }
         // Returns the group_id when new OrderGroup registered.
         int Register(OrderGroupObserver *observer);
         void UnRegister(OrderGroupObserver *observer);
@@ -43,9 +51,6 @@ class OrderGroupCenter : public OrderGroupSubject {
         void SetName(string name) { this.group_center_name_ = name; };
 
     public:
-        int GetMagicNumberByGroupId(int group_id) {
-            return this.group_id_base_ + group_id;
-        }
         GroupMNRanges OnStartGetMNRanges(int group_id) {
             if (this.group_id_to_group_info_.contains(group_id)) {
                 return this.group_id_to_group_info_[group_id].g_mn_ranges;
@@ -55,6 +60,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         }
     // Member variables
     protected:
+        int init_success;
         LinkedList<OrderGroupObserver*>* order_group_observer_list_;
         HashMap<int,int>* group_id_to_magic_number_;
         HashMap<int, OrderGroupInfo*>* group_id_to_group_info_;
@@ -64,30 +70,29 @@ class OrderGroupCenter : public OrderGroupSubject {
         int magic_number_min_;
         int group_id_base_;
     // Member functions
-<<<<<<< Updated upstream
-        void SaveDeleteOrderGroups() {
-            for (Iter<OrderGroupObserver*> it(this.order_group_observer_list_); !it.end(); it.next()) {
-                OrderGroupObserver* og = it.current();
-                SafeDeletePtr(og);
-            }
-        };
-=======
->>>>>>> Stashed changes
         // TODO: Needs to accomplish to avoid Stoping EA,
-        //       and avoid MAGIC NUMBER conflicts with previous started EA
         //       need to get the base number from a file instead of hard-coding.
-        MinMaxMagicNumber GetOrderCenterMagicNumberBase() {
-            MinMaxMagicNumber res = OrderGetUtils::GetAllOrdersWithoutSymbol();
-            res.max_magic_number = (res.max_magic_number % CNT_GROUP_MAGIC_NUMBER) + 1;
-            res.min_magic_number = (res.min_magic_number % CNT_GROUP_MAGIC_NUMBER) - 1;
-            if (res.is_success) {
+        int GetOrderCenterMagicNumberBase(MinMaxMagicNumber& res_out_arr[]) {
+            res_out_arr[0] = OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN();
+            if (res_out_arr[0].is_success = false) {
+                return FAILED;
+            }
+            PrintFormat("%d, %d", res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
+            res_out_arr[0].max_magic_number = (res_out_arr[0].max_magic_number / CNT_MN_PER_GROUP) * CNT_MN_PER_GROUP;
+            res_out_arr[0].max_magic_number += CNT_MN_PER_GROUP;
+            res_out_arr[0].min_magic_number = (res_out_arr[0].min_magic_number / CNT_MN_PER_GROUP) * CNT_MN_PER_GROUP;
+            res_out_arr[0].min_magic_number -= CNT_MN_PER_GROUP;
+            PrintFormat("%d", res_out_arr[0].min_magic_number);
+            PrintFormat("%d", -(MathAbs(res_out_arr[0].min_magic_number) % CNT_MN_PER_GROUP));
+            PrintFormat("%d, %d", res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
+            if (res_out_arr[0].is_success) {
                 PrintFormat("Set magic_base with current symbol [%s] using history orders, set <%d:%d>",
-                             MarketInfoUtils::GetSymbol(), res.max_magic_number, res.min_magic_number);
+                             MarketInfoUtils::GetSymbol(), res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
             } else {
                 PrintFormat("There are no history order with current symbol [%s], set <%d:%d>",
-                             MarketInfoUtils::GetSymbol(), res.max_magic_number, res.min_magic_number);
+                             MarketInfoUtils::GetSymbol(), res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
             }
-            return res;
+            return SUCCEEDED;
         }
         GroupMNRanges AllocateMagicNumber();
 };

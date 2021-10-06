@@ -21,6 +21,11 @@ AutoAdjustStrategy* at_strategy;
 int OnInit() {
     system_mode_config = new ConfigFile("system_mode_config.txt");
     at_strategy = new AutoAdjustStrategy("at_strategy");
+    if (!at_strategy.IsInitSuccess()) {
+        PrintFormat("Init AutoAdjustStrategy(at_strategy) Failed");
+        return INIT_FAILED;
+    }
+
 //    st_ctx = new StrategyContext(at_strategy);
     if (!system_mode_config.CheckConfigFileValid()) {
         PrintFormat("System Config File is invalid, makes sure the path as %s" ,

@@ -11,6 +11,12 @@ class AutoAdjustStrategy : public Strategy {
     public:
         AutoAdjustStrategy(string strategy_name) {
             this.auto_adjust_order_group_center_ = new AutoAdjustOrderGroupCenter("ad_center");
+            if (!this.auto_adjust_order_group_center_.IsInitSuccess()) {
+                this.init_success = false;
+                return;
+                /**/
+            }
+            this.init_success = true;
             this.auto_adjust_order_group_ = new AutoAdjustOrderGroup(
                                                     "ad_group", this.auto_adjust_order_group_center_);
             this.AutoAdjustStrategyCommonConstructor(strategy_name);
@@ -45,6 +51,7 @@ class AutoAdjustStrategy : public Strategy {
 
 // Implements the abstract methods in base class Strategy
     public:
+        bool IsInitSuccess() { return this.init_success; };
         int ExecuteStrategy() const;
         int OnTickExecute(CommentContent* comment_content);
         int OnTickExecute();
@@ -55,6 +62,7 @@ class AutoAdjustStrategy : public Strategy {
             return this.params_;
         }
     private:
+        bool init_success;
         AutoAdjustOrderGroup* auto_adjust_order_group_;
         AutoAdjustOrderGroupCenter* auto_adjust_order_group_center_;
         AutoAdjustStrategyParams* params_;
