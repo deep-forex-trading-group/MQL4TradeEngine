@@ -7,5 +7,6 @@ class CollectionDeleteUtils {
             foreachm(key_type, k, val_type, v, m) {
                 SafeDelete(v);
             }
+            SafeDelete(m);
         }
 }
