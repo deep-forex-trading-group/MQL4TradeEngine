@@ -18,6 +18,10 @@ if (CheckPointer(ptr) == POINTER_DYNAMIC) { \
 #define SafeDeletePtr(ptr) \
 if (!IsPtrInvalid(ptr)) { delete ptr; }
 
+#define SafeDeleteCollectionPtr(ptr) \
+ptr.clear(); \
+SafeDeletePtr(ptr);
+
 #define HandleLastError(err_prefix_msg) \
 int ErrCode = GetLastError(); \
 string ErrDesc = ErrorDescription(ErrCode); \
