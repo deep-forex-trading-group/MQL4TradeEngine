@@ -12,10 +12,10 @@ class OrderGroup : public OrderGroupObserver {
         OrderGroup(OrderGroupCenter *order_group_center_ptr) {
             this.order_group_center_ptr_ = order_group_center_ptr;
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
-            this.group_magic_number_ = this.order_group_center_ptr_
+            this.group_auto_magic_nm_ = this.order_group_center_ptr_
                                             .GetMagicNumberByGroupId(this.group_id_);
             this.whole_order_magic_number_set_ = new HashSet<int>();
-            this.whole_order_magic_number_set_.add(this.group_magic_number_);
+            this.whole_order_magic_number_set_.add(this.group_auto_magic_nm_);
             this.cur_profit_ = 0;
             this.max_floating_loss_ = 0;
             this.max_floating_profits_ = 0;
@@ -36,12 +36,12 @@ class OrderGroup : public OrderGroupObserver {
 // Public Apis for users to call
     public:
         int GetGroupId() { return this.group_id_; };
-        int GetGroupMagicNumber() { return this.group_magic_number_; }
+        int GetGroupMagicNumber() { return this.group_auto_magic_nm_; }
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
 // Order State Refreshing Functions (IMPORTANT MAINTAIN FUNCTIONS)
         void RefreshOrderGroupState() {
             // if the automatic group orders are all closed, update the magic number for the group
-            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_magic_number_) == 0) {
+            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_auto_magic_nm_) == 0) {
                 this.UpdateMagicNumber();
             }
         }
@@ -60,7 +60,7 @@ class OrderGroup : public OrderGroupObserver {
         bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots) {
             bool is_success = OrderSendUtils::AddOneOrderByStepPipReverse(
                                                                 this.whole_order_magic_number_set_,
-                                                                this.group_magic_number_,
+                                                                this.group_auto_magic_nm_,
                                                                 buy_or_sell, pip_step, lots,
                                                                 this.GetGroupComment());
             return is_success;
@@ -98,7 +98,7 @@ class OrderGroup : public OrderGroupObserver {
     protected:
         string group_name_;
         int group_id_;
-        int group_magic_number_;
+        int group_auto_magic_nm_;
         OrderInMarket orders_in_history[];
         OrderInMarket orders_in_trades[];
         string msg_from_subject_;
@@ -109,20 +109,20 @@ class OrderGroup : public OrderGroupObserver {
 // Utils Functions
     protected:
         int UpdateMagicNumber() {
-            int group_magic_number_new = this.order_group_center_ptr_.UpdateGroupMagicNumber(this.group_id_);
-            if (this.whole_order_magic_number_set_.contains(this.group_magic_number_)) {
-                this.whole_order_magic_number_set_.remove(this.group_magic_number_);
+            int group_auto_magic_nm_new = this.order_group_center_ptr_.UpdateGroupMagicNumber(this.group_id_);
+            if (this.whole_order_magic_number_set_.contains(this.group_auto_magic_nm_)) {
+                this.whole_order_magic_number_set_.remove(this.group_auto_magic_nm_);
             }
-            this.whole_order_magic_number_set_.add(group_magic_number_new);
-            this.group_magic_number_ = group_magic_number_new;
-            return this.group_magic_number_;
+            this.whole_order_magic_number_set_.add(group_auto_magic_nm_new);
+            this.group_auto_magic_nm_ = group_auto_magic_nm_new;
+            return this.group_auto_magic_nm_;
         }
         string GetGroupComment() {
             string comm_for_group = StringFormat("#s#%s#%s#%s#%s#",
                                                  this.order_group_center_ptr_.GetName(),
                                                  this.group_name_,
                                                  IntegerToString(this.group_id_),
-                                                 IntegerToString(this.group_magic_number_));
+                                                 IntegerToString(this.group_auto_magic_nm_));
             return comm_for_group;
         }
 

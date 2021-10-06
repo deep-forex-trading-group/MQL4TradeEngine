@@ -56,7 +56,7 @@ int OrderGroup::GetTotalNumOfOrdersInTrades() {
 }
 bool OrderGroup::CreateBuyOrder(double pip, string comment) {
     string comm = this.GetGroupComment();
-    if (OrderSendUtils::CreateBuyOrder(this.group_magic_number_, pip, comment) == -1) {
+    if (OrderSendUtils::CreateBuyOrder(this.group_auto_magic_nm_, pip, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
     }
@@ -64,7 +64,7 @@ bool OrderGroup::CreateBuyOrder(double pip, string comment) {
 }
 bool OrderGroup::CreateSellOrder(double pip, string comment) {
     string comm = this.GetGroupComment();
-    if (OrderSendUtils::CreateSellOrder(this.group_magic_number_, pip, comment) == -1) {
+    if (OrderSendUtils::CreateSellOrder(this.group_auto_magic_nm_, pip, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
     }
