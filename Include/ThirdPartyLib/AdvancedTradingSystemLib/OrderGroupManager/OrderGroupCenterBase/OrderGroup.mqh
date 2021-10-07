@@ -90,7 +90,7 @@ class OrderGroup : public OrderGroupObserver {
                                                                 this.whole_order_magic_number_set_,
                                                                 this.group_auto_nm_,
                                                                 buy_or_sell, pip_step, lots,
-                                                                this.GetGroupComment());
+                                                                this.GetGroupBaseComment());
             return is_success;
         }
 // Close Order Functions
@@ -157,7 +157,7 @@ class OrderGroup : public OrderGroupObserver {
             this.whole_order_magic_number_set_.add(this.group_sig_nm_);
             return true;
         }
-        string GetGroupComment() {
+        string GetGroupBaseComment() {
             string comm_for_group = StringFormat("#s#%s#%s#%s#%s#%s#",
                                                  this.order_group_center_ptr_.GetName(),
                                                  this.group_name_,

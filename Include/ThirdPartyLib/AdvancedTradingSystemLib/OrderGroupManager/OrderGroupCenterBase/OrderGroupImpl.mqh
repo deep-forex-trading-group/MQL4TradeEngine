@@ -55,7 +55,7 @@ int OrderGroup::GetTotalNumOfOrdersInTrades() {
     return ArraySize(this.orders_in_trades);
 }
 bool OrderGroup::CreateAutoBuyOrder(double pip, string comment) {
-    string comm = this.GetGroupComment();
+    string comm = this.GetGroupBaseComment();
     if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, pip, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
@@ -63,7 +63,7 @@ bool OrderGroup::CreateAutoBuyOrder(double pip, string comment) {
     return true;
 }
 bool OrderGroup::CreateAutoSellOrder(double pip, string comment) {
-    string comm = this.GetGroupComment();
+    string comm = this.GetGroupBaseComment();
     if (OrderSendUtils::CreateSellOrder(this.group_auto_nm_, pip, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
@@ -71,7 +71,7 @@ bool OrderGroup::CreateAutoSellOrder(double pip, string comment) {
     return true;
 }
 bool OrderGroup::CreateSigBuyOrder(double pip, string comment) {
-    string comm = this.GetGroupComment();
+    string comm = this.GetGroupBaseComment();
     if (OrderSendUtils::CreateBuyOrder(this.group_sig_nm_, pip, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
@@ -79,7 +79,7 @@ bool OrderGroup::CreateSigBuyOrder(double pip, string comment) {
     return true;
 }
 bool OrderGroup::CreateSigSellOrder(double pip, string comment) {
-    string comm = this.GetGroupComment();
+    string comm = this.GetGroupBaseComment();
     if (OrderSendUtils::CreateSellOrder(this.group_sig_nm_, pip, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
