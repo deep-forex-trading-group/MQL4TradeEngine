@@ -30,7 +30,7 @@ class ConfigFile : public ConfigFileBase {
             this.RefreshConfigFile();
         }
         ~ConfigFile() {
-            this.DeleteConfigMap();
+            CollectionDeleteUtils<string, ConfigSection*>::DeleteHashMap(this.config_titles_map_);
         }
 
     public:
@@ -47,8 +47,6 @@ class ConfigFile : public ConfigFileBase {
         string ProcessTitleString(const string line);
         bool IsFieldString(const string line);
         KVPair ProcessFiledString(const string line);
-        void DeleteConfigMap();
-
     private:
         string file_path_;
         HashMap<string, ConfigSection*>* config_titles_map_;

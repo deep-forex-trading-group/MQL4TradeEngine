@@ -19,7 +19,7 @@ int ConfigFile::RefreshConfigFile() {
     }
 
     // Reinitialize the config_titles_map_
-    this.DeleteConfigMap();
+    CollectionDeleteUtils<string, ConfigSection*>::DeleteHashMap(this.config_titles_map_);
     this.config_titles_map_ = new HashMap<string, ConfigSection*>;
 
     int line_idx = 0;
@@ -116,10 +116,4 @@ KVPair ConfigFile::ProcessFiledString(const string line) {
     kv_pair.key = words[0];
     kv_pair.value = words[1];
     return kv_pair;
-}
-void ConfigFile::DeleteConfigMap() {
-    foreachm(string, title, ConfigSection*, c_sec, config_titles_map_) {
-        delete c_sec;
-    }
-    delete this.config_titles_map_;
 }
