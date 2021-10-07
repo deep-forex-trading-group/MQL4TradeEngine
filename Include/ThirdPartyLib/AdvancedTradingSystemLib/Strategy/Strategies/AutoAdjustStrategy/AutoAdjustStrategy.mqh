@@ -10,7 +10,7 @@
 class AutoAdjustStrategy : public Strategy {
     public:
         AutoAdjustStrategy(string strategy_name) :
-                           is_sig_activated_(false) {
+                           is_sig_buy_activated_(false) {
             this.auto_adjust_order_group_center_ = new AutoAdjustOrderGroupCenter("ad_center");
             if (!this.auto_adjust_order_group_center_.IsInitSuccess()) {
                 this.init_success_ = false;
@@ -42,7 +42,8 @@ class AutoAdjustStrategy : public Strategy {
         int OnTickExecute(CommentContent* comment_content);
         int OnTickExecute();
         void OnTickSetUIAutoInfo(UIAutoInfo& ui_auto_info) {
-            this.is_sig_activated_ = ui_auto_info.is_sig_activated;
+            this.is_sig_buy_activated_ = ui_auto_info.is_sig_buy_activated;
+            this.is_sig_sell_activated_ = ui_auto_info.is_sig_sell_activated;
         }
         int OnActionExecute();
         int SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group);
@@ -66,7 +67,8 @@ class AutoAdjustStrategy : public Strategy {
         void OnTickShowBasicInfo();
     private:
         bool init_success_;
-        bool is_sig_activated_;
+        bool is_sig_buy_activated_;
+        bool is_sig_sell_activated_;
         CommentContent* comment_content_;
     private:
         AutoAdjustOrderGroup* auto_adjust_order_group_;

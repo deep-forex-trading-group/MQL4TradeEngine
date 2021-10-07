@@ -13,17 +13,24 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         return FAILED;
     }
     this.OnTickShowBasicInfo();
-    if (this.is_sig_activated_) {
+    if (this.is_sig_buy_activated_) {
         this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
-        this.auto_adjust_order_group_.GetGroupSigMagicNumber();
+        return SUCCEEDED;
+    }
+    if (this.is_sig_sell_activated_) {
+        this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.pip_start_lots);
+        return SUCCEEDED;
     }
     double lots = 0.05;
     int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
     OrderInMarket res[1];
     bool is_sig_exist = OrderGetUtils::GetOrderInTrade(this.auto_adjust_order_group_.GetGroupSigMagicNumber(), res);
+    int send_order_dir = INTEGER_MIN_INT;
     if (is_sig_exist) {
         lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
                                MarketInfoUtils::GetDigits());
+        send_order_dir = res[0].order_type == OP_BUY ? BUY_ORDER_SEND  : (
+                                              res[0].order_type == OP_SELL ? SELL_ORDER_SEND  : send_order_dir);
     }
     double pip_step_add = NormalizeDouble(
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
@@ -49,7 +56,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     }
 
     this.comment_content_.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
-    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
+    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(send_order_dir, pip_step_add, lots);
 
     return SUCCEEDED;
 }
