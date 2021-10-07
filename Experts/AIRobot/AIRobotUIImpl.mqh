@@ -15,9 +15,9 @@ void AIRobotUI::InitButtons() {
                                     this.button_inter_x, this.button_inter_y,
                                     this.button_section_set_pos);
 
-    this.btn_open_sig_test = new Button("信号测试按钮", this.button_width, this.button_height,
-                                        "信测按下", clrFireBrick, "信测抬起", clrBlack);
-    this.btn_ui_frame.AddUIComponent(2, 0, this.btn_open_sig_test);
+    this.btn_at_open_sig = new Button("AT买", this.button_width, this.button_height,
+                                      "AT买(中)", clrFireBrick, "AT买", clrBlack);
+    this.btn_ui_frame.AddUIComponent(2, 0, this.btn_at_open_sig);
 
     this.btn_is_show_comment = new Button("是否显示Comment按钮", this.button_width, this.button_height,
                                           "ShowComm", clrFireBrick, "HideComm", clrBlack);
@@ -58,9 +58,9 @@ void AIRobotUI::InitButtons() {
 
 void AIRobotUI::OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out) {
     UIAutoInfo ui_auto_info;
-    if(this.btn_open_sig_test.IsButtonPressed()) {
+    if(this.btn_at_open_sig.IsButtonPressed()) {
         ui_auto_info.is_sig_activated = true;
-        this.btn_open_sig_test.UnPressButton();
+        this.btn_at_open_sig.UnPressButton();
     }
 
     if (this.btn_is_show_comment.IsButtonPressed()) {
