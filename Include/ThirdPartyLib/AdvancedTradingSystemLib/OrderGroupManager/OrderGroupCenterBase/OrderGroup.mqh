@@ -44,12 +44,17 @@ class OrderGroup : public OrderGroupObserver {
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
 
 // Gets Group Orders Information
-        int GetTotalNumOfOrdersInTrades();
+        int GetTotalNumOfOrdersInTrades() {
+            return OrderGetUtils::GetNumOfAllOrdersInTrades(this.whole_order_magic_number_set_);
+        }
         double GetCurrentTotalLotsInTrades() {
             return AccountInfoUtils::GetCurrentTotalLots(this.whole_order_magic_number_set_,
                                                          IN_TRADES);
         }
-        double GetCurrentProfitInTrades();
+        double GetCurrentProfitInTrades() {
+            return AccountInfoUtils::GetCurrentFloatingProfit(this.whole_order_magic_number_set_);
+        }
+
 // TODO: To Fixes after implements total_info_for_one_loop
         double GetMaxFloatingProfit();
         double GetMaxFloatingLoss();

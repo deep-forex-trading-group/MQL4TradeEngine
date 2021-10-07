@@ -12,9 +12,3 @@ void OrderGroup::UnRegister() {
 void OrderGroup::PrintInfo() {
     PrintFormat("OrderGroup: %d gets a new msg [%s]", this.group_id_, this.msg_from_subject_);
 }
-int OrderGroup::GetTotalNumOfOrdersInTrades() {
-    return OrderGetUtils::GetNumOfAllOrdersInTrades(this.whole_order_magic_number_set_);
-}
-double OrderGroup::GetCurrentProfitInTrades() {
-    return AccountInfoUtils::GetCurrentFloatingProfit(this.whole_order_magic_number_set_);
-}
