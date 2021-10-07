@@ -90,7 +90,7 @@ class OrderGroup : public OrderGroupObserver {
 // Utils Functions
     protected:
         string GetGroupBaseComment() {
-            string comm_for_group = StringFormat("#s#%s#%s",
+            string comm_for_group = StringFormat("#%s#%s#%s",
                                                  this.order_group_center_ptr_.GetName(),
                                                  this.group_name_,
                                                  IntegerToString(this.group_id_));

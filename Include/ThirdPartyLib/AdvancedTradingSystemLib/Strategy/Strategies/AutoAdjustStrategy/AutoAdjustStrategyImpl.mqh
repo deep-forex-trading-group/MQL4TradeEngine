@@ -28,7 +28,6 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     double pip_step_add = NormalizeDouble(
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
 
-    HashSet<int>* magic_set = this.auto_adjust_order_group_.GetWholeOrderMagicSet();
     double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTrades();
     double total_lots = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
 //    double target_profit_money =

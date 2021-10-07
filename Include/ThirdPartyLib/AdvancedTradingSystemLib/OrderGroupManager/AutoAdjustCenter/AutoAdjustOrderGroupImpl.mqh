@@ -1,33 +1,34 @@
 #include "AutoAdjustOrderGroup.mqh"
 
 bool AutoAdjustOrderGroup::CreateAutoBuyOrder(double lots, string comment) {
-    string comm = this.GetGroupBaseComment();
-    if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, lots, comment) == -1) {
-        PrintFormat("Create Buy Order {%s} failed.", comm);
+    string comm_grp = this.GetGroupComment();
+    string comm = StringFormat("%s#ba#%s", comm_grp, comment);
+    if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, lots, comm) == -1) {
         return false;
     }
     return true;
 }
 bool AutoAdjustOrderGroup::CreateAutoSellOrder(double lots, string comment) {
-    string comm = this.GetGroupComment();
-    if (OrderSendUtils::CreateSellOrder(this.group_auto_nm_, lots, comment) == -1) {
-        PrintFormat("Create Sell Order {%s} failed.", comm);
+    string comm_grp = this.GetGroupComment();
+    string comm = StringFormat("%s#sa#%s", comm_grp, comment);
+    if (OrderSendUtils::CreateSellOrder(this.group_auto_nm_, lots, comm) == -1) {
         return false;
     }
     return true;
 }
 bool AutoAdjustOrderGroup::CreateSigBuyOrder(double lots, string comment) {
-    string comm = this.GetGroupComment();
-    PrintFormat(comm);
-    if (OrderSendUtils::CreateBuyOrder(this.group_sig_nm_, lots, comment) == -1) {
+    string comm_grp = this.GetGroupComment();
+    string comm = StringFormat("%s#bs#%s", comm_grp, comment);
+    if (OrderSendUtils::CreateBuyOrder(this.group_sig_nm_, lots, comm) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
     }
     return true;
 }
 bool AutoAdjustOrderGroup::CreateSigSellOrder(double lots, string comment) {
-    string comm = this.GetGroupComment();
-    if (OrderSendUtils::CreateSellOrder(this.group_sig_nm_, lots, comment) == -1) {
+    string comm_grp = this.GetGroupComment();
+    string comm = StringFormat("%s#ss#%s", comm_grp, comment);
+    if (OrderSendUtils::CreateSellOrder(this.group_sig_nm_, lots, comm) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
     }

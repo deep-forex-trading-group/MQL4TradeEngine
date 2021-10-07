@@ -32,12 +32,16 @@ class AutoAdjustOrderGroup : public OrderGroup {
         bool CreateSigBuyOrder(double lots, string comment);
         bool CreateSigSellOrder(double lots) { return this.CreateSigSellOrder(lots, ""); }
         bool CreateSigSellOrder(double lots, string comment);
-
         bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots) {
+            return this.AddOneOrderByStepPipReverse(buy_or_sell, pip_step, lots, "");
+        }
+        bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots, string comment) {
+            string comm_grp = this.GetGroupComment();
+            string comm = StringFormat("%s#sa#%s", comm_grp, comment);
             bool is_success = OrderSendUtils::AddOneOrderByStepPipReverse(this.whole_order_magic_number_set_,
                                                                           this.group_auto_nm_,
                                                                           buy_or_sell, pip_step, lots,
-                                                                          this.GetGroupComment());
+                                                                          comm);
             return is_success;
         }
 // Magic Number Operations
@@ -63,11 +67,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
     private:
         bool UpdateMagicNumber();
         string GetGroupComment() {
-            string comm_base = this.GetGroupBaseComment();
-            string comm_for_group = StringFormat("%s#%s#%s", comm_base,
-                                                IntegerToString(this.group_auto_nm_),
-                                                IntegerToString(this.group_sig_nm_));
-            return comm_for_group;
+            return this.GetGroupBaseComment();
         }
 
     private:
