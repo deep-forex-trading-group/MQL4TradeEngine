@@ -24,7 +24,7 @@ void AIRobotUI::InitButtons() {
     this.btn_ui_frame.AddUIComponent(1, 4, this.btn_is_show_comment);
 
     this.btn_close_buy = new Button("平多按钮", this.button_width, this.button_height,
-                                    "ShowComm", clrFireBrick, "HideComm", clrBlack);
+                                    "平多", clrFireBrick, "平多", clrBlack);
     this.btn_ui_frame.AddUIComponent(1, 3, this.btn_close_buy);
 
     this.btn_close_sell = new Button("平空按钮", this.button_width, this.button_height,
