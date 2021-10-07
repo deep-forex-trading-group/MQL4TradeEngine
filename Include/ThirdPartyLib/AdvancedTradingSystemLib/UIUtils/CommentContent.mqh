@@ -34,7 +34,7 @@ class CommentContent {
         int GetNumOfTitleToFieldDoubleTerm() {
             return this.title_to_field_double_map_.size();
         }
-       void ClearAllTitleToFieldTerms() {
+        void ClearAllTitleToFieldTerms() {
             if (this.GetNumOfTitleToFieldDoubleTerm() != 0) {
                 foreachm(string, title, double, field, this.title_to_field_double_map_) {
                     ObjectDelete(title);
