@@ -97,10 +97,10 @@ void ModuleTestManager::TestOrderGroupCenter() {
     order_group_center.SetName("Central Center");
     order_group_center.PrintInfo();
     PrintFormat("--------------- Init og1 ----------------------");
-    OrderGroup* og1 = new OrderGroup(order_group_center);
+    OrderGroup* og1 = new OrderGroup("og1", order_group_center);
     order_group_center.PrintInfo();
     PrintFormat("--------------- Init og2 ----------------------");
-    OrderGroup* og2 = new OrderGroup(order_group_center);
+    OrderGroup* og2 = new OrderGroup("og2", order_group_center);
     order_group_center.PrintInfo();
 
     order_group_center.CreateMsg("Hello World");

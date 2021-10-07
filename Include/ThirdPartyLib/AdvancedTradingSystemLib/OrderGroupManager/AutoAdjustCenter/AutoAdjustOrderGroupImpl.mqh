@@ -1,5 +1,13 @@
 #include "AutoAdjustOrderGroup.mqh"
 
+bool AutoAdjustOrderGroup::CreateAutoBuyOrder(double pip, string comment) {
+    string comm = this.GetGroupBaseComment();
+    if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, pip, comment) == -1) {
+        PrintFormat("Create Buy Order {%s} failed.", comm);
+        return false;
+    }
+    return true;
+}
 bool AutoAdjustOrderGroup::CreateAutoSellOrder(double pip, string comment) {
     string comm = this.GetGroupComment();
     if (OrderSendUtils::CreateSellOrder(this.group_auto_nm_, pip, comment) == -1) {

@@ -8,9 +8,8 @@
 class AutoAdjustOrderGroup : public OrderGroup {
     public:
         AutoAdjustOrderGroup(string name, AutoAdjustOrderGroupCenter *order_group_center_ptr)
-                                : OrderGroup(order_group_center_ptr){
+                                : OrderGroup(name, order_group_center_ptr){
             this.config_file_ = new ConfigFile("Config", "adjust_config.txt");
-            this.group_name_ = name;
             // Assigns and Initializes the magic number for Auto and Sig
             this.group_auto_nm_ = this.pos_nm_range_.left + 1;
             this.group_sig_nm_ = this.neg_nm_range_.left - 1;
@@ -79,12 +78,3 @@ class AutoAdjustOrderGroup : public OrderGroup {
         ConfigFile* config_file_;
 
 };
-
-bool AutoAdjustOrderGroup::CreateAutoBuyOrder(double pip, string comment) {
-    string comm = this.GetGroupBaseComment();
-    if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, pip, comment) == -1) {
-        PrintFormat("Create Buy Order {%s} failed.", comm);
-        return false;
-    }
-    return true;
-}

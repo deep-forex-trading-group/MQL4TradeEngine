@@ -10,8 +10,8 @@
 class OrderGroup : public OrderGroupObserver {
     public:
     // TODO: to separate the signal_order and auto_order with different MAGIC_NUMBER
-        OrderGroup(OrderGroupCenter *order_group_center_ptr) {
-            this.order_group_center_ptr_ = order_group_center_ptr;
+        OrderGroup(string name, OrderGroupCenter *order_group_center_ptr) :
+                   group_name_(name), order_group_center_ptr_(order_group_center_ptr) {
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
             // Gets Magic Number Ranges from Center
             GroupMNRanges g_mn_ranges = this.order_group_center_ptr_.OnStartGetMNRanges(this.group_id_);
