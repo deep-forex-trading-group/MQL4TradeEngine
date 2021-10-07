@@ -5,6 +5,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ModuleTestManager/all.mqh>
 
 #include "AIRobotConstant.mqh"
+#include "DataStructure.mqh"
 
 class AIRobotUI {
     public:
@@ -30,19 +31,18 @@ class AIRobotUI {
             SafeDeletePtr(this.btn_ea_test_sec);
         }
     public:
-        void OnTickRefreshUI() {
+        void OnTickRefreshUI(UIRetData* ui_ret_data_out) {
             this.btn_ui_frame.OnTickCheckUIStates();
-            this.OnTickRefreshButtonsStates();
+            this.OnTickRefreshButtonsStates(ui_ret_data_out);
         }
         CommentContent* GetCommentContent() {
             return this.comment_content_;
         }
     private:
-        void OnTickRefreshButtonsStates();
+        void OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out);
         void InitGraphItems() {
             this.comment_content_ = new CommentContent();
             this.InitButtons();
-            this.OnTickRefreshUI();
         }
         void InitButtons();
 

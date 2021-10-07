@@ -1,11 +1,4 @@
-#include "DataStructure.mqh"
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderGroupManager/AutoAdjustCenter/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/all.mqh>
+#include "AutoAdjustStrategy.mqh"
 
 int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
@@ -15,15 +8,14 @@ int AutoAdjustStrategy::OnTickExecute() {
     return FAILED;
 }
 int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
-    // Base Information to show.
-    comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
-    comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
-    comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
+    this.comment_content_ = comment_content;
     if (!this.params_.IsParamsValid()) {
         return FAILED;
+    }
+    this.OnTickShowBasicInfo();
+    if (this.is_sig_activated_) {
+        this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
+        this.auto_adjust_order_group_.GetGroupSigMagicNumber();
     }
     double lots = 0.05;
     int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
@@ -41,14 +33,14 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
     double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set, MODE_TRADES);
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
-    comment_content.SetTitleToFieldDoubleTerm("total_lots", total_lots);
-    comment_content.SetTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
+    this.comment_content_.SetTitleToFieldDoubleTerm("total_lots", total_lots);
+    this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
 
     double target_profit_money =
                     NormalizeDouble(total_lots * this.params_.target_profit_factor, 2);
 
-    comment_content.SetTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
-    comment_content.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
+    this.comment_content_.SetTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
+    this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + 0.01 <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders();
         // Close all orders and the state of the group changes
@@ -57,13 +49,22 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         UIUtils::Laber("盈利平仓",Red,0);
     }
 
-    comment_content.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
+    this.comment_content_.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
     if (this.auto_adjust_order_group_.RefreshOrderGroupState() == FAILED) {
         PrintFormat("RefreshOrderGroupState for strategy %s", this.strategy_name_);
         return FAILED;
     }
     return SUCCEEDED;
+}
+void AutoAdjustStrategy::OnTickShowBasicInfo() {
+    // Base Information to show.
+    this.comment_content_.SetTitleToFieldDoubleTerm(
+                                "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
+    this.comment_content_.SetTitleToFieldDoubleTerm(
+                                "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
+    this.comment_content_.SetTitleToFieldDoubleTerm(
+                                "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
 }
 int AutoAdjustStrategy::OnActionExecute() {
     PrintFormat("AutoAdjustStrategy {%s} executed OnActionExecute", this.strategy_name_);

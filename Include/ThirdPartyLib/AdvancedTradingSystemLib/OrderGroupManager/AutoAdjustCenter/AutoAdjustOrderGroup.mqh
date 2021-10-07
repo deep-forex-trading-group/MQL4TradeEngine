@@ -24,14 +24,14 @@ class AutoAdjustOrderGroup : public OrderGroup {
         int GetGroupSigMagicNumber() { return this.group_sig_nm_; }
 
 // Create Order Functions
-        bool CreateAutoBuyOrder(double pip) { return this.CreateAutoBuyOrder(pip, ""); }
-        bool CreateAutoBuyOrder(double pip, string comment);
-        bool CreateAutoSellOrder(double pip) { return this.CreateAutoSellOrder(pip, ""); }
-        bool CreateAutoSellOrder(double pip, string comment);
-        bool CreateSigBuyOrder(double pip) { return this.CreateSigBuyOrder(pip, ""); }
-        bool CreateSigBuyOrder(double pip, string comment);
-        bool CreateSigSellOrder(double pip) { return this.CreateSigSellOrder(pip, ""); }
-        bool CreateSigSellOrder(double pip, string comment);
+        bool CreateAutoBuyOrder(double lots) { return this.CreateAutoBuyOrder(lots, ""); }
+        bool CreateAutoBuyOrder(double lots, string comment);
+        bool CreateAutoSellOrder(double lots) { return this.CreateAutoSellOrder(lots, ""); }
+        bool CreateAutoSellOrder(double lots, string comment);
+        bool CreateSigBuyOrder(double lots) { return this.CreateSigBuyOrder(lots, ""); }
+        bool CreateSigBuyOrder(double lots, string comment);
+        bool CreateSigSellOrder(double lots) { return this.CreateSigSellOrder(lots, ""); }
+        bool CreateSigSellOrder(double lots, string comment);
 
         bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots) {
             bool is_success = OrderSendUtils::AddOneOrderByStepPipReverse(this.whole_order_magic_number_set_,

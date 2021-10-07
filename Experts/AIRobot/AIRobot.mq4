@@ -9,6 +9,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/EAUtils/all.mqh>
 #include "AIRobotUI.mqh"
 #include "AIRobotUIImpl.mqh"
+#include "DataStructure.mqh"
 
 // Testing Mode and Production Mode switch
 // if Production Mode, comments the code snippets
@@ -19,6 +20,7 @@ AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
 AutoAdjustStrategy* at_strategy;
 CommentContent* comment_content_ea;
+UIRetData ui_ret_data();
 
 int OnInit() {
 
@@ -58,11 +60,11 @@ TESTING_CODE_END(system_mode)
 }
 
 void OnTick() {
+    ai_robot_ui.OnTickRefreshUI(&ui_ret_data);
+    at_strategy.OnTickSetUIAutoInfo(ui_ret_data.ui_auto_info);
     if (at_strategy.OnTickExecute(comment_content_ea) == FAILED) {
         comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
     }
-    // 最后更新UI, 因为有时间差
-    ai_robot_ui.OnTickRefreshUI();
 }
 
 void OnDeinit(const int reason) {

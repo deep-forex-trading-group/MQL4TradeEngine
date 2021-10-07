@@ -56,9 +56,10 @@ void AIRobotUI::InitButtons() {
     this.btn_ui_frame.AddUIComponent(0, 0, this.btn_ea_test_sec);
 }
 
-void AIRobotUI::OnTickRefreshButtonsStates() {
+void AIRobotUI::OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out) {
+    UIAutoInfo ui_auto_info;
     if(this.btn_open_sig_test.IsButtonPressed()) {
-        OrderSendUtils::CreateBuyOrder(-2000, 0.01, "ad_sig");
+        ui_auto_info.is_sig_activated = true;
         this.btn_open_sig_test.UnPressButton();
     }
 
@@ -101,4 +102,6 @@ void AIRobotUI::OnTickRefreshButtonsStates() {
 //        mt_manager.StartTestTwo();
         this.btn_ea_test_sec.UnPressButton();
     }
+
+    ui_ret_data_out.ui_auto_info = ui_auto_info;
 }

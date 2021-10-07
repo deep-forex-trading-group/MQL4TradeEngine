@@ -1,33 +1,33 @@
 #include "AutoAdjustOrderGroup.mqh"
 
-bool AutoAdjustOrderGroup::CreateAutoBuyOrder(double pip, string comment) {
+bool AutoAdjustOrderGroup::CreateAutoBuyOrder(double lots, string comment) {
     string comm = this.GetGroupBaseComment();
-    if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, pip, comment) == -1) {
+    if (OrderSendUtils::CreateBuyOrder(this.group_auto_nm_, lots, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
     }
     return true;
 }
-bool AutoAdjustOrderGroup::CreateAutoSellOrder(double pip, string comment) {
+bool AutoAdjustOrderGroup::CreateAutoSellOrder(double lots, string comment) {
     string comm = this.GetGroupComment();
-    if (OrderSendUtils::CreateSellOrder(this.group_auto_nm_, pip, comment) == -1) {
+    if (OrderSendUtils::CreateSellOrder(this.group_auto_nm_, lots, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
     }
     return true;
 }
-bool AutoAdjustOrderGroup::CreateSigBuyOrder(double pip, string comment) {
+bool AutoAdjustOrderGroup::CreateSigBuyOrder(double lots, string comment) {
     string comm = this.GetGroupComment();
     PrintFormat(comm);
-    if (OrderSendUtils::CreateBuyOrder(this.group_sig_nm_, pip, comment) == -1) {
+    if (OrderSendUtils::CreateBuyOrder(this.group_sig_nm_, lots, comment) == -1) {
         PrintFormat("Create Buy Order {%s} failed.", comm);
         return false;
     }
     return true;
 }
-bool AutoAdjustOrderGroup::CreateSigSellOrder(double pip, string comment) {
+bool AutoAdjustOrderGroup::CreateSigSellOrder(double lots, string comment) {
     string comm = this.GetGroupComment();
-    if (OrderSendUtils::CreateSellOrder(this.group_sig_nm_, pip, comment) == -1) {
+    if (OrderSendUtils::CreateSellOrder(this.group_sig_nm_, lots, comment) == -1) {
         PrintFormat("Create Sell Order {%s} failed.", comm);
         return false;
     }
