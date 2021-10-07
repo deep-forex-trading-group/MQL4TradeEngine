@@ -7,9 +7,6 @@ class UIUtils {
         static void FixLocationLabel(string name, string content,
                                      int corner_left_dis, int corner_right_dis,
                                      string font_type, color font_color, int font_size, int corner_of_charts);
-        bool IsButtonPressed(string btn_name);
-        void UnPressButton(string btn_name);
-        void PressButton(string btn_name);
 };
 void UIUtils::Laber(string a,color b,int jl) {
     if(IsOptimization())
@@ -40,13 +37,4 @@ void UIUtils::FixLocationLabel(string name, string content,
     ObjectSet(name, OBJPROP_YDISTANCE, corner_right_dis);
     ObjectSetText(name, content, font_size, font_type, font_color);
     ObjectSet(name, OBJPROP_CORNER, corner_of_charts);
-}
-bool UIUtils::IsButtonPressed(string btn_name) {
-    return (ObjectGetInteger(0,btn_name,OBJPROP_STATE)==1);
-}
-void UIUtils::UnPressButton(string btn_name) {
-    ObjectSetInteger(0,btn_name,OBJPROP_STATE,0);
-}
-void UIUtils::PressButton(string btn_name) {
-    ObjectSetInteger(0,btn_name,OBJPROP_STATE,1);
 }
