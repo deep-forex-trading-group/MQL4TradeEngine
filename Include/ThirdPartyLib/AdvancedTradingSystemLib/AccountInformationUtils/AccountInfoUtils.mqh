@@ -21,11 +21,23 @@ class AccountInfoUtils {
 
 double AccountInfoUtils::GetCurrentTotalProfit(int magic_number, int mode_trade_or_history) {
     double TotalProfit = 0;
-    int orders_total = OrdersTotal();
-    for (int i = orders_total - 1; i >= 0; i--) {
-        if (OrderSelect(i, SELECT_BY_POS, mode_trade_or_history) && OrderSymbol() == Symbol()
-            && OrderMagicNumber() == magic_number) {
-            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();;
+    if (mode_trade_or_history == IN_TRADES || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total = OrdersTotal();
+        for (int i = orders_total - 1; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                && magic_number == OrderMagicNumber()) {
+                TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
+            }
+        }
+    }
+
+    if (mode_trade_or_history == IN_HISTORY || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total_history = OrdersHistoryTotal();
+        for (int i = orders_total_history; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
+                && magic_number == OrderMagicNumber()) {
+                TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
+            }
         }
     }
 
@@ -33,35 +45,74 @@ double AccountInfoUtils::GetCurrentTotalProfit(int magic_number, int mode_trade_
 }
 double AccountInfoUtils::GetCurrentTotalProfit(HashSet<int>* magic_number_set, int mode_trade_or_history) {
     double TotalProfit = 0;
-    int orders_total = OrdersTotal();
-    for (int i = orders_total - 1; i >= 0; i--) {
-        if (OrderSelect(i, SELECT_BY_POS, mode_trade_or_history) && OrderSymbol() == Symbol()
-            && magic_number_set.contains(OrderMagicNumber())) {
-            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();;
+    if (mode_trade_or_history == IN_TRADES || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total = OrdersTotal();
+        for (int i = orders_total - 1; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                && magic_number_set.contains(OrderMagicNumber())) {
+                TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
+            }
         }
     }
+
+    if (mode_trade_or_history == IN_HISTORY || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total_history = OrdersHistoryTotal();
+        for (int i = orders_total_history; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
+                && magic_number_set.contains(OrderMagicNumber())) {
+                TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
+            }
+        }
+    }
+
     return(TotalProfit);
 }
 double AccountInfoUtils::GetCurrentTotalLots(int magic_number, int mode_trade_or_history) {
     double total_lots = 0;
-    int orders_total = OrdersTotal();
-    for (int i = orders_total - 1; i >= 0; i--) {
-        if (OrderSelect(i, SELECT_BY_POS, mode_trade_or_history) && OrderSymbol() == Symbol()
-            && OrderMagicNumber() == magic_number) {
-            total_lots = total_lots + OrderLots();
+    if (mode_trade_or_history == IN_TRADES || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total = OrdersTotal();
+        for (int i = orders_total - 1; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                && OrderMagicNumber() == magic_number) {
+                total_lots = total_lots + OrderLots();
+            }
         }
     }
+
+    if (mode_trade_or_history == IN_HISTORY || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total_history = OrdersHistoryTotal();
+        for (int i = orders_total_history; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
+                && OrderMagicNumber() == magic_number) {
+                total_lots = total_lots + OrderLots();
+            }
+        }
+    }
+
     return total_lots;
 }
 double AccountInfoUtils::GetCurrentTotalLots(HashSet<int>* magic_number_set, int mode_trade_or_history) {
     double total_lots = 0;
-    int orders_total = OrdersTotal();
-    for (int i = orders_total - 1; i >= 0; i--) {
-        if (OrderSelect(i, SELECT_BY_POS, mode_trade_or_history) && OrderSymbol() == Symbol()
-            && magic_number_set.contains(OrderMagicNumber())) {
-            total_lots = total_lots + OrderLots();
+    if (mode_trade_or_history == IN_TRADES || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total = OrdersTotal();
+        for (int i = orders_total - 1; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+                && magic_number_set.contains(OrderMagicNumber())) {
+                total_lots = total_lots + OrderLots();
+            }
         }
     }
+
+    if (mode_trade_or_history == IN_HISTORY || mode_trade_or_history == IN_TRADES_OR_HISTORY) {
+        int orders_total_history = OrdersHistoryTotal();
+        for (int i = orders_total_history; i >= 0; i--) {
+            if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
+                && magic_number_set.contains(OrderMagicNumber())) {
+                total_lots = total_lots + OrderLots();
+            }
+        }
+    }
+
     return total_lots;
 }
 double AccountInfoUtils::GetCurrentFloatingProfit(int magic_number) {
