@@ -33,7 +33,6 @@ class OrderGroup : public OrderGroupObserver {
         };
         virtual ~OrderGroup() {
             PrintFormat("Deinitialize order group [%d]", this.group_id_);
-            SafeDeletePtr(&order_array_utils);
             SafeDeleteCollectionPtr(whole_order_magic_number_set_);
         };
 
@@ -117,11 +116,6 @@ class OrderGroup : public OrderGroupObserver {
         }
     protected:
         OrderGroupCenter *order_group_center_ptr_;
-
-// Utils Variables
-    protected:
-        OrderArrayUtils order_array_utils;
-        AccountInfoUtils ac_utils;
 
 // Member Variables
     protected:
