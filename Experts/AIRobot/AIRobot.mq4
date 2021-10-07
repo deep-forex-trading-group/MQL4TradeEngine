@@ -6,12 +6,14 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/SystemConfigUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategy/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/EAUtils/all.mqh>
 #include "AIRobotUI.mqh"
 #include "AIRobotUIImpl.mqh"
 
 // Testing Mode and Production Mode switch
 // if Production Mode, comments the code snippets
 extern SYSTEM_MODE system_mode = PRODUCTION_MODE;
+extern bool allow_real_acct = false;
 
 AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
@@ -19,6 +21,12 @@ AutoAdjustStrategy* at_strategy;
 //StrategyContext* st_ctx;
 
 int OnInit() {
+
+    if (!allow_real_acct && !EAUtils::IsEARunOnDemoAccount()) {
+        PrintFormat("EA is not allowed for real acct, please set the [allow_real_acct].");
+        return INIT_FAILED;
+    }
+
     system_mode_config = new ConfigFile("system_mode_config.txt");
     at_strategy = new AutoAdjustStrategy("at_strategy");
     if (!at_strategy.IsInitSuccess()) {
@@ -50,9 +58,6 @@ void OnTick() {
         PrintFormat("Execute [at_strategy] Failed! ");
         // TODO: to stop EA or do sth to handle the failed cases
     }
-//    OrderPrintUtils::PrintAllOrders();
-//    PrintFormat(MODE_HISTORY);
-//    PrintFormat(MODE_TRADES);
     // 最后更新UI, 因为有时间差
     ai_robot_ui.OnTickRefreshUI();
 }
@@ -63,5 +68,4 @@ void OnDeinit(const int reason) {
     SafeDeletePtr(&ai_robot_ui);
     SafeDeletePtr(system_mode_config);
     SafeDeletePtr(at_strategy);
-//    SafeDeletePtr(st_ctx);
 }
