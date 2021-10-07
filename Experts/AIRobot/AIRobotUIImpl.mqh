@@ -1,8 +1,3 @@
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/ModuleTestManager/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/UIUtils/all.mqh>
-
 #include "AIRobotUI.mqh"
 
 void AIRobotUI::InitButtons() {
