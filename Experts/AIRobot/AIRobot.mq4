@@ -54,7 +54,7 @@ void OnTick() {
 //    PrintFormat(MODE_HISTORY);
 //    PrintFormat(MODE_TRADES);
     // 最后更新UI, 因为有时间差
-    ai_robot_ui.RefreshUI();
+    ai_robot_ui.OnTickRefreshUI();
 }
 
 void OnDeinit(const int reason) {

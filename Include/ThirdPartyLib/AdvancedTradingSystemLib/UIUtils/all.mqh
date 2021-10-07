@@ -1,3 +1,5 @@
 #include "UIUtils.mqh"
+#include "UIFrame.mqh"
+#include "UIComponent.mqh"
 #include "Button.mqh"
 #include "CommentContent.mqh"

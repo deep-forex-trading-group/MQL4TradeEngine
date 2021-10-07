@@ -6,48 +6,53 @@
 #include "AIRobotUI.mqh"
 
 void AIRobotUI::InitButtons() {
+// button init params
     this.button_x = 80;
     this.button_y = 25;
     this.button_inter_x = 75;
     this.button_inter_y = 30;
-    this.button_length = 65;
-    this.button_width = 20;
-    this.btn_open_sig_test = new Button("信号测试按钮","信号测试","信号测试",
-                                        (button_x+button_inter_x*2),(button_y+button_inter_y*0),
-                                        button_length,button_width,button_section_set_pos,clrFireBrick,clrBlack);
-    this.btn_is_show_comment = new Button("是否显示Comment按钮","ShowComm","HideComm",
-                                         (button_x+button_inter_x*1),(button_y+button_inter_y*4),
-                                         button_length,button_width,button_section_set_pos,clrFireBrick,clrBlack);
-    this.btn_close_buy = new Button("平多按钮","平多","平多",(button_x+button_inter_x*1),(button_y+button_inter_y*3),
-                        button_length,button_width,button_section_set_pos,clrFireBrick,clrBlack);
-    this.btn_close_sell = new Button("平空按钮","平空","平空",button_x+button_inter_x*0,button_y+button_inter_y*3,
-                    button_length,button_width,button_section_set_pos,clrMediumVioletRed,clrBlack);
-    this.btn_close_profit_buy = new Button("平盈利多按钮","平盈利多","平盈利多",button_x+button_inter_x*1,button_y+button_inter_y*2,
-                    button_length,button_width,button_section_set_pos,clrMediumSeaGreen,clrBlack);
-    this.btn_close_profit_sell = new Button("平盈利空按钮","平盈利空","平盈利空",button_x+button_inter_x*0,button_y+button_inter_y*2,
-                    button_length,button_width,button_section_set_pos,clrChocolate,clrBlack);
-    this.btn_close_all = new Button("全平按钮","全平","全平",button_x+button_inter_x*1,button_y+button_inter_y*1,
-                    button_length,button_width,button_section_set_pos,clrDarkViolet,clrBlack);
-    this.ea_openclose = new Button("EA开关按钮","开启EA","关闭EA",button_x+button_inter_x*0,button_y+button_inter_y*1,
-                    button_length,button_width,button_section_set_pos,clrBlue,clrRed);
-    this.ea_test = new Button("测试按钮","关闭测试","开启测试",button_x+button_inter_x*1,button_y+button_inter_y*0,
-                    button_length,button_width,button_section_set_pos,clrDarkViolet,clrBlack);
-    this.ea_test_sec = new Button("测试按钮2","测试2","测试2",button_x+button_inter_x*0,button_y+button_inter_y*0,
-                    button_length,button_width,button_section_set_pos,clrDarkViolet,clrBlack);
+    this.button_width = 65;
+    this.button_height = 20;
+    this.button_section_set_pos = CORNER_RIGHT_LOWER;
+
+// Initialize the buttons and add them to the frame
+    this.btn_ui_frame = new UIFrame("btn_frame", this.button_x, this.button_y,
+                                 this.button_inter_x, this.button_inter_y,
+                                 this.button_section_set_pos);
+    this.btn_open_sig_test = new Button("信号测试按钮", this.button_width, this.button_height,
+                                        "信测按下", clrFireBrick, "信测抬起", clrBlack);
+    this.btn_ui_frame.AddUIComponent(2, 0, this.btn_open_sig_test);
+    this.btn_is_show_comment = new Button("是否显示Comment按钮", this.button_width, this.button_height,
+                                          "ShowComm", clrFireBrick, "HideComm", clrBlack);
+    this.btn_ui_frame.AddUIComponent(1, 4, this.btn_is_show_comment);
+    this.btn_close_buy = new Button("平多按钮", this.button_width, this.button_height,
+                                     "ShowComm", clrFireBrick, "HideComm", clrBlack);
+    this.btn_ui_frame.AddUIComponent(1, 3, this.btn_close_buy);
+    this.btn_close_sell = new Button("平空按钮", this.button_width, this.button_height,
+                                     "平空", clrMediumVioletRed, "平空", clrBlack);
+    this.btn_ui_frame.AddUIComponent(0, 3, this.btn_close_sell);
+
+    this.btn_close_profit_buy = new Button("平盈利多按钮", this.button_width, this.button_height,
+                                           "平盈利多", clrMediumSeaGreen, "平盈利多", clrBlack);
+    this.btn_ui_frame.AddUIComponent(1, 2, this.btn_close_profit_buy);
+    this.btn_close_profit_sell = new Button("平盈利空按钮", this.button_width, this.button_height,
+                                            "平盈利空", clrChocolate, "平盈利空", clrBlack);
+    this.btn_ui_frame.AddUIComponent(0, 2, this.btn_close_profit_sell);
+    this.btn_close_all = new Button("全平按钮", this.button_width, this.button_height,
+                                    "全平",clrDarkViolet,"全平",clrBlack);
+    this.btn_ui_frame.AddUIComponent(1, 1, this.btn_close_all);
+    this.ea_openclose = new Button("EA开关按钮", this.button_width, this.button_height,
+                                    "开启EA", clrBlue, "关闭EA", clrRed);
+    this.btn_ui_frame.AddUIComponent(0, 1, this.ea_openclose);
+    this.ea_test = new Button("测试按钮", this.button_width, this.button_height,
+                              "关闭测试", clrDarkViolet, "开启测试", clrBlack);
+    this.btn_ui_frame.AddUIComponent(1, 0, this.ea_test);
+    this.ea_test_sec = new Button("测试按钮2", this.button_width, this.button_height,
+                                  "测试2", clrDarkViolet, "测试2", clrBlack);
+    this.btn_ui_frame.AddUIComponent(0, 0, this.ea_test_sec);
 }
 
 void AIRobotUI::RefreshButtonsStates() {
-    this.btn_open_sig_test.CheckButtonState();
-    this.btn_is_show_comment.CheckButtonState();
-    this.btn_close_buy.CheckButtonState();
-    this.btn_close_sell.CheckButtonState();
-    this.btn_close_profit_buy.CheckButtonState();
-    this.btn_close_profit_sell.CheckButtonState();
-    this.btn_close_all.CheckButtonState();
-    this.ea_openclose.CheckButtonState();
-    this.ea_test.CheckButtonState();
-    this.ea_test_sec.CheckButtonState();
-
     if(this.btn_open_sig_test.IsButtonPressed()) {
         OrderSendUtils::CreateBuyOrder(-2000, 0.01, "ad_sig");
         this.btn_open_sig_test.UnPressButton();

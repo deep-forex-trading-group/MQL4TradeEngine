@@ -16,6 +16,7 @@ class AIRobotUI {
         ~AIRobotUI() {
             PrintFormat("Deinitialize the AIRobotUI. ");
             SafeDeletePtr(comment_content_);
+            SafeDeletePtr(this.btn_ui_frame);
             SafeDeletePtr(mt_manager);
             SafeDeletePtr(this.btn_open_sig_test);
             SafeDeletePtr(this.btn_is_show_comment);
@@ -29,7 +30,8 @@ class AIRobotUI {
             SafeDeletePtr(this.ea_test_sec);
         }
     public:
-        void RefreshUI() {
+        void OnTickRefreshUI() {
+            this.btn_ui_frame.OnTickCheckUIStates();
             this.RefreshButtonsStates();
         }
         CommentContent* GetCommentContent() {
@@ -40,19 +42,23 @@ class AIRobotUI {
         void InitGraphItems() {
             this.comment_content_ = new CommentContent();
             this.InitButtons();
-            this.RefreshUI();
+            this.OnTickRefreshUI();
         }
-        ENUM_BASE_CORNER button_section_set_pos;
-        ModuleTestManager* mt_manager;
-    private:
-        CommentContent* comment_content_;
         void InitButtons();
+
+    private:
+        ModuleTestManager* mt_manager;
+        CommentContent* comment_content_;
+        
+        UIFrame* btn_ui_frame;
+        string btn_ui_frame_name;
         int button_x;
         int button_y;
         int button_inter_x;
         int button_inter_y;
-        int button_length;
+        ENUM_BASE_CORNER button_section_set_pos;
         int button_width;
+        int button_height;
         Button* btn_open_sig_test;
         Button* btn_is_show_comment;
         Button* btn_close_buy;
