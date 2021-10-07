@@ -41,15 +41,15 @@ void AIRobotUI::InitButtons() {
     this.btn_close_all = new Button("全平按钮", this.button_width, this.button_height,
                                     "全平",clrDarkViolet,"全平",clrBlack);
     this.btn_ui_frame.AddUIComponent(1, 1, this.btn_close_all);
-    this.ea_openclose = new Button("EA开关按钮", this.button_width, this.button_height,
+    this.btn_ea_openclose = new Button("EA开关按钮", this.button_width, this.button_height,
                                     "开启EA", clrBlue, "关闭EA", clrRed);
-    this.btn_ui_frame.AddUIComponent(0, 1, this.ea_openclose);
-    this.ea_test = new Button("测试按钮", this.button_width, this.button_height,
+    this.btn_ui_frame.AddUIComponent(0, 1, this.btn_ea_openclose);
+    this.btn_ea_test = new Button("测试按钮", this.button_width, this.button_height,
                               "关闭测试", clrDarkViolet, "开启测试", clrBlack);
-    this.btn_ui_frame.AddUIComponent(1, 0, this.ea_test);
-    this.ea_test_sec = new Button("测试按钮2", this.button_width, this.button_height,
+    this.btn_ui_frame.AddUIComponent(1, 0, this.btn_ea_test);
+    this.btn_ea_test_sec = new Button("测试按钮2", this.button_width, this.button_height,
                                   "测试2", clrDarkViolet, "测试2", clrBlack);
-    this.btn_ui_frame.AddUIComponent(0, 0, this.ea_test_sec);
+    this.btn_ui_frame.AddUIComponent(0, 0, this.btn_ea_test_sec);
 }
 
 void AIRobotUI::RefreshButtonsStates() {
@@ -85,17 +85,17 @@ void AIRobotUI::RefreshButtonsStates() {
         this.btn_close_all.UnPressButton();
     }
 
-    if(this.ea_openclose.IsButtonPressed()) {
-        this.ea_openclose.UnPressButton();
+    if(this.btn_ea_openclose.IsButtonPressed()) {
+        this.btn_ea_openclose.UnPressButton();
     }
 
-    if (this.ea_test.IsButtonPressed()) {
+    if (this.btn_ea_test.IsButtonPressed()) {
 //        mt_manager.StartTestOne();
-        this.ea_test.UnPressButton();
+        this.btn_ea_test.UnPressButton();
     }
 
-    if (this.ea_test_sec.IsButtonPressed()) {
+    if (this.btn_ea_test_sec.IsButtonPressed()) {
 //        mt_manager.StartTestTwo();
-        this.ea_test_sec.UnPressButton();
+        this.btn_ea_test_sec.UnPressButton();
     }
 }

@@ -25,9 +25,9 @@ class AIRobotUI {
             SafeDeletePtr(this.btn_close_profit_buy);
             SafeDeletePtr(this.btn_close_profit_sell);
             SafeDeletePtr(this.btn_close_all);
-            SafeDeletePtr(this.ea_openclose);
-            SafeDeletePtr(this.ea_test);
-            SafeDeletePtr(this.ea_test_sec);
+            SafeDeletePtr(this.btn_ea_openclose);
+            SafeDeletePtr(this.btn_ea_test);
+            SafeDeletePtr(this.btn_ea_test_sec);
         }
     public:
         void OnTickRefreshUI() {
@@ -49,7 +49,7 @@ class AIRobotUI {
     private:
         ModuleTestManager* mt_manager;
         CommentContent* comment_content_;
-        
+
         UIFrame* btn_ui_frame;
         string btn_ui_frame_name;
         int button_x;
@@ -66,7 +66,7 @@ class AIRobotUI {
         Button* btn_close_profit_buy;
         Button* btn_close_profit_sell;
         Button* btn_close_all;
-        Button* ea_openclose;
-        Button* ea_test;
-        Button* ea_test_sec;
+        Button* btn_ea_openclose;
+        Button* btn_ea_test;
+        Button* btn_ea_test_sec;
 };
