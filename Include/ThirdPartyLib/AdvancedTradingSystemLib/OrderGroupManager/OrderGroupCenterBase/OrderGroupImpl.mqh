@@ -1,10 +1,3 @@
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderInMarket.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderArrayUtils.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/OrderManageUtils/OrderGetUtils.mqh>
-#include <ThirdPartyLib/MqlExtendLib/Collection/HashSet.mqh>
-#include "../OrderGroupBase/OrderGroupObserverBase.mqh"
-#include "../OrderGroupBase/OrderGroupConstant.mqh"
-#include "OrderGroupCenter.mqh"
 #include "OrderGroup.mqh"
 
 // Observer register functionaliy

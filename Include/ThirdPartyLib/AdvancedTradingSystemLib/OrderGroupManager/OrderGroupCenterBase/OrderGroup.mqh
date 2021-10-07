@@ -70,10 +70,6 @@ class OrderGroup : public OrderGroupObserver {
         double GetMaxFloatingLoss();
 // Print Orders Information
         void PrintAllOrders();
-// Maintains the extra orders
-        bool AddsExtraOrderMagicNumber(long extra_order_magic_number) {
-            return this.whole_order_magic_number_set_.add((int) extra_order_magic_number);
-        }
     protected:
         OrderGroupCenter *order_group_center_ptr_;
 
