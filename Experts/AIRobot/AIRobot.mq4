@@ -18,6 +18,7 @@ extern bool allow_real_acct = false;
 AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
 AutoAdjustStrategy* at_strategy;
+CommentContent* comment_content_ea;
 
 int OnInit() {
 
@@ -26,7 +27,13 @@ int OnInit() {
         return INIT_FAILED;
     }
 
+// Initializes Config File for system_mode
     system_mode_config = new ConfigFile("system_mode_config.txt");
+// Initializes comment_content_ea
+    comment_content_ea = ai_robot_ui.GetCommentContent();
+    comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "YES");
+
+// Initialized at_strategy
     at_strategy = new AutoAdjustStrategy("at_strategy");
     if (!at_strategy.IsInitSuccess()) {
         PrintFormat("Init AutoAdjustStrategy(at_strategy) Failed");
@@ -51,10 +58,8 @@ TESTING_CODE_END(system_mode)
 }
 
 void OnTick() {
-    CommentContent* cur_comment_content = ai_robot_ui.GetCommentContent();
-    if (at_strategy.OnTickExecute(cur_comment_content) == FAILED) {
-        PrintFormat("Execute [at_strategy] Failed! ");
-        // TODO: to stop EA or do sth to handle the failed cases
+    if (at_strategy.OnTickExecute(comment_content_ea) == FAILED) {
+        comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
     }
     // 最后更新UI, 因为有时间差
     ai_robot_ui.OnTickRefreshUI();
