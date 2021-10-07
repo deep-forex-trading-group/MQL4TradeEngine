@@ -18,7 +18,6 @@ extern bool allow_real_acct = false;
 AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
 AutoAdjustStrategy* at_strategy;
-//StrategyContext* st_ctx;
 
 int OnInit() {
 
@@ -34,7 +33,6 @@ int OnInit() {
         return INIT_FAILED;
     }
 
-//    st_ctx = new StrategyContext(at_strategy);
     if (!system_mode_config.CheckConfigFileValid()) {
         PrintFormat("System Config File is invalid, makes sure the path as %s" ,
                      "Config/system_mode_config.txt");
