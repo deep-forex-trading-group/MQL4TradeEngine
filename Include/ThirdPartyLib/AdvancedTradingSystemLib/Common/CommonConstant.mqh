@@ -12,3 +12,5 @@
 #define INTEGER_MAX_INT                                     2147483647
 #define INTEGER_MIN_INT                                    -2147483648
 #define CNT_MN_PER_GROUP                                           200
+#define IN_TRADES                                                  123
+#define IN_HISTORY                                                -123
