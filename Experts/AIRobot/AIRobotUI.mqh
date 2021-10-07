@@ -16,7 +16,6 @@ class AIRobotUI {
         ~AIRobotUI() {
             PrintFormat("Deinitialize the AIRobotUI. ");
             SafeDeletePtr(comment_content_);
-            SafeDeletePtr(&ui_utils);
             SafeDeletePtr(mt_manager);
             SafeDeletePtr(this.btn_open_sig_test);
             SafeDeletePtr(this.btn_is_show_comment);
@@ -43,7 +42,6 @@ class AIRobotUI {
             this.InitButtons();
             this.RefreshUI();
         }
-        UIUtils ui_utils;
         ENUM_BASE_CORNER button_section_set_pos;
         ModuleTestManager* mt_manager;
     private:
