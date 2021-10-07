@@ -1,4 +1,4 @@
-#include "all.mqh"
+#include "Map.mqh"
 
 template<typename KeyType, typename ValueType>
 class CollectionCopyUtils {
