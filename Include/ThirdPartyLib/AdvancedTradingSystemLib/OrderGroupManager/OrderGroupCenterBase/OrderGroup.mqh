@@ -20,8 +20,8 @@ class OrderGroup : public OrderGroupObserver {
             this.neg_nm_range_.left = g_mn_ranges.neg_left;
             this.neg_nm_range_.right = g_mn_ranges.neg_right;
             // Assigns and Initializes the magic number for Auto and Sig
-            this.group_auto_nm_ = g_mn_ranges.pos_left;
-            this.group_sig_nm_ = g_mn_ranges.neg_left;
+            this.group_auto_nm_ = g_mn_ranges.pos_left + 1;
+            this.group_sig_nm_ = g_mn_ranges.neg_left - 1;
             this.whole_order_magic_number_set_ = new HashSet<int>();
             this.whole_order_magic_number_set_.add(this.group_auto_nm_);
             this.whole_order_magic_number_set_.add(this.group_sig_nm_);
@@ -135,12 +135,14 @@ class OrderGroup : public OrderGroupObserver {
 // Utils Functions
     protected:
         bool UpdateMagicNumber() {
-            if (this.group_sig_nm_ >= 0 || this.group_sig_nm_ < this.neg_nm_range_.left) {
+            if (this.group_sig_nm_ >= this.neg_nm_range_.left
+                || this.group_sig_nm_ < this.neg_nm_range_.right + 1) {
                 PrintFormat("UpdateMagicNumber() failed for {%s}, sig_[%d < %d]",
-                            this.group_name_, this.group_sig_nm_, this.neg_nm_range_.left);
+                            this.group_name_, this.group_sig_nm_, this.neg_nm_range_.right);
                 return false;
             }
-            if (this.group_auto_nm_ <= 0 || this.group_auto_nm_ > this.pos_nm_range_.right) {
+            if (this.group_auto_nm_ <= this.pos_nm_range_.left
+                || this.group_auto_nm_ > this.pos_nm_range_.right - 1) {
                 PrintFormat("UpdateMagicNumber() failed for {%s}, auto_[%d > %d]",
                             this.group_name_, this.group_auto_nm_, this.pos_nm_range_.left);
                 return false;
