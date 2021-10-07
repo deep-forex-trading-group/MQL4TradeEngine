@@ -44,7 +44,6 @@ class AutoAdjustStrategy : public Strategy {
                 return false;
             }
             this.params_.PrintAllParams();
-            this.auto_adjust_order_group_.AddsExtraOrderMagicNumber(this.params_.sig_order_magic_number);
             PrintFormat("Initialize AutoAdjustStrategy [%s].", this.strategy_name_);
             return true;
         }

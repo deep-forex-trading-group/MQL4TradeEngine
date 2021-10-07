@@ -6,8 +6,3 @@ lots_exponent:1.5
 pip_step_exponent:1.1
 target_profit_factor:20
 
-
-[SignalOrder]
-sig_order_name:ad_sig
-sig_order_magic_number:-2000
-
