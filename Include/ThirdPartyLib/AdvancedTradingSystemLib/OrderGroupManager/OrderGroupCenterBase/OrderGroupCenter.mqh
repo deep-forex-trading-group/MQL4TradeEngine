@@ -74,9 +74,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         //       need to get the base number from a file instead of hard-coding.
         int GetOrderCenterMagicNumberBase(MinMaxMagicNumber& res_out_arr[]) {
             res_out_arr[0] = OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN();
-            if (res_out_arr[0].is_success = false) {
-                return FAILED;
-            }
+
             PrintFormat("%d, %d", res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
             res_out_arr[0].max_magic_number = (res_out_arr[0].max_magic_number / CNT_MN_PER_GROUP) * CNT_MN_PER_GROUP;
             res_out_arr[0].max_magic_number += CNT_MN_PER_GROUP;
