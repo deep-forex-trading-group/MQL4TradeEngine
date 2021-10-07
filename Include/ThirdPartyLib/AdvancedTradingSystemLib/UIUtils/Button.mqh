@@ -1,13 +1,11 @@
 class Button {
     public:
        // 按钮name，按下时显示的文字, 抬起时显示的文字
-       // 按钮离X轴的距离, 按钮离Y轴的距离
-       // 按钮长度, 按钮高度
+       // 按钮离X轴的距离, 按钮离Y轴的距离, 按钮长度, 按钮高度
        // 按钮定位, 按钮按下的颜色, 按钮抬起的颜色
         Button(string name,string pressed_txt,string unpressed_txt,
-               int XX,int YX,
-               int XL,int YL,
-               int WZ,color pressed_clr,color unpressed_clr);
+               int x_dis,int y_dis, int width,int height,
+               int corner, color pressed_clr,color unpressed_clr);
         ~Button() {};
     public:
         void CheckButtonState();
@@ -23,9 +21,8 @@ class Button {
 };
 
 Button::Button(string name,string pressed_txt,string unpressed_txt,
-               int XX,int YX,
-               int XL,int YL,
-               int WZ,color pressed_clr,color unpressed_clr) {
+               int x_dis,int y_dis, int width,int height,
+               int corner,color pressed_clr,color unpressed_clr) {
     this.btn_name_ = name;
     this.pressed_txt_ = pressed_txt;
     this.unpressed_txt_ = unpressed_txt;
@@ -36,13 +33,13 @@ Button::Button(string name,string pressed_txt,string unpressed_txt,
         ObjectCreate(0,name,OBJ_BUTTON,0,0,0);
     }
 
-    ObjectSetInteger(0,name,OBJPROP_XDISTANCE,XX);
-    ObjectSetInteger(0,name,OBJPROP_YDISTANCE,YX);
-    ObjectSetInteger(0,name,OBJPROP_XSIZE,XL);
-    ObjectSetInteger(0,name,OBJPROP_YSIZE,YL);
+    ObjectSetInteger(0,name,OBJPROP_XDISTANCE,x_dis);
+    ObjectSetInteger(0,name,OBJPROP_YDISTANCE,y_dis);
+    ObjectSetInteger(0,name,OBJPROP_XSIZE,width);
+    ObjectSetInteger(0,name,OBJPROP_YSIZE,height);
     ObjectSetString(0,name,OBJPROP_FONT,"微软雅黑");
     ObjectSetInteger(0,name,OBJPROP_FONTSIZE,5);
-    ObjectSetInteger(0,name,OBJPROP_CORNER,WZ);
+    ObjectSetInteger(0,name,OBJPROP_CORNER,corner);
 
     this.CheckButtonState();
 }
