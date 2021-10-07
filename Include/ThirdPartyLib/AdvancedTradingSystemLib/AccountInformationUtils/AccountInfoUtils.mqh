@@ -16,7 +16,9 @@ class AccountInfoUtils {
        static double GetCurrentFloatingProfit(int magic_number);
        static double GetCurrentFloatingProfit(HashSet<int>* magic_number);
        static double GetCurrentBuyFloatingProfit(int magic_number);
+       static double GetCurrentBuyFloatingProfit(HashSet<int>* magic_number_set);
        static double GetCurrentSellFloatingProfit(int magic_number);
+       static double GetCurrentSellFloatingProfit(HashSet<int>* magic_number_set);
 };
 
 double AccountInfoUtils::GetCurrentTotalProfit(int magic_number, int mode_trade_or_history) {
@@ -148,12 +150,34 @@ double AccountInfoUtils::GetCurrentBuyFloatingProfit(int magic_number) {
     }
     return(TotalProfit);
 }
+double AccountInfoUtils::GetCurrentBuyFloatingProfit(HashSet<int>* magic_number_set) {
+    double TotalProfit = 0;
+    int orders_total = OrdersTotal();
+    for (int i = orders_total - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_BUY && magic_number_set.contains(OrderMagicNumber())) {
+            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
+        }
+    }
+    return(TotalProfit);
+}
 double AccountInfoUtils::GetCurrentSellFloatingProfit(int magic_number) {
     double TotalProfit = 0;
     int orders_total = OrdersTotal();
     for (int i = orders_total - 1; i >= 0; i--) {
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_SELL && OrderMagicNumber() == magic_number) {
+            TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
+        }
+    }
+    return(TotalProfit);
+}
+double AccountInfoUtils::GetCurrentSellFloatingProfit(HashSet<int>* magic_number_set) {
+    double TotalProfit = 0;
+    int orders_total = OrdersTotal();
+    for (int i = orders_total - 1; i >= 0; i--) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_SELL && magic_number_set.contains(OrderMagicNumber())) {
             TotalProfit = TotalProfit + OrderProfit() + OrderCommission() + OrderSwap();
         }
     }
