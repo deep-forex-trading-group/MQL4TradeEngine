@@ -16,37 +16,37 @@ class CommentContent {
         };
         ~CommentContent() {
             this.ClearAllTitleToFieldTerms();
-            SafeDeletePtr(&title_to_field_double_);
+            SafeDeletePtr(&title_to_field_double_map_);
         };
     public:
         void SetTitleToFieldDoubleTerm(string title, double field) {
-            this.title_to_field_double_.set(title, field);
+            this.title_to_field_double_map_.set(title, field);
         }
         bool RemoveTitleToFieldDoubleTerm(string title) {
-            if (this.title_to_field_double_.contains(title)) {
+            if (this.title_to_field_double_map_.contains(title)) {
                 ObjectDelete(title);
-                this.title_to_field_double_.remove(title);
+                this.title_to_field_double_map_.remove(title);
                 return true;
             } else {
                 return false;
             }
         }
         int GetNumOfTitleToFieldDoubleTerm() {
-            return this.title_to_field_double_.size();
+            return this.title_to_field_double_map_.size();
         }
        void ClearAllTitleToFieldTerms() {
             if (this.GetNumOfTitleToFieldDoubleTerm() != 0) {
-                foreachm(string, title, double, field, this.title_to_field_double_) {
+                foreachm(string, title, double, field, this.title_to_field_double_map_) {
                     ObjectDelete(title);
                 }
-                this.title_to_field_double_.clear();
+                this.title_to_field_double_map_.clear();
             }
         }
         bool ShowCommentContent();
         void HideCommentContent();
     private:
         bool is_show;
-        HashMap<string,double> title_to_field_double_;
+        HashMap<string, double> title_to_field_double_map_;
         int corner_left_distance;
         int corner_top_distance;
         int y_axis_interval;
@@ -58,7 +58,7 @@ class CommentContent {
 
 bool CommentContent::ShowCommentContent() {
     int i_item = 0;
-    foreachm(string, title, double, field, this.title_to_field_double_) {
+    foreachm(string, title, double, field, this.title_to_field_double_map_) {
         string showing_item = StringFormat("%s: %.5f", title, field);
         UIUtils::FixLocationLabel(title, showing_item,
                                   this.corner_left_distance,
@@ -70,7 +70,7 @@ bool CommentContent::ShowCommentContent() {
 }
 
 void CommentContent::HideCommentContent() {
-    foreachm(string, title, double, field, this.title_to_field_double_) {
+    foreachm(string, title, double, field, this.title_to_field_double_map_) {
         ObjectDelete(title);
     }
 }
