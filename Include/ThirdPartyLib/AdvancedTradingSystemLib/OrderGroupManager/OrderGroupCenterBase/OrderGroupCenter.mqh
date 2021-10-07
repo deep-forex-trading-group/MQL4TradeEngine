@@ -75,20 +75,21 @@ class OrderGroupCenter : public OrderGroupSubject {
         int GetOrderCenterMagicNumberBase(MinMaxMagicNumber& res_out_arr[]) {
             res_out_arr[0] = OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN();
 
-            PrintFormat("%d, %d", res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
             res_out_arr[0].max_magic_number = (res_out_arr[0].max_magic_number / CNT_MN_PER_GROUP) * CNT_MN_PER_GROUP;
             res_out_arr[0].max_magic_number += CNT_MN_PER_GROUP;
             res_out_arr[0].min_magic_number = (res_out_arr[0].min_magic_number / CNT_MN_PER_GROUP) * CNT_MN_PER_GROUP;
             res_out_arr[0].min_magic_number -= CNT_MN_PER_GROUP;
-            PrintFormat("%d", res_out_arr[0].min_magic_number);
-            PrintFormat("%d", -(MathAbs(res_out_arr[0].min_magic_number) % CNT_MN_PER_GROUP));
-            PrintFormat("%d, %d", res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
+
             if (res_out_arr[0].is_success) {
                 PrintFormat("Set magic_base with current symbol [%s] using history orders, set <%d:%d>",
-                             MarketInfoUtils::GetSymbol(), res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
+                             MarketInfoUtils::GetSymbol(),
+                             res_out_arr[0].max_magic_number,
+                             res_out_arr[0].min_magic_number);
             } else {
                 PrintFormat("There are no history order with current symbol [%s], set <%d:%d>",
-                             MarketInfoUtils::GetSymbol(), res_out_arr[0].max_magic_number, res_out_arr[0].min_magic_number);
+                             MarketInfoUtils::GetSymbol(),
+                             res_out_arr[0].max_magic_number,
+                             res_out_arr[0].min_magic_number);
             }
             return SUCCEEDED;
         }
