@@ -15,6 +15,13 @@ int AutoAdjustStrategy::OnTickExecute() {
     return FAILED;
 }
 int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
+    // Base Information to show.
+    comment_content.SetTitleToFieldDoubleTerm(
+                                "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
+    comment_content.SetTitleToFieldDoubleTerm(
+                                "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
+    comment_content.SetTitleToFieldDoubleTerm(
+                                "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
     if (!this.params_.IsParamsValid()) {
         return FAILED;
     }
@@ -49,12 +56,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         this.auto_adjust_order_group_.UpdateAutoMN();
         UIUtils::Laber("盈利平仓",Red,0);
     }
-    comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
-    comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
-    comment_content.SetTitleToFieldDoubleTerm(
-                                "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
+
     comment_content.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
     if (this.auto_adjust_order_group_.RefreshOrderGroupState() == FAILED) {
