@@ -19,7 +19,7 @@ int ConfigFile::RefreshConfigFile() {
     }
 
     // Reinitialize the config_titles_map_
-    MapDeleteUtils<string, ConfigSection*>::DeleteHashMap(this.config_titles_map_);
+    MapDeleteUtils<string, ConfigSection*>::SafeFreeHashMap(this.config_titles_map_);
     this.config_titles_map_ = new HashMap<string, ConfigSection*>;
 
     int line_idx = 0;

@@ -30,7 +30,7 @@ class OrderGroupCenter : public OrderGroupSubject {
 
             SafeDeleteCollectionPtr(this.order_group_observer_list_);
             SafeDeleteCollectionPtr(this.group_id_to_magic_number_);
-            MapDeleteUtils<int, OrderGroupInfo*>::DeleteHashMap(this.group_id_to_group_info_);
+            MapDeleteUtils<int, OrderGroupInfo*>::SafeFreeHashMap(this.group_id_to_group_info_);
         }
 
     // Observer communications management methods

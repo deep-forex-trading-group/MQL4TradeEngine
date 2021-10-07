@@ -30,7 +30,7 @@ class ConfigFile : public ConfigFileBase {
             this.RefreshConfigFile();
         }
         ~ConfigFile() {
-            MapDeleteUtils<string, ConfigSection*>::DeleteHashMap(this.config_titles_map_);
+            MapDeleteUtils<string, ConfigSection*>::SafeFreeHashMap(this.config_titles_map_);
         }
 
     public:
