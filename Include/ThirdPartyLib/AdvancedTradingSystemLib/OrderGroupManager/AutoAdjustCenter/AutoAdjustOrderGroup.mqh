@@ -22,6 +22,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
             SafeDeletePtr(this.config_file_);
         };
     public:
+// Magic Number Getters
         int GetGroupAutoMagicNumber() { return this.group_auto_mn_; }
         int GetGroupSigMagicNumber() { return this.group_sig_mn_; }
         int GetGroupManualMagicNumber() { return this.group_manul_mn_; }
@@ -31,10 +32,12 @@ class AutoAdjustOrderGroup : public OrderGroup {
         bool CreateManulBuyOrder(double lots, string comment);
         bool CreateManulSellOrder(double lots) { return this.CreateManulSellOrder(lots, ""); }
         bool CreateManulSellOrder(double lots, string comment);
+
         bool CreateSigBuyOrder(double lots) { return this.CreateSigBuyOrder(lots, ""); }
         bool CreateSigBuyOrder(double lots, string comment);
         bool CreateSigSellOrder(double lots) { return this.CreateSigSellOrder(lots, ""); }
         bool CreateSigSellOrder(double lots, string comment);
+
         bool AddOneOrderByStepPipReverse(int buy_or_sell, double pip_step, double lots) {
             return this.AddOneOrderByStepPipReverse(buy_or_sell, pip_step, lots, "");
         }
