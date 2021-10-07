@@ -32,13 +32,13 @@ class AIRobotUI {
     public:
         void OnTickRefreshUI() {
             this.btn_ui_frame.OnTickCheckUIStates();
-            this.RefreshButtonsStates();
+            this.OnTickRefreshButtonsStates();
         }
         CommentContent* GetCommentContent() {
             return this.comment_content_;
         }
     private:
-        void RefreshButtonsStates();
+        void OnTickRefreshButtonsStates();
         void InitGraphItems() {
             this.comment_content_ = new CommentContent();
             this.InitButtons();

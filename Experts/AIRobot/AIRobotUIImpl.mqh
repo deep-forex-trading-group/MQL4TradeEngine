@@ -52,7 +52,7 @@ void AIRobotUI::InitButtons() {
     this.btn_ui_frame.AddUIComponent(0, 0, this.btn_ea_test_sec);
 }
 
-void AIRobotUI::RefreshButtonsStates() {
+void AIRobotUI::OnTickRefreshButtonsStates() {
     if(this.btn_open_sig_test.IsButtonPressed()) {
         OrderSendUtils::CreateBuyOrder(-2000, 0.01, "ad_sig");
         this.btn_open_sig_test.UnPressButton();
