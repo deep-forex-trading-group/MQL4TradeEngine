@@ -15,10 +15,10 @@ class OrderGroup : public OrderGroupObserver {
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
             // Gets Magic Number Ranges from Center
             GroupMNRanges g_mn_ranges = this.order_group_center_ptr_.OnStartGetMNRanges(this.group_id_);
-            this.pos_nm_range_.left = g_mn_ranges.pos_left;
-            this.pos_nm_range_.right = g_mn_ranges.pos_right;
-            this.neg_nm_range_.left = g_mn_ranges.neg_left;
-            this.neg_nm_range_.right = g_mn_ranges.neg_right;
+            this.pos_mn_range_.left = g_mn_ranges.pos_left;
+            this.pos_mn_range_.right = g_mn_ranges.pos_right;
+            this.neg_mn_range_.left = g_mn_ranges.neg_left;
+            this.neg_mn_range_.right = g_mn_ranges.neg_right;
             this.whole_order_magic_number_set_ = new HashSet<int>();
 
             this.cur_profit_ = 0;
@@ -84,8 +84,8 @@ class OrderGroup : public OrderGroupObserver {
         double cur_profit_;
         double max_floating_loss_;
         double max_floating_profits_;
-        MagicNumberRange pos_nm_range_;
-        MagicNumberRange neg_nm_range_;
+        MagicNumberRange pos_mn_range_;
+        MagicNumberRange neg_mn_range_;
         HashSet<int>* whole_order_magic_number_set_;
 // Utils Functions
     protected:

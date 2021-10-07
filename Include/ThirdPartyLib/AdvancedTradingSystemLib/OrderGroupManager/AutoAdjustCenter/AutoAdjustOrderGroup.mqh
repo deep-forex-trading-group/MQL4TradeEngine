@@ -10,24 +10,27 @@ class AutoAdjustOrderGroup : public OrderGroup {
         AutoAdjustOrderGroup(string name, AutoAdjustOrderGroupCenter *order_group_center_ptr)
                                 : OrderGroup(name, order_group_center_ptr){
             this.config_file_ = new ConfigFile("Config", "adjust_config.txt");
-            // Assigns and Initializes the magic number for Auto and Sig
-            this.group_auto_nm_ = this.pos_nm_range_.left + 1;
-            this.group_sig_nm_ = this.neg_nm_range_.left - 1;
-            this.whole_order_magic_number_set_.add(this.group_auto_nm_);
-            this.whole_order_magic_number_set_.add(this.group_sig_nm_);
+            // Assigns and Initializes the magic number for Auto, Sig and Manul
+            this.group_auto_mn_ = this.pos_mn_range_.left + 1;
+            this.group_sig_mn_ = this.neg_mn_range_.left - 1;
+            this.group_manul_mn_ = this.neg_mn_range_.left - 2;
+            this.whole_order_magic_number_set_.add(this.group_auto_mn_);
+            this.whole_order_magic_number_set_.add(this.group_sig_mn_);
+            this.whole_order_magic_number_set_.add(this.group_manul_mn_);
         };
         ~AutoAdjustOrderGroup() {
             SafeDeletePtr(this.config_file_);
         };
     public:
-        int GetGroupAutoMagicNumber() { return this.group_auto_nm_; }
-        int GetGroupSigMagicNumber() { return this.group_sig_nm_; }
+        int GetGroupAutoMagicNumber() { return this.group_auto_mn_; }
+        int GetGroupSigMagicNumber() { return this.group_sig_mn_; }
+        int GetGroupManualMagicNumber() { return this.group_manul_mn_; }
 
 // Create Order Functions
-        bool CreateAutoBuyOrder(double lots) { return this.CreateAutoBuyOrder(lots, ""); }
-        bool CreateAutoBuyOrder(double lots, string comment);
-        bool CreateAutoSellOrder(double lots) { return this.CreateAutoSellOrder(lots, ""); }
-        bool CreateAutoSellOrder(double lots, string comment);
+        bool CreateManulBuyOrder(double lots) { return this.CreateManulBuyOrder(lots, ""); }
+        bool CreateManulBuyOrder(double lots, string comment);
+        bool CreateManulSellOrder(double lots) { return this.CreateManulSellOrder(lots, ""); }
+        bool CreateManulSellOrder(double lots, string comment);
         bool CreateSigBuyOrder(double lots) { return this.CreateSigBuyOrder(lots, ""); }
         bool CreateSigBuyOrder(double lots, string comment);
         bool CreateSigSellOrder(double lots) { return this.CreateSigSellOrder(lots, ""); }
@@ -39,14 +42,23 @@ class AutoAdjustOrderGroup : public OrderGroup {
             string comm_grp = this.GetGroupComment();
             string comm = StringFormat("%s#sa#%s", comm_grp, comment);
             bool is_success = OrderSendUtils::AddOneOrderByStepPipReverse(this.whole_order_magic_number_set_,
-                                                                          this.group_auto_nm_,
+                                                                          this.group_auto_mn_,
                                                                           buy_or_sell, pip_step, lots,
                                                                           comm);
             return is_success;
         }
 // Magic Number Operations
         bool UpdateAutoMN() {
-            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_auto_nm_) == 0) {
+            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_auto_mn_) == 0) {
+                if (!this.UpdateMagicNumber()) {
+                    PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
+                    return false;
+                }
+            }
+            return true;
+        }
+        bool UpdateManulMN() {
+            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_manul_mn_) == 0) {
                 if (!this.UpdateMagicNumber()) {
                     PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
                     return false;
@@ -55,7 +67,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
             return true;
         }
         bool UpdateSigMN() {
-            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_sig_nm_) == 0) {
+            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_sig_mn_) == 0) {
                 if (!this.UpdateMagicNumber()) {
                     PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
                     return false;
@@ -71,8 +83,9 @@ class AutoAdjustOrderGroup : public OrderGroup {
         }
 
     private:
-        int group_auto_nm_;
-        int group_sig_nm_;
+        int group_auto_mn_;
+        int group_sig_mn_;
+        int group_manul_mn_;
 
     private:
         ConfigFile* config_file_;
