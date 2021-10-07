@@ -29,8 +29,8 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
 
     HashSet<int>* magic_set = this.auto_adjust_order_group_.GetWholeOrderMagicSet();
-    double cur_total_profit = AccountInfoUtils::GetCurrentTotalProfit(magic_set, MODE_TRADES);
-    double total_lots = AccountInfoUtils::GetCurrentTotalLots(magic_set, MODE_TRADES);
+    double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTrades();
+    double total_lots = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
     this.comment_content_.SetTitleToFieldDoubleTerm("total_lots", total_lots);
@@ -51,10 +51,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
 
     this.comment_content_.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
     this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(BUY_ORDER_SEND, pip_step_add, lots);
-    if (this.auto_adjust_order_group_.RefreshOrderGroupState() == FAILED) {
-        PrintFormat("RefreshOrderGroupState for strategy %s", this.strategy_name_);
-        return FAILED;
-    }
+
     return SUCCEEDED;
 }
 void AutoAdjustStrategy::OnTickShowBasicInfo() {

@@ -39,18 +39,22 @@ class OrderGroup : public OrderGroupObserver {
         void PrintInfo();
 // Public Apis for users to call
     public:
+// Gets Group Basic Information
         int GetGroupId() { return this.group_id_; };
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
-// Order State Refreshing Functions (IMPORTANT MAINTAIN FUNCTIONS)
-        int RefreshOrderGroupState() {
-            return SUCCEEDED;
-        }
-        int RefreshOrderInfo();
-// Get Order Functions
-        int GetOrdersByGroupId(int group_id);
-        int GetOrdersByGroupId(OrderInMarket& orders_in_history[], OrderInMarket& orders_in_trades[],
-                               int group_id);
+
+// Gets Group Orders Information
         int GetTotalNumOfOrdersInTrades();
+        double GetCurrentTotalLotsInTrades() {
+            return AccountInfoUtils::GetCurrentTotalLots(this.whole_order_magic_number_set_,
+                                                         IN_TRADES);
+        }
+        double GetCurrentProfitInTrades();
+// TODO: To Fixes after implements total_info_for_one_loop
+        double GetMaxFloatingProfit();
+        double GetMaxFloatingLoss();
+
+// MagicNumberSet Getter
         HashSet<int>* GetWholeOrderMagicSet() { return this.whole_order_magic_number_set_; }
 
 // Close Order Functions
@@ -64,10 +68,7 @@ class OrderGroup : public OrderGroupObserver {
             }
             return true;
         }
-// Gets the information about some important information about OrderGroup
-        double GetCurrentProfit();
-        double GetMaxFloatingProfit();
-        double GetMaxFloatingLoss();
+
 // Print Orders Information
         void PrintAllOrders();
     protected:
