@@ -15,3 +15,4 @@
 #define IN_TRADES                                            123548965
 #define IN_HISTORY                                          -123465465
 #define IN_TRADES_OR_HISTORY                                -118345454
+#define INVALID_SMALL_MONEY                                      0.001

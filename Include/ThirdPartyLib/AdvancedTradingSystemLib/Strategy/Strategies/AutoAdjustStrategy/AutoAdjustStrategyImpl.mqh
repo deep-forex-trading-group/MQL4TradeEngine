@@ -49,7 +49,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
 
     this.comment_content_.SetTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
     this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
-    if (target_profit_money + 0.01 <= cur_total_profit) {
+    if (target_profit_money + INVALID_SMALL_MONEY <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders();
         // Close all orders and the state of the group changes
         // So we just refresh the state, to update the magic number for the group
