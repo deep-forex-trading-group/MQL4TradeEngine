@@ -8,6 +8,7 @@ int AutoAdjustStrategy::OnTickExecute() {
         return FAILED;
     }
     this.OnTickShowBasicInfo();
+// Activates button buy or close
     if (this.ui_auto_info_.is_sig_buy_activated) {
         this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
         return SUCCEEDED;
