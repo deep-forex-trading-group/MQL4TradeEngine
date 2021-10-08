@@ -46,8 +46,6 @@ class AutoAdjustOrderGroup : public OrderGroup {
                                                                           comm);
             return is_success;
         }
-
-    public:
         bool UpdateMagicNumbersAll() {
             int allocated_mn = this.AllocateGroupMN(POS_MN);
             if (allocated_mn == INVALID_GRP_MN) {
