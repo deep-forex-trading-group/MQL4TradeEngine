@@ -22,6 +22,8 @@ AutoAdjustStrategy* at_strategy;
 CommentContent* comment_content_ea;
 UIRetData ui_ret_data();
 
+bool is_at_strategy_valid = false;
+
 int OnInit() {
 
     if (!allow_real_acct && !EAUtils::IsEARunOnDemoAccount()) {
@@ -41,6 +43,7 @@ int OnInit() {
         PrintFormat("Init AutoAdjustStrategy(at_strategy) Failed");
         return INIT_FAILED;
     }
+    is_at_strategy_valid = true;
 
     if (!system_mode_config.CheckConfigFileValid()) {
         PrintFormat("System Config File is invalid, makes sure the path as %s" ,
@@ -61,9 +64,13 @@ TESTING_CODE_END(system_mode)
 
 void OnTick() {
     ai_robot_ui.OnTickRefreshUI(&ui_ret_data);
+    if (!is_at_strategy_valid) {
+        return;
+    }
     at_strategy.OnTickSetUIAutoInfo(ui_ret_data.ui_auto_info);
     if (at_strategy.OnTickExecute(comment_content_ea) == FAILED) {
         comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
+        is_at_strategy_valid = false;
     }
 }
 

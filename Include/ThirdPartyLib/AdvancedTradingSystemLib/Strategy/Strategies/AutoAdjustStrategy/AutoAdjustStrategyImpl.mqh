@@ -53,7 +53,8 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         // So we just refresh the state, to update the magic number for the group
         if (!this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
 // TODO: to wrap this interface as a <INPUT_PARAMS, OUTPUT_PARAMS> signiture
-            PrintFormat("UpdatedMagicNumber failed, Strategy BANNED.");
+            PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
+                        this.strategy_name_);
             return FAILED;
         }
 
