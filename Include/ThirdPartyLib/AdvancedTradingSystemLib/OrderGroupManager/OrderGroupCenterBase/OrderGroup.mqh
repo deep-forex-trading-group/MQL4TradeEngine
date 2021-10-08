@@ -27,6 +27,7 @@ class OrderGroup : public OrderGroupObserver {
             this.max_floating_loss_ = 0;
             this.max_floating_profits_ = 0;
             this.msg_from_subject_ = "Init subject msg";
+            this.init_success_ = true;
             PrintFormat("Initialize Order Group [%d].", this.group_id_);
         };
         virtual ~OrderGroup() {
@@ -52,7 +53,7 @@ class OrderGroup : public OrderGroupObserver {
 // Gets Group Basic Information
         int GetGroupId() { return this.group_id_; };
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
-
+        bool IsInitSuccess() { return this.init_success_; }
 // Gets Group Orders Information
         int GetTotalNumOfOrdersInTrades() {
             return OrderGetUtils::GetNumOfAllOrdersInTrades(this.whole_order_magic_number_set_);
@@ -105,6 +106,7 @@ class OrderGroup : public OrderGroupObserver {
     protected:
         string group_name_;
         int group_id_;
+        bool init_success_;
         OrderInMarket orders_in_history[];
         OrderInMarket orders_in_trades[];
         string msg_from_subject_;
