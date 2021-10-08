@@ -3,11 +3,14 @@
 int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
 }
-int AutoAdjustStrategy::OnTickExecute() {
+int AutoAdjustStrategy::BeforeTickExecute() {
+    this.BeforeTickShowBasicInfo();
     if (!this.params_.IsParamsValid()) {
         return FAILED;
     }
-    this.OnTickShowBasicInfo();
+    return SUCCEEDED;
+}
+int AutoAdjustStrategy::OnTickExecute() {
 // Activates button buy or close
     if (this.ui_auto_info_.is_sig_buy_activated) {
         this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
@@ -73,7 +76,10 @@ int AutoAdjustStrategy::OnTickExecute() {
 
     return SUCCEEDED;
 }
-void AutoAdjustStrategy::OnTickShowBasicInfo() {
+int AutoAdjustStrategy::AfterTickExecute() {
+    return SUCCEEDED;
+}
+void AutoAdjustStrategy::BeforeTickShowBasicInfo() {
     // Base Information to show.
     this.comment_content_.SetTitleToFieldDoubleTerm(
                                 "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());

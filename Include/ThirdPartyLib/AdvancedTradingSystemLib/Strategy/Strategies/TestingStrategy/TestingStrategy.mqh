@@ -12,8 +12,9 @@ class TestingStrategy : public Strategy {
 // Member Variables and Functions
     public:
         int ExecuteStrategy() const;
+        int BeforeTickExecute();
         int OnTickExecute();
-        int OnTickExecute(CommentContent* comment_content);
+        int AfterTickExecute();
         int OnActionExecute();
         void SetTestingStrategyParams(TestingStrategyParams* params);
         void PrintStrategyInfo() const;
@@ -25,23 +26,21 @@ int TestingStrategy::ExecuteStrategy() const {
     PrintFormat("Execute TestingStrategy {%s} successed!", this.strategy_name_);
     return SUCCEEDED;
 }
-
-int TestingStrategy::OnTickExecute(CommentContent* comment_content) {
+int TestingStrategy::BeforeTickExecute() {
     return SUCCEEDED;
 }
-
 int TestingStrategy::OnTickExecute() {
     return SUCCEEDED;
 }
-
+int TestingStrategy::AfterTickExecute() {
+    return SUCCEEDED;
+}
 int TestingStrategy::OnActionExecute() {
     return SUCCEEDED;
 }
-
 void TestingStrategy::SetTestingStrategyParams(TestingStrategyParams* params) {
     this.testing_strategy_params_ = params;
 }
-
 void TestingStrategy::PrintStrategyInfo() const {
     PrintFormat("This is strategy -> {%s}", this.strategy_name_);
 }

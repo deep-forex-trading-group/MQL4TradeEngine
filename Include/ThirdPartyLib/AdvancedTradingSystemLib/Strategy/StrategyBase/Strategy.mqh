@@ -9,7 +9,12 @@ class Strategy {
         };
         bool IsInitSuccess() { return this.init_success_; };
 // OnTick is for every tick check to execute strategy
+        // BeforeTickExecute() makes some preparations for strategy execution
+        virtual int BeforeTickExecute() = 0;
+        // Strategy Execution
         virtual int OnTickExecute() = 0;
+        // After Strategy Execution, updates some OrderManager
+        virtual int AfterTickExecute() = 0;
 // OnAction is for outer activated, such as using button to activate
         virtual int OnActionExecute() = 0;
         virtual void PrintStrategyInfo() const = 0;

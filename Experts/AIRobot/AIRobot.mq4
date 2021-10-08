@@ -74,7 +74,15 @@ void OnTick() {
         return;
     }
     at_strategy.OnTickSetUIAutoInfo(ui_ret_data.ui_auto_info);
+    if (at_strategy.BeforeTickExecute() == FAILED) {
+        comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT_BEF");
+        is_at_strategy_valid = false;
+    }
     if (at_strategy.OnTickExecute() == FAILED) {
+        comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
+        is_at_strategy_valid = false;
+    }
+    if (at_strategy.AfterTickExecute() == FAILED) {
         comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
         is_at_strategy_valid = false;
     }

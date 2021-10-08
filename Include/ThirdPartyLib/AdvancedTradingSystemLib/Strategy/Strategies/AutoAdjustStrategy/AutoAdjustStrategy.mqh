@@ -37,7 +37,9 @@ class AutoAdjustStrategy : public Strategy {
 // Implements the abstract methods in base class Strategy
     public:
         int ExecuteStrategy() const;
+        int BeforeTickExecute();
         int OnTickExecute();
+        int AfterTickExecute();
         void OnTickSetUIAutoInfo(UIAutoInfo& ui_auto_info) {
             this.ui_auto_info_ = ui_auto_info;
         }
@@ -58,7 +60,7 @@ class AutoAdjustStrategy : public Strategy {
             PrintFormat("Initialize AutoAdjustStrategy [%s].", this.strategy_name_);
             return true;
         }
-        void OnTickShowBasicInfo();
+        void BeforeTickShowBasicInfo();
     private:
         UIAutoInfo ui_auto_info_;
     private:
