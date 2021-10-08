@@ -12,7 +12,7 @@
 #define BUY_AND_SELL_SEND                                            0
 #define INTEGER_MAX_INT                                     2147483647
 #define INTEGER_MIN_INT                                    -2147483648
-#define CNT_MN_PER_GROUP                                           200
+#define CNT_MN_PER_GROUP                                         20000
 #define IN_TRADES                                            123548965
 #define IN_HISTORY                                          -123465465
 #define IN_TRADES_OR_HISTORY                                -118345454
