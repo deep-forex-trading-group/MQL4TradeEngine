@@ -42,6 +42,8 @@ class AutoAdjustStrategy : public Strategy {
         void OnTickSetUIAutoInfo(UIAutoInfo& ui_auto_info) {
             this.is_sig_buy_activated_ = ui_auto_info.is_sig_buy_activated;
             this.is_sig_sell_activated_ = ui_auto_info.is_sig_sell_activated;
+            this.is_close_open_buy_activated_ = ui_auto_info.is_close_open_buy_activated;
+            this.is_close_open_sell_activated_ = ui_auto_info.is_close_open_sell_activated;
         }
         int OnActionExecute();
         int SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group);
@@ -64,6 +66,8 @@ class AutoAdjustStrategy : public Strategy {
     private:
         bool is_sig_buy_activated_;
         bool is_sig_sell_activated_;
+        bool is_close_open_buy_activated_;
+        bool is_close_open_sell_activated_;
     private:
         AutoAdjustOrderGroup* auto_adjust_order_group_;
         AutoAdjustOrderGroupCenter* auto_adjust_order_group_center_;

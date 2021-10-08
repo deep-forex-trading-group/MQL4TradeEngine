@@ -78,10 +78,12 @@ void AIRobotUI::OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out) {
     }
 
     if (this.btn_close_buy.IsButtonPressed()) {
+        ui_auto_info.is_close_open_buy_activated = true;
         this.btn_close_buy.UnPressButton();
     }
 
     if(this.btn_close_sell.IsButtonPressed()) {
+        ui_auto_info.is_close_open_sell_activated = true;
         this.btn_close_sell.UnPressButton();
     }
 

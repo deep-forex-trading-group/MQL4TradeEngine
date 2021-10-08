@@ -16,6 +16,16 @@ int AutoAdjustStrategy::OnTickExecute() {
         this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.pip_start_lots);
         return SUCCEEDED;
     }
+    if (this.is_close_open_buy_activated_) {
+        if (this.auto_adjust_order_group_.CloseAllOrders(BUY_ORDER_SEND)) {
+            UIUtils::Laber("手平多",clrDeepPink,0);
+        }
+    }
+    if (this.is_close_open_sell_activated_) {
+        if (this.auto_adjust_order_group_.CloseAllOrders(SELL_ORDER_SEND)) {
+            UIUtils::Laber("手平空",clrDeepPink,0);
+        }
+    }
     double lots = 0.05;
     int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
     OrderInMarket res[1];
@@ -45,7 +55,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     this.comment_content_.SetTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
     this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + INVALID_SMALL_MONEY <= cur_total_profit) {
-        this.auto_adjust_order_group_.CloseAllOrders();
+        this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND);
         // Close all orders and the state of the group changes
         // So we just refresh the state, to update the magic number for the group
         if (!this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
