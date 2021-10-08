@@ -92,32 +92,7 @@ void ModuleTestManager::TestExecuteStrategy() {
 }
 
 void ModuleTestManager::TestOrderGroupCenter() {
-    PrintFormat("---------- Testing for the group center %s ----------", "order_group_center");
-    OrderGroupCenter* order_group_center = new OrderGroupCenter("group_center_1");
-    order_group_center.SetName("Central Center");
-    order_group_center.PrintInfo();
-    PrintFormat("--------------- Init og1 ----------------------");
-    OrderGroup* og1 = new OrderGroup("og1", order_group_center);
-    order_group_center.PrintInfo();
-    PrintFormat("--------------- Init og2 ----------------------");
-    OrderGroup* og2 = new OrderGroup("og2", order_group_center);
-    order_group_center.PrintInfo();
-
-    order_group_center.CreateMsg("Hello World");
-    order_group_center.UnRegister(og1);
-
-    PrintFormat("---------------- After unRegistered %s -------------", "og1");
-    order_group_center.CreateMsg("After unRegitstered og1");
-
-    order_group_center.UnRegister(og2);
-
-    PrintFormat("---------------- After unRegistered %s -------------", "og2");
-    order_group_center.CreateMsg("After unRegitstered og2");
-
-
-    SafeDeletePtr(og1);
-    SafeDeletePtr(og2);
-    SafeDeletePtr(order_group_center);
+   return;
 }
 
 void ModuleTestManager::TestCopyMap() {

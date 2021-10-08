@@ -51,7 +51,7 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         this.auto_adjust_order_group_.CloseAllOrders();
         // Close all orders and the state of the group changes
         // So we just refresh the state, to update the magic number for the group
-        this.auto_adjust_order_group_.UpdateAutoMN();
+        this.auto_adjust_order_group_.UpdateMagicNumbersAll();
         UIUtils::Laber("盈利平仓",Red,0);
     }
 
@@ -66,6 +66,8 @@ void AutoAdjustStrategy::OnTickShowBasicInfo() {
                                 "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
     this.comment_content_.SetTitleToFieldDoubleTerm(
                                 "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
+    this.comment_content_.SetTitleToFieldDoubleTerm(
+                                "cur_group_manul_mn", this.auto_adjust_order_group_.GetGroupManualMagicNumber());
     this.comment_content_.SetTitleToFieldDoubleTerm(
                                 "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
 }

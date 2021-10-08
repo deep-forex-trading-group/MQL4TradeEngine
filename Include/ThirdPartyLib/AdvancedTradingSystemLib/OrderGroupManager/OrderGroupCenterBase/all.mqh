@@ -3,3 +3,4 @@
 #include "OrderGroupCenter.mqh"
 #include "OrderGroupCenterImpl.mqh"
 #include "DataStructure.mqh"
+#include "Constant.mqh"

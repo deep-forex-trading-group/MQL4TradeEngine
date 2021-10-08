@@ -11,12 +11,8 @@ class AutoAdjustOrderGroup : public OrderGroup {
                                 : OrderGroup(name, order_group_center_ptr){
             this.config_file_ = new ConfigFile("Config", "adjust_config.txt");
             // Assigns and Initializes the magic number for Auto, Sig and Manul
-            this.group_auto_mn_ = this.pos_mn_range_.left + 1;
-            this.group_sig_mn_ = this.neg_mn_range_.left - 1;
-            this.group_manul_mn_ = this.neg_mn_range_.left - 2;
-            this.whole_order_magic_number_set_.add(this.group_auto_mn_);
-            this.whole_order_magic_number_set_.add(this.group_sig_mn_);
-            this.whole_order_magic_number_set_.add(this.group_manul_mn_);
+            this.UpdateMagicNumbersAll();
+            PrintFormat("%d", this.whole_order_magic_number_set_.size());
         };
         ~AutoAdjustOrderGroup() {
             SafeDeletePtr(this.config_file_);
@@ -50,37 +46,38 @@ class AutoAdjustOrderGroup : public OrderGroup {
                                                                           comm);
             return is_success;
         }
-// Magic Number Operations
-        bool UpdateAutoMN() {
-            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_auto_mn_) == 0) {
-                if (!this.UpdateMagicNumber()) {
-                    PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
-                    return false;
-                }
-            }
-            return true;
-        }
-        bool UpdateManulMN() {
-            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_manul_mn_) == 0) {
-                if (!this.UpdateMagicNumber()) {
-                    PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
-                    return false;
-                }
-            }
-            return true;
-        }
-        bool UpdateSigMN() {
-            if (OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_sig_mn_) == 0) {
-                if (!this.UpdateMagicNumber()) {
-                    PrintFormat("RefreshOrderGroupState() failed for UpdateMagicNumber() failed");
-                    return false;
-                }
-            }
-            return true;
-        }
 
-    private:
-        bool UpdateMagicNumber();
+    public:
+        bool UpdateMagicNumbersAll() {
+            int allocated_mn = this.AllocateGroupMN(POS_MN);
+            if (allocated_mn == INVALID_GRP_MN) {
+                PrintFormat("Updates group_auto_mn_[%d,%d] failed!", this.group_auto_mn_, allocated_mn);
+                return false;
+            }
+            this.whole_order_magic_number_set_.remove(this.group_auto_mn_);
+            this.group_auto_mn_ = allocated_mn;
+            this.whole_order_magic_number_set_.add(this.group_auto_mn_);
+
+            allocated_mn = this.AllocateGroupMN(NEG_MN);
+            if (allocated_mn == INVALID_GRP_MN) {
+                PrintFormat("Updates group_sig_mn_[%d,%d] failed!", this.group_sig_mn_, allocated_mn);
+                return false;
+            }
+            this.whole_order_magic_number_set_.remove(this.group_sig_mn_);
+            this.group_sig_mn_ = allocated_mn;
+            this.whole_order_magic_number_set_.add(this.group_sig_mn_);
+
+            allocated_mn = this.AllocateGroupMN(NEG_MN);
+            if (allocated_mn == INVALID_GRP_MN) {
+                PrintFormat("Updates group_manul_mn_[%d,%d] failed!", this.group_manul_mn_, allocated_mn);
+                return false;
+            }
+            this.whole_order_magic_number_set_.remove(this.group_manul_mn_);
+            this.group_manul_mn_ = allocated_mn;
+            this.whole_order_magic_number_set_.add(this.group_manul_mn_);
+
+            return true;
+        }
         string GetGroupComment() {
             return this.GetGroupBaseComment();
         }

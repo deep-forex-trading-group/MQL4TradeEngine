@@ -6,6 +6,7 @@
 #include "../OrderGroupBase/OrderGroupConstant.mqh"
 #include "OrderGroupCenter.mqh"
 #include "DataStructure.mqh"
+#include "Constant.mqh"
 
 class OrderGroup : public OrderGroupObserver {
     public:
@@ -17,8 +18,10 @@ class OrderGroup : public OrderGroupObserver {
             GroupMNRanges g_mn_ranges = this.order_group_center_ptr_.OnStartGetMNRanges(this.group_id_);
             this.pos_mn_range_.left = g_mn_ranges.pos_left;
             this.pos_mn_range_.right = g_mn_ranges.pos_right;
+            this.pos_mn_idx_ = this.pos_mn_range_.left;
             this.neg_mn_range_.left = g_mn_ranges.neg_left;
             this.neg_mn_range_.right = g_mn_ranges.neg_right;
+            this.neg_mn_idx_ = this.neg_mn_range_.left;
             this.whole_order_magic_number_set_ = new HashSet<int>();
 
             this.cur_profit_ = 0;
@@ -53,6 +56,9 @@ class OrderGroup : public OrderGroupObserver {
         }
         double GetCurrentProfitInTrades() {
             return AccountInfoUtils::GetCurrentFloatingProfit(this.whole_order_magic_number_set_);
+        }
+        double GetCurrentProfitInTradesAndHistory() {
+            return AccountInfoUtils::GetTotalProfit(this.whole_order_magic_number_set_, IN_TRADES_OR_HISTORY);
         }
 
 // TODO: To Fixes after implements total_info_for_one_loop
@@ -90,7 +96,9 @@ class OrderGroup : public OrderGroupObserver {
         double max_floating_loss_;
         double max_floating_profits_;
         MagicNumberRange pos_mn_range_;
+        int pos_mn_idx_;
         MagicNumberRange neg_mn_range_;
+        int neg_mn_idx_;
         HashSet<int>* whole_order_magic_number_set_;
 // Utils Functions
     protected:
@@ -100,6 +108,31 @@ class OrderGroup : public OrderGroupObserver {
                                                  this.group_name_,
                                                  IntegerToString(this.group_id_));
             return comm_for_group;
+        }
+        int AllocateGroupMN(MN_DIR mn_dir) {
+            int cur_allocate_res = INVALID_GRP_MN;
+// TODO: InTrades Track
+// TODO: 在Order Management中考虑pending order过滤的情况 加上(order_type == buy || order_type == sell)的情形
+            if (mn_dir == POS_MN
+                && (this.pos_mn_idx_ >= this.pos_mn_range_.left && this.pos_mn_idx_ <= pos_mn_range_.right - 1)) {
+                cur_allocate_res = this.pos_mn_idx_;
+                this.pos_mn_idx_++;
+                return cur_allocate_res;
+            }
+
+            if (mn_dir == NEG_MN
+                && (this.neg_mn_idx_ <= this.neg_mn_range_.left && this.neg_mn_idx_ >= this.neg_mn_range_.right + 1)) {
+                cur_allocate_res = this.neg_mn_idx_;
+                this.neg_mn_idx_--;
+                return cur_allocate_res;
+            }
+
+            PrintFormat("Update Magic Number failed for group [%s], <%d,%d,%d>,<%d,%d,%d>",
+                        this.group_name_,
+                        this.pos_mn_range_.left, this.pos_mn_idx_, this.pos_mn_range_.right,
+                        this.neg_mn_range_.left, this.neg_mn_idx_, this.neg_mn_range_.right);
+
+            return cur_allocate_res;
         }
 
 };
