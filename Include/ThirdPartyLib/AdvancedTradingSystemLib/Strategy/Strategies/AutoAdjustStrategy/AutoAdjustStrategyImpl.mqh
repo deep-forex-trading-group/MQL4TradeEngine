@@ -12,11 +12,15 @@ int AutoAdjustStrategy::BeforeTickExecute() {
 }
 int AutoAdjustStrategy::OnTickExecute() {
 // Activates button buy or close
-    if (this.ui_auto_info_.is_sig_buy_activated) {
+    if ((this.ui_auto_info_.is_sig_buy_activated
+        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0))
+         && this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
         this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
         return SUCCEEDED;
     }
-    if (this.ui_auto_info_.is_sig_sell_activated) {
+    if ((this.ui_auto_info_.is_sig_sell_activated
+        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 1))
+        && this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
         this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.pip_start_lots);
         return SUCCEEDED;
     }

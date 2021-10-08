@@ -7,3 +7,6 @@ lots_exponent:1.5
 pip_step_exponent:1.1
 target_profit_factor:20
 
+[Auto]
+is_auto_sig:0
+auto_dir:1
