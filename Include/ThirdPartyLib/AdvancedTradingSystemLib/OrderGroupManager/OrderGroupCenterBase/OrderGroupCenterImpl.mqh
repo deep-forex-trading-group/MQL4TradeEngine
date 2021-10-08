@@ -15,7 +15,7 @@ int OrderGroupCenter::Register(OrderGroupObserver *observer) {
     g_info_ptr.group_id = this.group_id_base_;
     this.group_id_base_ += 1;
 
-    GroupMNRanges g_mn_ranges = this.AllocateMagicNumber();
+    GroupMNRanges g_mn_ranges = this.AllocateGroupMNRanges();
     g_info_ptr.g_mn_ranges = g_mn_ranges;
 
     this.group_id_to_group_info_.set(g_info_ptr.group_id, g_info_ptr);
@@ -68,7 +68,7 @@ void OrderGroupCenter::PrintInfo() {
         observer.PrintInfo();
     }
 }
-GroupMNRanges OrderGroupCenter::AllocateMagicNumber() {
+GroupMNRanges OrderGroupCenter::AllocateGroupMNRanges() {
     GroupMNRanges cur_g_mn_ranges = {INTEGER_MIN_INT, INTEGER_MIN_INT,
                                      INTEGER_MAX_INT, INTEGER_MAX_INT};
     cur_g_mn_ranges.pos_left = this.magic_number_max_;

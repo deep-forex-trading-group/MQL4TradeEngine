@@ -93,5 +93,5 @@ class OrderGroupCenter : public OrderGroupSubject {
             }
             return SUCCEEDED;
         }
-        GroupMNRanges AllocateMagicNumber();
+        GroupMNRanges AllocateGroupMNRanges();
 };
