@@ -17,7 +17,7 @@ bool OrderGroup::CloseAllOrders(int buy_or_sell) {
 }
 int OrderGroup::AllocateGroupMN(MN_DIR mn_dir) {
     int cur_allocate_res = INVALID_GRP_MN;
-// TODO: InTrades Track
+
     if (mn_dir == POS_MN
         && (this.pos_mn_idx_ >= this.pos_mn_range_.left && this.pos_mn_idx_ <= pos_mn_range_.right - 1)) {
         cur_allocate_res = this.pos_mn_idx_;
