@@ -51,7 +51,12 @@ int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
         this.auto_adjust_order_group_.CloseAllOrders();
         // Close all orders and the state of the group changes
         // So we just refresh the state, to update the magic number for the group
-        this.auto_adjust_order_group_.UpdateMagicNumbersAll();
+        if (!this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
+// TODO: to wrap this interface as a <INPUT_PARAMS, OUTPUT_PARAMS> signiture
+            PrintFormat("UpdatedMagicNumber failed, Strategy BANNED.");
+            return FAILED;
+        }
+
         UIUtils::Laber("盈利平仓",Red,0);
     }
 
