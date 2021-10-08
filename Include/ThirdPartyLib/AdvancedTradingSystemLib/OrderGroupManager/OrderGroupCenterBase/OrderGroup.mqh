@@ -50,11 +50,13 @@ class OrderGroup : public OrderGroupObserver {
         }
 // Public Apis for users to call
     public:
-// Gets Group Basic Information
+
+// Group Basic Information Getters
         int GetGroupId() { return this.group_id_; };
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
         bool IsInitSuccess() { return this.init_success_; }
-// Gets Group Orders Information
+
+// Group Orders Information Getters
         int GetTotalNumOfOrdersInTrades() {
             return OrderGetUtils::GetNumOfAllOrdersInTrades(this.whole_order_magic_number_set_);
         }
@@ -68,7 +70,6 @@ class OrderGroup : public OrderGroupObserver {
         double GetCurrentProfitInTradesAndHistory() {
             return AccountInfoUtils::GetTotalProfit(this.whole_order_magic_number_set_, IN_TRADES_OR_HISTORY);
         }
-
 // TODO: To Fixes after implements total_info_for_one_loop
         double GetMaxFloatingProfit();
         double GetMaxFloatingLoss();
@@ -78,16 +79,6 @@ class OrderGroup : public OrderGroupObserver {
 
 // Close Order Functions
         bool CloseAllOrders(int buy_or_sell);
-
-// Magic Number Manipulations
-        bool CheckPosMNValid(int num_of_mn) {
-            return (this.pos_mn_idx_ + num_of_mn < this.pos_mn_range_.left
-                    || this.pos_mn_idx_ + num_of_mn > pos_mn_range_.right - 1);
-        }
-        bool CheckNegMNValid(int num_of_mn) {
-            return (this.neg_mn_idx_ - num_of_mn > this.neg_mn_range_.left
-                    || this.neg_mn_idx_ - num_of_mn < this.neg_mn_range_.right + 1);
-        }
 
 // Print Orders Information
         void PrintAllOrders();
@@ -119,5 +110,15 @@ class OrderGroup : public OrderGroupObserver {
                                                  IntegerToString(this.group_id_));
             return comm_for_group;
         }
+
+// Magic Number Manipulations
         int AllocateGroupMN(MN_DIR mn_dir);
+        bool CheckPosMNValid(int num_of_mn) {
+            return (this.pos_mn_idx_ + num_of_mn < this.pos_mn_range_.left
+                    || this.pos_mn_idx_ + num_of_mn > pos_mn_range_.right - 1);
+        }
+        bool CheckNegMNValid(int num_of_mn) {
+            return (this.neg_mn_idx_ - num_of_mn > this.neg_mn_range_.left
+                    || this.neg_mn_idx_ - num_of_mn < this.neg_mn_range_.right + 1);
+        }
 };
