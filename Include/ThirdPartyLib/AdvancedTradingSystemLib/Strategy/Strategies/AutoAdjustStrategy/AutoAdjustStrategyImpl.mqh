@@ -23,11 +23,23 @@ int AutoAdjustStrategy::OnTickExecute() {
     if (this.ui_auto_info_.is_close_open_buy_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(BUY_ORDER_SEND)) {
             UIUtils::Laber("手平多",clrDeepPink,0);
+            if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0
+                && !this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
+                PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
+                            this.strategy_name_);
+                return FAILED;
+            }
         }
     }
     if (this.ui_auto_info_.is_close_open_sell_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(SELL_ORDER_SEND)) {
             UIUtils::Laber("手平空",clrDeepPink,0);
+            if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0
+                && !this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
+                PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
+                            this.strategy_name_);
+                return FAILED;
+            }
         }
     }
     double lots = 0.05;
