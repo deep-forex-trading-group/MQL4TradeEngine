@@ -49,7 +49,8 @@ bool OrderCloseUtils::CloseAllOrders(HashSet<int>* magic_number_set) {
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && magic_number_set.contains(OrderMagicNumber())) {
+            && magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
               RefreshRates();
               CloseOrderByOrderTicket(OrderTicket(), 0);
         }
@@ -62,7 +63,7 @@ bool OrderCloseUtils::CloseAllBuyOrders() {
   for (int i = total_orders_num - 1; i >= 0; i--) {
      RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                        && OrderType() == OP_BUY) {
+         && OrderType() == OP_BUY) {
            RefreshRates();
            CloseOrderByOrderTicket(OrderTicket(), 0);
      }
@@ -75,7 +76,7 @@ bool OrderCloseUtils::CloseAllBuyOrders(int magic_number) {
      for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                        && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
+            && OrderType() == OP_BUY && OrderMagicNumber() == magic_number) {
               RefreshRates();
               CloseOrderByOrderTicket(OrderTicket(), 0);
         }
@@ -88,8 +89,8 @@ bool OrderCloseUtils::CloseAllBuyProfitOrders(int magic_number, double profit) {
        for (int i = total_orders_num - 1; i >= 0; i--) {
           RefreshRates();
           if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                          && OrderType() == OP_BUY && OrderMagicNumber() == magic_number
-                          && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
+              && OrderType() == OP_BUY && OrderMagicNumber() == magic_number
+              && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
                 RefreshRates();
                 CloseOrderByOrderTicket(OrderTicket(), 0);
           }
