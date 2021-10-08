@@ -23,10 +23,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     if (this.ui_auto_info_.is_close_open_buy_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(BUY_ORDER_SEND)) {
             UIUtils::Laber("手平多",clrDeepPink,0);
-            if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0
-                && !this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
-                PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
-                            this.strategy_name_);
+            if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
         }
@@ -34,14 +31,29 @@ int AutoAdjustStrategy::OnTickExecute() {
     if (this.ui_auto_info_.is_close_open_sell_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(SELL_ORDER_SEND)) {
             UIUtils::Laber("手平空",clrDeepPink,0);
-            if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0
-                && !this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
-                PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
-                            this.strategy_name_);
+            if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
         }
     }
+    if (this.ui_auto_info_.is_close_profit_buy_activated) {
+        if (this.auto_adjust_order_group_.CloseProfitOrders(BUY_ORDER_SEND, INVALID_SMALL_MONEY)) {
+            UIUtils::Laber("平盈多",clrGreen,0);
+            if (this.CheckMNUpdate() == FAILED) {
+                return FAILED;
+            }
+        }
+    }
+    if (this.ui_auto_info_.is_close_profit_sell_activated) {
+        if (this.auto_adjust_order_group_.CloseProfitOrders(SELL_ORDER_SEND, INVALID_SMALL_MONEY)) {
+            UIUtils::Laber("平盈空",clrGreen,0);
+            if (this.CheckMNUpdate() == FAILED) {
+                return FAILED;
+            }
+        }
+    }
+    double profit_history = this.auto_adjust_order_group_.GetCurrentProfitInHistory();
+    this.comment_content_.SetTitleToFieldDoubleTerm("历史获利", profit_history);
     double lots = 0.05;
     int num_orders = this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades();
     OrderInMarket res[1];
@@ -57,7 +69,8 @@ int AutoAdjustStrategy::OnTickExecute() {
                                 this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
 
     if (pip_step_add > this.params_.pip_step_max) { pip_step_add = 10; }
-    double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTrades();
+    double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
+    double cur_float_profit = this.auto_adjust_order_group_.GetCurrentProfitInTrades();
     double total_lots = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
 
 //    double target_profit_money =
@@ -68,7 +81,8 @@ int AutoAdjustStrategy::OnTickExecute() {
     double target_profit_money =
                     NormalizeDouble(total_lots * this.params_.target_profit_factor, 2);
 
-    this.comment_content_.SetTitleToFieldDoubleTerm("cur_total_profit", cur_total_profit);
+    this.comment_content_.SetTitleToFieldDoubleTerm("当前(总)亏", cur_total_profit);
+    this.comment_content_.SetTitleToFieldDoubleTerm("当前浮亏", cur_float_profit);
     this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
     if (target_profit_money + INVALID_SMALL_MONEY <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND);

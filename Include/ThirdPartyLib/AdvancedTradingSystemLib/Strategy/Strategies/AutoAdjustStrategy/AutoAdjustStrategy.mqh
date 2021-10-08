@@ -61,6 +61,15 @@ class AutoAdjustStrategy : public Strategy {
             return true;
         }
         void BeforeTickShowBasicInfo();
+        int CheckMNUpdate() {
+            if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0
+                && !this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
+                PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
+                            this.strategy_name_);
+                return FAILED;
+            }
+            return SUCCEEDED;
+        }
     private:
         UIAutoInfo ui_auto_info_;
     private:

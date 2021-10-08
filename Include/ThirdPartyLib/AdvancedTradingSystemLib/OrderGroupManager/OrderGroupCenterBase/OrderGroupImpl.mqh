@@ -15,6 +15,25 @@ bool OrderGroup::CloseAllOrders(int buy_or_sell) {
     }
     return is_success_close;
 }
+bool OrderGroup::CloseProfitOrders(int buy_or_sell, double profit) {
+    if (this.whole_order_magic_number_set_.size() == 0) {
+        return false;
+    }
+    bool is_success_close = false;
+    if (buy_or_sell == BUY_ORDER_SEND || buy_or_sell == BUY_AND_SELL_SEND) {
+        is_success_close = (is_success_close
+                            || OrderCloseUtils::CloseAllBuyProfitOrders(
+                                                this.whole_order_magic_number_set_, 
+                                                profit));
+    }
+    if (buy_or_sell == SELL_ORDER_SEND || buy_or_sell == BUY_AND_SELL_SEND) {
+        is_success_close = (is_success_close
+                            || OrderCloseUtils::CloseAllSellProfitOrders(
+                                                this.whole_order_magic_number_set_, 
+                                                profit));
+    }
+    return is_success_close;
+}
 int OrderGroup::AllocateGroupMN(MN_DIR mn_dir) {
     int cur_allocate_res = INVALID_GRP_MN;
 

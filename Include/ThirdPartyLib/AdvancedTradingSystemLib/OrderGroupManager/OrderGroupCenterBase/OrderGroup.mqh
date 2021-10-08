@@ -67,6 +67,9 @@ class OrderGroup : public OrderGroupObserver {
         double GetCurrentProfitInTrades() {
             return AccountInfoUtils::GetCurrentFloatingProfit(this.whole_order_magic_number_set_);
         }
+        double GetCurrentProfitInHistory() {
+            return AccountInfoUtils::GetTotalProfit(this.whole_order_magic_number_set_, IN_HISTORY);
+        }
         double GetCurrentProfitInTradesAndHistory() {
             return AccountInfoUtils::GetTotalProfit(this.whole_order_magic_number_set_, IN_TRADES_OR_HISTORY);
         }
@@ -79,6 +82,7 @@ class OrderGroup : public OrderGroupObserver {
 
 // Close Order Functions
         bool CloseAllOrders(int buy_or_sell);
+        bool CloseProfitOrders(int buy_or_sell, double profit);
 
 // Print Orders Information
         void PrintAllOrders();
