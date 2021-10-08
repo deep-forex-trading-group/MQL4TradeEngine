@@ -44,6 +44,12 @@ int OnInit() {
         return INIT_FAILED;
     }
     is_at_strategy_valid = true;
+    if (!at_strategy.SetCommentContent(comment_content_ea)) {
+        PrintFormat("Sets the comment content for at_strategy [%s] failed!", 
+                    at_strategy.GetStrategyName());
+        return INIT_FAILED;
+    }
+    
 
     if (!system_mode_config.CheckConfigFileValid()) {
         PrintFormat("System Config File is invalid, makes sure the path as %s" ,
@@ -68,7 +74,7 @@ void OnTick() {
         return;
     }
     at_strategy.OnTickSetUIAutoInfo(ui_ret_data.ui_auto_info);
-    if (at_strategy.OnTickExecute(comment_content_ea) == FAILED) {
+    if (at_strategy.OnTickExecute() == FAILED) {
         comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
         is_at_strategy_valid = false;
     }

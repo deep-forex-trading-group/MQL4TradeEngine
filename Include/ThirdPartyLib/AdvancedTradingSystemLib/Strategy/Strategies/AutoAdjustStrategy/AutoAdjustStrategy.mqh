@@ -37,10 +37,21 @@ class AutoAdjustStrategy : public Strategy {
 
 // Implements the abstract methods in base class Strategy
     public:
+        string GetStrategyName() {
+            return this.strategy_name_;
+        }
         bool IsInitSuccess() { return this.init_success_; };
         int ExecuteStrategy() const;
-        int OnTickExecute(CommentContent* comment_content);
         int OnTickExecute();
+        bool SetCommentContent(CommentContent* cc_in) {
+            if (IsPtrInvalid(cc_in)) {
+                PrintFormat("CommentContent is invalid for %s. ", this.strategy_name_);
+                return false;
+            }
+            SafeDeletePtr(this.comment_content_);
+            this.comment_content_ = cc_in;
+            return true;
+        }
         void OnTickSetUIAutoInfo(UIAutoInfo& ui_auto_info) {
             this.is_sig_buy_activated_ = ui_auto_info.is_sig_buy_activated;
             this.is_sig_sell_activated_ = ui_auto_info.is_sig_sell_activated;

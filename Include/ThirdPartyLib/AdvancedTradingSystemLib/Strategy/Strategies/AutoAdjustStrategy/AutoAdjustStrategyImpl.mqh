@@ -4,11 +4,6 @@ int AutoAdjustStrategy::ExecuteStrategy() const {
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::OnTickExecute() {
-    PrintFormat("Please use the api for Comment Content.");
-    return FAILED;
-}
-int AutoAdjustStrategy::OnTickExecute(CommentContent* comment_content) {
-    this.comment_content_ = comment_content;
     if (!this.params_.IsParamsValid()) {
         return FAILED;
     }

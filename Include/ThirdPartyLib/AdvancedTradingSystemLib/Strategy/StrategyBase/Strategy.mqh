@@ -9,7 +9,6 @@ class Strategy {
         };
 // OnTick is for every tick check to execute strategy
         virtual int OnTickExecute() = 0;
-        virtual int OnTickExecute(CommentContent* comment_content) = 0;
 // OnAction is for outer activated, such as using button to activate
         virtual int OnActionExecute() = 0;
         virtual void PrintStrategyInfo() const = 0;
@@ -23,12 +22,12 @@ class Strategy {
 };
 
 int Strategy::SetConfigFile(ConfigFile* config_file) {
-    SafeDeletePtr(this.config_file_);
     if (IsPtrInvalid(config_file)) {
         PrintFormat("This is a invalid pointer for the config_file in Strategy {%s}.",
                     this.strategy_name_);
         return FAILED;
     }
+    SafeDeletePtr(this.config_file_);
     this.config_file_ = config_file;
     return SUCCEEDED;
 }
