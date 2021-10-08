@@ -13,10 +13,14 @@ class OrderCloseUtils : public OrderManageUtils {
         static bool CloseAllOrders(HashSet<int>* magic_number);
         static bool CloseAllBuyOrders();
         static bool CloseAllBuyOrders(int magic_number);
+        static bool CloseAllBuyOrders(HashSet<int>* magic_number_set);
         static bool CloseAllBuyProfitOrders(int magic_number, double profit);
+        static bool CloseAllBuyProfitOrders(HashSet<int>* magic_number_set, double profit);
         static bool CloseAllSellOrders();
         static bool CloseAllSellOrders(int magic_number);
+        static bool CloseAllSellOrders(HashSet<int>* magic_number_set);
         static bool CloseAllSellProfitOrders(int magic_number, double profit);
+        static bool CloseAllSellProfitOrders(HashSet<int>* magic_number_set, double profit);
         static bool CloseOrderByOrderTicket(int order_ticket, int dir);
         static bool CloseSingleOrderByProfit(double profit);
         static bool CloseSingleOrderByLoss(double loss);
@@ -45,7 +49,7 @@ bool OrderCloseUtils::CloseAllOrders(int magic_number) {
 }
 bool OrderCloseUtils::CloseAllOrders(HashSet<int>* magic_number_set) {
     int total_orders_num = OrdersTotal();
-    bool is_success = false;
+
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
@@ -55,11 +59,10 @@ bool OrderCloseUtils::CloseAllOrders(HashSet<int>* magic_number_set) {
               CloseOrderByOrderTicket(OrderTicket(), 0);
         }
     }
-    return is_success;
+    return true;
 }
 bool OrderCloseUtils::CloseAllBuyOrders() {
   int total_orders_num = OrdersTotal();
-  bool is_success = false;
   for (int i = total_orders_num - 1; i >= 0; i--) {
      RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
@@ -68,11 +71,10 @@ bool OrderCloseUtils::CloseAllBuyOrders() {
            CloseOrderByOrderTicket(OrderTicket(), 0);
      }
   }
-  return is_success;
+  return true;
 }
 bool OrderCloseUtils::CloseAllBuyOrders(int magic_number) {
      int total_orders_num = OrdersTotal();
-     bool is_success = false;
      for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
@@ -81,25 +83,49 @@ bool OrderCloseUtils::CloseAllBuyOrders(int magic_number) {
               CloseOrderByOrderTicket(OrderTicket(), 0);
         }
      }
-     return is_success;
+     return true;
+}
+bool OrderCloseUtils::CloseAllBuyOrders(HashSet<int>* magic_number_set) {
+    int total_orders_num = OrdersTotal();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_BUY && magic_number_set.contains(OrderMagicNumber())) {
+              RefreshRates();
+              CloseOrderByOrderTicket(OrderTicket(), 0);
+        }
+    }
+    return true;
 }
 bool OrderCloseUtils::CloseAllBuyProfitOrders(int magic_number, double profit) {
-       int total_orders_num = OrdersTotal();
-       bool is_success = false;
-       for (int i = total_orders_num - 1; i >= 0; i--) {
-          RefreshRates();
-          if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-              && OrderType() == OP_BUY && OrderMagicNumber() == magic_number
-              && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
-                RefreshRates();
-                CloseOrderByOrderTicket(OrderTicket(), 0);
-          }
-       }
-       return is_success;
+   int total_orders_num = OrdersTotal();
+   for (int i = total_orders_num - 1; i >= 0; i--) {
+      RefreshRates();
+      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+          && OrderType() == OP_BUY && OrderMagicNumber() == magic_number
+          && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
+            RefreshRates();
+            CloseOrderByOrderTicket(OrderTicket(), 0);
+      }
+   }
+   return true;
+}
+bool OrderCloseUtils::CloseAllBuyProfitOrders(HashSet<int>* magic_number_set, double profit) {
+    int total_orders_num = OrdersTotal();
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_BUY && magic_number_set.contains(OrderMagicNumber())
+            && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
+            RefreshRates();
+            CloseOrderByOrderTicket(OrderTicket(), 0);
+        }
+    }
+    return true;
 }
 bool OrderCloseUtils::CloseAllSellOrders() {
     int total_orders_num = OrdersTotal();
-    bool is_success = false;
+
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
@@ -108,11 +134,11 @@ bool OrderCloseUtils::CloseAllSellOrders() {
             CloseOrderByOrderTicket(OrderTicket(), 1);
         }
     }
-    return is_success;
+    return true;
 }
 bool OrderCloseUtils::CloseAllSellOrders(int magic_number) {
     int total_orders_num = OrdersTotal();
-    bool is_success = false;
+
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
@@ -121,11 +147,24 @@ bool OrderCloseUtils::CloseAllSellOrders(int magic_number) {
             CloseOrderByOrderTicket(OrderTicket(), 1);
         }
     }
-    return is_success;
+    return true;}
+bool OrderCloseUtils::CloseAllSellOrders(HashSet<int>* magic_number_set) {
+    int total_orders_num = OrdersTotal();
+
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_SELL
+            &&  magic_number_set.contains(OrderMagicNumber())) {
+            RefreshRates();
+            CloseOrderByOrderTicket(OrderTicket(), 1);
+        }
+    }
+    return true;
 }
 bool OrderCloseUtils::CloseAllSellProfitOrders(int magic_number, double profit) {
     int total_orders_num = OrdersTotal();
-    bool is_success = false;
+
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
@@ -136,7 +175,22 @@ bool OrderCloseUtils::CloseAllSellProfitOrders(int magic_number, double profit) 
             PrintFormat("Activate close: %d", OrderTicket());
         }
     }
-    return is_success;
+    return true;
+}
+bool OrderCloseUtils::CloseAllSellProfitOrders(HashSet<int>* magic_number_set, double profit) {
+    int total_orders_num = OrdersTotal();
+
+    for (int i = total_orders_num - 1; i >= 0; i--) {
+        RefreshRates();
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
+            && OrderType() == OP_SELL && magic_number_set.contains(OrderMagicNumber())
+            && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
+            RefreshRates();
+            CloseOrderByOrderTicket(OrderTicket(), 1);
+            PrintFormat("Activate close: %d", OrderTicket());
+        }
+    }
+    return true;
 }
 bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
     double spread = NormalizeDouble(MarketInfo(Symbol(), MODE_SPREAD),Digits)*Point;
@@ -169,12 +223,9 @@ bool OrderCloseUtils::CloseOrderByOrderTicket(int order_ticket, int dir) {
 }
 bool OrderCloseUtils::CloseSingleOrderByProfit(double profit) {
     int total_orders_num = OrdersTotal();
-    bool is_success = false;
+
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
-        // Print("----------------------- profit", profit, "----------------------");
-        // OrderPrint();
-        // Print("----------------------- profit", profit, "----------------------");
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && (OrderProfit() + OrderSwap() + OrderCommission()) >= profit) {
             RefreshRates();
@@ -182,22 +233,19 @@ bool OrderCloseUtils::CloseSingleOrderByProfit(double profit) {
             if (OrderType() == OP_SELL) CloseOrderByOrderTicket(OrderTicket(), 1);
         }
     }
-    return is_success;
+    return true;
 }
 bool OrderCloseUtils::CloseSingleOrderByLoss(double loss) {
     int total_orders_num = OrdersTotal();
-    bool is_success = false;
+
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
         && (OrderProfit() + OrderSwap() + OrderCommission()) <= -loss) {
-            // Print("----------------------- loss: ", loss, "----------------------");
-            // OrderPrint();
-            // Print("----------------------- loss: ", loss, "----------------------");
             RefreshRates();
             if (OrderType() == OP_BUY) CloseOrderByOrderTicket(OrderTicket(), 0);
             if (OrderType() == OP_SELL) CloseOrderByOrderTicket(OrderTicket(), 1);
         }
     }
-    return is_success;
+    return true;
 }
