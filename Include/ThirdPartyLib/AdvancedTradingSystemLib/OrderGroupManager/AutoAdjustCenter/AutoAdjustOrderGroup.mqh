@@ -17,6 +17,7 @@ class AutoAdjustOrderGroup : public OrderGroup {
         ~AutoAdjustOrderGroup() {
             SafeDeletePtr(this.config_file_);
         };
+
     public:
 // Magic Number Getters
         int GetGroupAutoMagicNumber() { return this.group_auto_mn_; }
