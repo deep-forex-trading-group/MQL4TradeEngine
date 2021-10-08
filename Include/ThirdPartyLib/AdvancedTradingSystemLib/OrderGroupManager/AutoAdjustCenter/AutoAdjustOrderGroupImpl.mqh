@@ -72,7 +72,7 @@ int AutoAdjustOrderGroup::UpdateMagicNumber(int mn_to_update, MN_DIR mn_dir) {
         PrintFormat("Updates_mn_failed for num of orders is not 0!");
         return allocated_mn;
     }
-    allocated_mn = this.AllocateGroupMN(POS_MN);
+    allocated_mn = this.AllocateGroupMN(mn_dir);
     if (allocated_mn == INVALID_GRP_MN) {
         PrintFormat("Updates_mn_failed for allocated failed!");
         return allocated_mn;
