@@ -10,7 +10,6 @@
 
 class OrderGroup : public OrderGroupObserver {
     public:
-    // TODO: to separate the signal_order and auto_order with different MAGIC_NUMBER
         OrderGroup(string name, OrderGroupCenter *order_group_center_ptr) :
                    group_name_(name), order_group_center_ptr_(order_group_center_ptr) {
             this.group_id_ = this.order_group_center_ptr_.Register(GetPointer(this));
@@ -37,9 +36,17 @@ class OrderGroup : public OrderGroupObserver {
 
 // Observer communications functionality
     public:
-        void Update(string msg);
-        void UnRegister();
-        void PrintInfo();
+        void Update(string msg) {
+            this.msg_from_subject_ = msg;
+            PrintInfo();
+        }
+        void UnRegister() {
+            this.order_group_center_ptr_.UnRegister(GetPointer(this));
+            PrintFormat("OrderGroup: %d is unregistered from order group center.", this.group_id_);
+        }
+        void PrintInfo() {
+            PrintFormat("OrderGroup: %d gets a new msg [%s]", this.group_id_, this.msg_from_subject_);
+        }
 // Public Apis for users to call
     public:
 // Gets Group Basic Information
