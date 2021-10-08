@@ -52,7 +52,8 @@ bool OrderGetUtils::GetOrderInTrade(int magic_number, OrderInMarket& res[]) {
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
-             && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+             && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number
+             && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -70,7 +71,8 @@ bool OrderGetUtils::GetOrderInTrade(HashSet<int>* magic_number_set, OrderInMarke
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
-            && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+            && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -92,7 +94,8 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
     int res_i = 0;
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
-        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderMagicNumber() != 0) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderMagicNumber() != 0
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             int cur_magic_number = OrderMagicNumber();
             PrintFormat("cur_magic_number=%d", cur_magic_number);
@@ -111,7 +114,8 @@ MinMaxMagicNumber OrderGetUtils::GetAllOrdersWithoutSymbolAndZeroMN() {
 
     for (int i = total_history_num - 1; i >= 0; i--) {
         RefreshRates();
-        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderMagicNumber() != 0) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderMagicNumber() != 0
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             int cur_magic_number = OrderMagicNumber();
             if (res.max_magic_number == 0) {
@@ -138,7 +142,8 @@ bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
     int total_history_num = OrdersHistoryTotal();
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
-        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -148,7 +153,8 @@ bool OrderGetUtils::GetAllOrders(OrderInMarket& res[]) {
     }
     for (int i = total_history_num; i >= 0; i--) {
         RefreshRates();
-        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)) {
+        if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY)
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -165,7 +171,8 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(int magic_number) {
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
-            && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number) {
+            && OrderSymbol() == Symbol() && OrderMagicNumber() == magic_number
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             res_total_num++;
         }
@@ -178,7 +185,8 @@ int OrderGetUtils::GetNumOfAllOrdersInTrades(HashSet<int>* magic_number_set) {
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES)
-            && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())) {
+            && OrderSymbol() == Symbol() && magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
                 RefreshRates();
                 res_total_num++;
         }
@@ -218,7 +226,8 @@ int OrderGetUtils::GetNumOfLossOrders(int magic_number) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && (OrderProfit() + OrderCommission() + OrderSwap()) <= 0
-            && OrderMagicNumber() == magic_number) {
+            && OrderMagicNumber() == magic_number
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             total_loss_num++;
         }
@@ -230,7 +239,8 @@ bool OrderGetUtils::CheckOrder(string comm, long magic_number) {
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && (OrderComment() == comm && OrderMagicNumber() == magic_number)) {
+            && (OrderComment() == comm && OrderMagicNumber() == magic_number)
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             return true;
         }
@@ -242,7 +252,8 @@ bool OrderGetUtils::CheckOrder(string comm) {
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && (OrderComment() == comm)) {
+            && (OrderComment() == comm)
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             return true;
         }
@@ -263,7 +274,8 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumberSet(HashSet<int>* group_mag
     for (int i = total_history_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
-            && group_magic_number_set.contains(OrderMagicNumber())) {
+            && group_magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -288,7 +300,8 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumberSet(HashSet<int>* group_magi
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && group_magic_number_set.contains(OrderMagicNumber())) {
+            && group_magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -307,7 +320,8 @@ bool OrderGetUtils::GetOrdersInHistoryWithMagicNumber(int group_magic_number, Or
     for (int i = total_history_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_HISTORY) && OrderSymbol() == Symbol()
-            && OrderMagicNumber() == group_magic_number) {
+            && OrderMagicNumber() == group_magic_number
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -326,7 +340,8 @@ bool OrderGetUtils::GetOrdersInTradesWithMagicNumber(int group_magic_number, Ord
     for (int i = total_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-            && OrderMagicNumber() == group_magic_number) {
+            && OrderMagicNumber() == group_magic_number
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             OrderInMarket oi();
             oi.GetOrderFromMarket(i);
@@ -470,7 +485,8 @@ bool OrderGetUtils::GetHighestOpenPriceOrder(int magic_number, OrderInMarket& re
   for (int i = total_orders_num - 1; i >= 0; i--) {
      RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol() 
-                     && OrderMagicNumber() == magic_number) {
+         && OrderMagicNumber() == magic_number
+         && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
            RefreshRates();
            if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
               highest_price = OrderOpenPrice();
@@ -537,7 +553,8 @@ bool OrderGetUtils::GetLowestOpenPriceOrder(int magic_number, OrderInMarket& res
   for (int i = total_orders_num - 1; i >= 0; i--) {
      RefreshRates();
      if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                     && OrderMagicNumber() == magic_number) {
+         && OrderMagicNumber() == magic_number
+         && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
            RefreshRates();
            if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
               lowest_price = OrderOpenPrice();
@@ -610,7 +627,8 @@ bool OrderGetUtils::GetHighestOpenPriceOrder(HashSet<int>* group_magic_number_se
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                        && group_magic_number_set.contains(OrderMagicNumber())) {
+            && group_magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
             RefreshRates();
             if (highest_price == -1 || OrderOpenPrice() >= highest_price) {
                 highest_price = OrderOpenPrice();
@@ -690,7 +708,8 @@ bool OrderGetUtils::GetLowestOpenPriceOrder(HashSet<int>* group_magic_number_set
     for (int i = total_orders_num - 1; i >= 0; i--) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
-                        && group_magic_number_set.contains(OrderMagicNumber())) {
+            && group_magic_number_set.contains(OrderMagicNumber())
+            && (OrderType() == OP_BUY || OrderType() == OP_SELL)) {
            RefreshRates();
            if (lowest_price == -1 || OrderOpenPrice() <= lowest_price) {
               lowest_price = OrderOpenPrice();
