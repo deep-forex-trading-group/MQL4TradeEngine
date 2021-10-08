@@ -13,10 +13,10 @@ class OrderGroupCenter : public OrderGroupSubject {
             this.group_center_name_ = name;
             MinMaxMagicNumber min_max_mn[1];
             if (this.GetOrderCenterMagicNumberBase(min_max_mn) == FAILED) {
-                this.init_success = false;
+                this.init_success_ = false;
                 return;
             }
-            this.init_success = true;
+            this.init_success_ = true;
             this.magic_number_max_ = min_max_mn[0].max_magic_number;
             this.magic_number_min_ = min_max_mn[0].min_magic_number;
             this.group_id_base_ = (this.magic_number_max_ / CNT_MN_PER_GROUP) + 1;
@@ -36,7 +36,7 @@ class OrderGroupCenter : public OrderGroupSubject {
     // Observer communications management methods
     public:
         int IsInitSuccess() {
-            return this.init_success;
+            return this.init_success_;
         }
         // Returns the group_id when new OrderGroup registered.
         int Register(OrderGroupObserver *observer);
@@ -60,7 +60,7 @@ class OrderGroupCenter : public OrderGroupSubject {
         }
     // Member variables
     protected:
-        int init_success;
+        int init_success_;
         LinkedList<OrderGroupObserver*>* order_group_observer_list_;
         HashMap<int,int>* group_id_to_magic_number_;
         HashMap<int, OrderGroupInfo*>* group_id_to_group_info_;
