@@ -86,6 +86,15 @@ class OrderGroup : public OrderGroupObserver {
             }
             return true;
         }
+// Magic Number Manipulations
+        bool CheckPosMNValid(int num_of_mn) {
+            return (this.pos_mn_idx_ + num_of_mn < this.pos_mn_range_.left
+                    || this.pos_mn_idx_ + num_of_mn > pos_mn_range_.right - 1);
+        }
+        bool CheckNegMNValid(int num_of_mn) {
+            return (this.neg_mn_idx_ - num_of_mn > this.neg_mn_range_.left
+                    || this.neg_mn_idx_ - num_of_mn < this.neg_mn_range_.right + 1);
+        }
 
 // Print Orders Information
         void PrintAllOrders();

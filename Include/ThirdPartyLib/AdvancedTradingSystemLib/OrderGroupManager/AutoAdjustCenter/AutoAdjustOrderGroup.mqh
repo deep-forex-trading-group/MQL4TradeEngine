@@ -48,6 +48,14 @@ class AutoAdjustOrderGroup : public OrderGroup {
         }
 
         bool UpdateMagicNumbersAll() {
+            if (this.CheckPosMNValid(1)) {
+                PrintFormat("Updates pos mn failed, insufficient!");
+                return false;
+            }
+            if (this.CheckNegMNValid(2)) {
+                PrintFormat("Updates neg mn failed, insufficient!");
+                return false;
+            }
             int updated_mn = this.UpdateMagicNumber(this.group_auto_mn_, POS_MN);
             if (updated_mn == INVALID_GRP_MN) {
                 PrintFormat("Updates group_auto_mn_[%d] failed!", this.group_auto_mn_);
