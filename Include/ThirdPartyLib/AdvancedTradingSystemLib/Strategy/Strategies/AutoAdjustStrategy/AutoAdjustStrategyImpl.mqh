@@ -79,15 +79,15 @@ int AutoAdjustStrategy::OnTickExecute() {
 
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
-    this.comment_content_.SetTitleToFieldDoubleTerm("total_lots", total_lots);
-    this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_factor", this.params_.target_profit_factor);
+    this.comment_content_.SetTitleToFieldDoubleTerm("总头寸", total_lots);
+    this.comment_content_.SetTitleToFieldDoubleTerm("目标利润(因子)", this.params_.target_profit_factor);
 
     double target_profit_money =
                     NormalizeDouble(total_lots * this.params_.target_profit_factor, 2);
 
     this.comment_content_.SetTitleToFieldDoubleTerm("当前(总)亏", cur_total_profit);
     this.comment_content_.SetTitleToFieldDoubleTerm("当前浮亏", cur_float_profit);
-    this.comment_content_.SetTitleToFieldDoubleTerm("target_profit_money", target_profit_money);
+    this.comment_content_.SetTitleToFieldDoubleTerm("目标利润(钱)", target_profit_money);
     if (target_profit_money + INVALID_SMALL_MONEY <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND);
         // Close all orders and the state of the group changes
@@ -101,7 +101,7 @@ int AutoAdjustStrategy::OnTickExecute() {
         UIUtils::Laber("盈利平仓",Red,0);
     }
 
-    this.comment_content_.SetTitleToFieldDoubleTerm("pip_step_add", pip_step_add);
+    this.comment_content_.SetTitleToFieldDoubleTerm("加仓点数", pip_step_add);
     this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(send_order_dir, pip_step_add, lots);
 
     return SUCCEEDED;
