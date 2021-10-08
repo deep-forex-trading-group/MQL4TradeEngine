@@ -119,7 +119,6 @@ class OrderGroup : public OrderGroupObserver {
         int AllocateGroupMN(MN_DIR mn_dir) {
             int cur_allocate_res = INVALID_GRP_MN;
 // TODO: InTrades Track
-// TODO: 在Order Management中考虑pending order过滤的情况 加上(order_type == buy || order_type == sell)的情形
             if (mn_dir == POS_MN
                 && (this.pos_mn_idx_ >= this.pos_mn_range_.left && this.pos_mn_idx_ <= pos_mn_range_.right - 1)) {
                 cur_allocate_res = this.pos_mn_idx_;
