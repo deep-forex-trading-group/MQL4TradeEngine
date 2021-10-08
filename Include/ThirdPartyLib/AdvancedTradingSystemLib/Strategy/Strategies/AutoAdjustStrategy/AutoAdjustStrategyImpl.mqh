@@ -8,20 +8,20 @@ int AutoAdjustStrategy::OnTickExecute() {
         return FAILED;
     }
     this.OnTickShowBasicInfo();
-    if (this.is_sig_buy_activated_) {
+    if (this.ui_auto_info_.is_sig_buy_activated) {
         this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
         return SUCCEEDED;
     }
-    if (this.is_sig_sell_activated_) {
+    if (this.ui_auto_info_.is_sig_sell_activated) {
         this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.pip_start_lots);
         return SUCCEEDED;
     }
-    if (this.is_close_open_buy_activated_) {
+    if (this.ui_auto_info_.is_close_open_buy_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(BUY_ORDER_SEND)) {
             UIUtils::Laber("手平多",clrDeepPink,0);
         }
     }
-    if (this.is_close_open_sell_activated_) {
+    if (this.ui_auto_info_.is_close_open_sell_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(SELL_ORDER_SEND)) {
             UIUtils::Laber("手平空",clrDeepPink,0);
         }
