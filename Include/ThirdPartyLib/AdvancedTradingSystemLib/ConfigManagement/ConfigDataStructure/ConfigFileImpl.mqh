@@ -34,12 +34,12 @@ int ConfigFile::RefreshConfigFile() {
         if (this.IsTitleString(line)) {
             cur_title = this.ProcessTitleString(line);
             ConfigSection* config_section = new ConfigSection(cur_title);
-            config_titles_map_.set(cur_title, config_section);
+            this.config_titles_map_.set(cur_title, config_section);
         }
-        if (config_titles_map_.contains(cur_title) && this.IsFieldString(line)) {
+        if (this.config_titles_map_.contains(cur_title) && this.IsFieldString(line)) {
 
             KVPair kv_pair = this.ProcessFieldString(line);
-            config_titles_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
+            this.config_titles_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
         }
         line_idx++;
     }
