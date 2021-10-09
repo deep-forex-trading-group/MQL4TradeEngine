@@ -26,6 +26,7 @@ int ConfigFile::RefreshConfigFile() {
     string cur_title;
     while(!txt.end() && !IsStopped()) {
         string line= txt.readLine();
+        PrintFormat(line);
         // If the blank or invalid line, reset all ConfigSection settings.
         if (!this.IsTitleString(line) && !this.IsFieldString(line)) {
             continue;
@@ -34,12 +35,12 @@ int ConfigFile::RefreshConfigFile() {
         if (this.IsTitleString(line)) {
             cur_title = this.ProcessTitleString(line);
             ConfigSection* config_section = new ConfigSection(cur_title);
-            this.config_titles_map_.set(cur_title, config_section);
+            config_titles_map_.set(cur_title, config_section);
         }
-        if (this.config_titles_map_.contains(cur_title) && this.IsFieldString(line)) {
+        if (config_titles_map_.contains(cur_title) && this.IsFieldString(line)) {
 
             KVPair kv_pair = this.ProcessFieldString(line);
-            this.config_titles_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
+            config_titles_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
         }
         line_idx++;
     }
@@ -52,9 +53,8 @@ bool ConfigFile::CheckConfigFieldExistByTitleAndFieldName(string title, string f
         return false;
     }
     ConfigSection* c_sec = this.config_titles_map_[title];
-    string field_value = c_sec.GetConfigField(field_name);
-    if (field_value == "") {
-        PrintFormat("title %s, field_name: %s is not in the config_section_map_.", title, field_name);
+    if (!c_sec.IsConfigFieldExist(field_name)) {
+        PrintFormat("<%s,%s> is not in the config_section_map_.", title, field_name);
         return false;
     }
     return true;

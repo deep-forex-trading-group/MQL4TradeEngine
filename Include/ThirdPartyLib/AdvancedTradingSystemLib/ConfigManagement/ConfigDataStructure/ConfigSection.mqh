@@ -18,10 +18,10 @@ class ConfigSection : public ConfigSectionBase {
         string config_title_;
         HashMap<string, string>* config_section_map_;
         CollectionCopyUtils<string, string>* collection_copy_utils;
-
     public:
         string GetConfigTitle();
         void AddConfigField(string key, string value);
+        bool IsConfigFieldExist(string key);
         string GetConfigField(string key);
         void CopyConfigMap(HashMap<string, string>& config_section_map_out);
         void PrintAllParams();

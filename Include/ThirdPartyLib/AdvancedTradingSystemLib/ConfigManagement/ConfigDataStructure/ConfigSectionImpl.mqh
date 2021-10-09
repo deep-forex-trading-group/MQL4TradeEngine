@@ -19,6 +19,9 @@ void ConfigSection::CopyConfigMap(HashMap<string, string>& config_section_map_ou
 void ConfigSection::AddConfigField(string key, string value) {
     this.config_section_map_.set(key, value);
 }
+bool ConfigSection::IsConfigFieldExist(string key) {
+    return this.config_section_map_.contains(key);
+}
 string ConfigSection::GetConfigField(string key) {
     if (!this.config_section_map_.contains(key)) {
         PrintFormat("config_section_map_ does not contain the key: <%s>", key);

@@ -22,7 +22,7 @@ class ConfigFile : public ConfigFileBase {
             this.config_titles_map_ = new HashMap<string, ConfigSection*>;
             if (this.RefreshConfigFile() != 0) {
                 PrintFormat("Failed initializeing the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
-                            config_file_name, CONFIG_DIR_PATH);
+                            config_file_name, config_dir);
             }
         }
         ~ConfigFile() {
