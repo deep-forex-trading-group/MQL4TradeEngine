@@ -53,10 +53,11 @@ class AutoAdjustStrategy : public Strategy {
             this.config_file_ = new ConfigFile("adjust_config.txt");
             this.params_ = new AutoAdjustStrategyParams(this.config_file_);
             if (!this.params_.IsParamsValid()) {
-                PrintFormat("AutoAdjustStrategy [%s] is invalid, Init Failed! ", this.strategy_name_);
+                PrintFormat("Params of AutoAdjustStrategy [%s] is invalid, Init Failed! ", this.strategy_name_);
                 return false;
             }
             this.params_.PrintAllParams();
+            this.num_part_close_ = 0;
             PrintFormat("Initialize AutoAdjustStrategy [%s].", this.strategy_name_);
             return true;
         }
@@ -70,8 +71,14 @@ class AutoAdjustStrategy : public Strategy {
             }
             return SUCCEEDED;
         }
+        double GetCurrentAddLots(int num_orders);
+        double GetCurrentAddLotsManual(int num_orders);
+        double GetCurrentManulLots();
+        void ResetNumPartClose() { this.num_part_close_ = 0; }
+        void IncNumPartClose() { this.num_part_close_++; }
     private:
         UIAutoInfo ui_auto_info_;
+        int num_part_close_;
     private:
         AutoAdjustOrderGroup* auto_adjust_order_group_;
         AutoAdjustOrderGroupCenter* auto_adjust_order_group_center_;

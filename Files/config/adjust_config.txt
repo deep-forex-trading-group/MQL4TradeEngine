@@ -6,7 +6,7 @@ pip_step_exponent:1
 
 
 [LotsParams]
-start_lots:0.03
+start_lots:0.05
 lots_exponent:1.5
 lots_max:3.0
 
@@ -17,7 +17,7 @@ max_num_orders:15
 manul_lots_step_factor_arr:2,3,4,5,8,11,15,21,29,30
 
 [Auto]
-is_auto_sig:1
+is_auto_sig:0
 auto_dir:0
 
 [Target]
