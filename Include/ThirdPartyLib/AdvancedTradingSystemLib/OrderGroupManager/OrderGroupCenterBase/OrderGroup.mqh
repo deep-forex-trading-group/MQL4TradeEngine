@@ -50,7 +50,12 @@ class OrderGroup : public OrderGroupObserver {
         }
 // Public Apis for users to call
     public:
-
+        int AfterTickExecute() {
+            this.cur_profit_ = this.GetCurrentProfitInTrades();
+            this.max_floating_profits_ = MathMax(this.max_floating_profits_, this.cur_profit_);
+            this.max_floating_loss_ = MathMax(this.max_floating_loss_, -this.cur_profit_);
+            return SUCCEEDED;
+        }
 // Group Basic Information Getters
         int GetGroupId() { return this.group_id_; };
         string GetGroupName() { return this.group_name_ == "" ? "Unammed" : this.group_name_; };
@@ -64,6 +69,7 @@ class OrderGroup : public OrderGroupObserver {
             return AccountInfoUtils::GetCurrentTotalLots(this.whole_order_magic_number_set_,
                                                          IN_TRADES);
         }
+// Group Acct Info Getters
         double GetCurrentProfitInTrades() {
             return AccountInfoUtils::GetCurrentFloatingProfit(this.whole_order_magic_number_set_);
         }
@@ -73,9 +79,13 @@ class OrderGroup : public OrderGroupObserver {
         double GetCurrentProfitInTradesAndHistory() {
             return AccountInfoUtils::GetTotalProfit(this.whole_order_magic_number_set_, IN_TRADES_OR_HISTORY);
         }
+        double GetCurrentProfitOrdersInTradesProfit() {
+            return AccountInfoUtils::GetTotalProfitOrdersProfit(
+                                     this.whole_order_magic_number_set_, IN_TRADES);
+        }
 // TODO: To Fixes after implements total_info_for_one_loop
-        double GetMaxFloatingProfit();
-        double GetMaxFloatingLoss();
+        double GetMaxFloatingProfit() { return this.max_floating_profits_; }
+        double GetMaxFloatingLoss() { return this.max_floating_loss_; }
 
 // MagicNumberSet Getter
         HashSet<int>* GetWholeOrderMagicSet() { return this.whole_order_magic_number_set_; }
@@ -83,7 +93,15 @@ class OrderGroup : public OrderGroupObserver {
 // Close Order Functions
         bool CloseAllOrders(int buy_or_sell);
         bool CloseProfitOrders(int buy_or_sell, double profit);
-
+        bool ClosePartOrders(HashSet<int>* magic_number_set, double prop_factor, int norm_lots_up_or_down) {
+            for (Iter<int> iter(magic_number_set); !iter.end(); iter.next()) {
+                if (!this.whole_order_magic_number_set_.contains(iter.current())) {
+                    PrintFormat("ClosePartOrders failed for invalide mn: %d", iter.current());
+                    return false;
+                }
+            }
+            return OrderCloseUtils::ClosePartOrders(magic_number_set, prop_factor, norm_lots_up_or_down);
+        }
 // Print Orders Information
         void PrintAllOrders();
     protected:
