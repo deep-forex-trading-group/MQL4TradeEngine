@@ -3,16 +3,18 @@ class MarketInfoUtils {
         MarketInfoUtils() {};
         ~MarketInfoUtils() {};
     public:
-        static double NormalizeLotsDown (double pips_in) {
-            double pips_in_digit_3 = NormalizeDouble(pips_in, 3);
+        static double NormalizeLotsDown (double lots_in) {
+            if (lots_in <= 0.01) return 0.01;
+            double lots_in_digit_3 = NormalizeDouble(lots_in, 3);
             // Handles 0.01 to 0.10 cases
-            if (NormalizeDouble(pips_in_digit_3, 1) == 0) {
-                return NormalizeDouble(pips_in_digit_3, 2) - 0.01;
+            if (NormalizeDouble(lots_in_digit_3, 1) <= 0.01) {
+                return NormalizeDouble(lots_in_digit_3, 2) - 0.01;
             }
-            return pips_in;
+            return lots_in;
         }
-        static double NormalizeLotsUp (double pips_in) {
-            return NormalizeDouble(pips_in, 2);
+        static double NormalizeLotsUp (double lots_in) {
+            if (lots_in <= 0.01) return 0.01;
+            return NormalizeDouble(lots_in, 2);
         }
         static string GetSymbol() {
             return Symbol();
