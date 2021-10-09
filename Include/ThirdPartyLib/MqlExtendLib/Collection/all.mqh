@@ -15,4 +15,5 @@
 #include "SortedArray.mqh"
 #include "Vector.mqh"
 #include "ArrayAdvancedUtils.mqh"
+#include "ArrayTransformUtils.mqh"
 #include "CollectionDeleteUtils.mqh";
