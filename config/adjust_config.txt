@@ -11,7 +11,7 @@ lots_exponent:1.5
 lots_max:3.0
 
 [MaxLimit]
-max_num_orders:20
+max_num_orders:15
 
 [AddOrderManualParams]
 manul_lots_step_factor_arr:2,3,4,5,8,11,15,21,29,30
