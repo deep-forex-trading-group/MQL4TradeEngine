@@ -66,7 +66,7 @@ string ConfigFile::GetConfigFieldByTitleAndFieldName(string title, string field_
     ConfigSection* c_sec = this.config_titles_map_[title];
     string field_value = c_sec.GetConfigField(field_name);
     if (field_value == "") {
-        PrintFormat("title %s, field_name: %s is not in the config_section_map_.", title, field_name);
+        PrintFormat("title %s, field_name: %s is empty in the config_section_map_.", title, field_name);
         return "";
     }
     return field_value;
