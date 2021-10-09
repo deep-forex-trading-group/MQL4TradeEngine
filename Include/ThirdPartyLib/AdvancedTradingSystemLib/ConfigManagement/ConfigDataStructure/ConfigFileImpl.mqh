@@ -26,7 +26,6 @@ int ConfigFile::RefreshConfigFile() {
     string cur_title;
     while(!txt.end() && !IsStopped()) {
         string line= txt.readLine();
-        PrintFormat(line);
         // If the blank or invalid line, reset all ConfigSection settings.
         if (!this.IsTitleString(line) && !this.IsFieldString(line)) {
             continue;
