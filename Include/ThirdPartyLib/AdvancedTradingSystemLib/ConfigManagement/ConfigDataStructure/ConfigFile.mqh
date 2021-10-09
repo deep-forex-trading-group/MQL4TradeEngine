@@ -8,14 +8,14 @@
 class ConfigFile : public ConfigFileBase {
     public:
         ConfigFile(string config_file_name) {
-            this.CommonConstructor(config_file_name, CONFIG_DIR_PATH);
+            this.CommonConstructor(CONFIG_DIR_PATH, config_file_name);
         }
         ConfigFile(string config_dir, string config_file_name) {
             this.CommonConstructor(config_dir, config_file_name);
         }
         void CommonConstructor(string config_dir, string config_file_name) {
             PrintFormat("Initialize the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
-                         config_file_name, CONFIG_DIR_PATH);
+                         config_file_name, config_dir);
             StringAdd(this.file_path_, config_dir);
             StringAdd(this.file_path_, "/");
             StringAdd(this.file_path_, config_file_name);
