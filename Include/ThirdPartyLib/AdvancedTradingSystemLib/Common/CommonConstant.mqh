@@ -17,3 +17,5 @@
 #define IN_HISTORY                                          -123465465
 #define IN_TRADES_OR_HISTORY                                -118345454
 #define INVALID_SMALL_MONEY                                      0.001
+#define NORM_LOTS_UP                                             44545
+#define NORM_LOTS_DOWN                                          -12475

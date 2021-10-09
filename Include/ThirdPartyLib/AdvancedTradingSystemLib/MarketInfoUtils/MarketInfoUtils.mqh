@@ -3,6 +3,12 @@ class MarketInfoUtils {
         MarketInfoUtils() {};
         ~MarketInfoUtils() {};
     public:
+        static double NormalizePipsDown (double pips_in) {
+            return (pips_in < 0.01) ? 0 : pips_in;
+        }
+        static double NormalizePipsUp (double pips_in) {
+            return (pips_in < 0.01) ? 0 : pips_in;
+        }
         static string GetSymbol() {
             return Symbol();
         }
