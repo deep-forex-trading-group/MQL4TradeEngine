@@ -15,13 +15,13 @@ int AutoAdjustStrategy::OnTickExecute() {
     if ((this.ui_auto_info_.is_sig_buy_activated
         || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0))
          && this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
-        this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.pip_start_lots);
+        this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.start_lots);
         return SUCCEEDED;
     }
     if ((this.ui_auto_info_.is_sig_sell_activated
         || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 1))
         && this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
-        this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.pip_start_lots);
+        this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.start_lots);
         return SUCCEEDED;
     }
     if (this.ui_auto_info_.is_close_open_buy_activated) {
@@ -64,7 +64,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     bool is_sig_exist = OrderGetUtils::GetOrderInTrade(this.auto_adjust_order_group_.GetGroupSigMagicNumber(), res);
     int send_order_dir = INTEGER_MIN_INT;
     if (is_sig_exist) {
-        lots = NormalizeDouble(this.params_.pip_start_lots * MathPow(this.params_.lots_exponent, num_orders),
+        lots = NormalizeDouble(this.params_.start_lots * MathPow(this.params_.lots_exponent, num_orders),
                                MarketInfoUtils::GetDigits());
         send_order_dir = res[0].order_type == OP_BUY ? BUY_ORDER_SEND  : (
                                               res[0].order_type == OP_SELL ? SELL_ORDER_SEND  : send_order_dir);
@@ -78,7 +78,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     double total_lots = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
 
 //    double target_profit_money =
-//                    NormalizeDouble(this.params_.pip_start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
+//                    NormalizeDouble(this.params_.start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
     this.comment_content_.SetTitleToFieldDoubleTerm("总头寸", total_lots);
     this.comment_content_.SetTitleToFieldDoubleTerm("目标利润(因子)", this.params_.target_profit_factor);
 
@@ -125,11 +125,11 @@ int AutoAdjustStrategy::OnActionExecute() {
     if (!this.CheckConfigFileValid()) {
         return FAILED;
     }
-    string pip_start_lots = this.config_file_.GetConfigFieldByTitleAndFieldName(
-                                                        "Adjust", "pip_start_lots");
-    double pip_start_lots_double = StringToDouble(pip_start_lots);
-//    this.auto_adjust_order_group_.CreateSigBuyOrder(pip_start_lots_double);
-    this.auto_adjust_order_group_.CreateSigSellOrder(pip_start_lots_double);
+    string start_lots = this.config_file_.GetConfigFieldByTitleAndFieldName(
+                                                        "Adjust", "start_lots");
+    double start_lots_double = StringToDouble(start_lots);
+//    this.auto_adjust_order_group_.CreateSigBuyOrder(start_lots_double);
+    this.auto_adjust_order_group_.CreateSigSellOrder(start_lots_double);
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::SetAutoAdjustOrderGroup(AutoAdjustOrderGroup* auto_adjust_order_group) {
