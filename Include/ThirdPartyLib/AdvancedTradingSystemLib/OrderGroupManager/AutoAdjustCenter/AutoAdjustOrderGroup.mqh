@@ -47,7 +47,18 @@ class AutoAdjustOrderGroup : public OrderGroup {
                                                                           comm);
             return is_success;
         }
-
+// Group Info Getters
+        int GetNumOfAutoOrdersInTrades() { return OrderGetUtils::GetNumOfAllOrdersInTrades(this.group_auto_mn_);}
+// Close Order Functions
+        bool ClosePartOrders(double prop_factor) {
+            HashSet<int>* mn_set = new HashSet<int>();
+            mn_set.add(this.group_manul_mn_);
+            mn_set.add(this.group_auto_mn_);
+            mn_set.add(this.group_sig_mn_);
+            bool is_success = OrderCloseUtils::ClosePartOrders(mn_set, prop_factor, NORM_LOTS_UP);
+            SafeDeletePtr(mn_set);
+            return is_success;
+        }
         bool UpdateMagicNumbersAll();
         string GetGroupComment() {
             return this.GetGroupBaseComment();
