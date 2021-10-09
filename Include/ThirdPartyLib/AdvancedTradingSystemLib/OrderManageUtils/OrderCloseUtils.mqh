@@ -75,8 +75,8 @@ bool OrderCloseUtils::ClosePartOrders(HashSet<int>* magic_number_set, double pro
               RefreshRates();
               double lots = NormalizeDouble(OrderLots()*prop_factor, 2);
               lots = norm_lots_up_or_down == NORM_LOTS_UP ?
-                                             MarketInfoUtils::NormalizePipsDown(lots) :
-                                             MarketInfoUtils::NormalizePipsUp(lots);
+                                             MarketInfoUtils::NormalizeLotsDown(lots) :
+                                             MarketInfoUtils::NormalizeLotsUp(lots);
               if (lots == 0) {
                 continue;
               }
