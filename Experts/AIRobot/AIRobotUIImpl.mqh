@@ -15,6 +15,18 @@ void AIRobotUI::InitButtons() {
                                     this.button_inter_x, this.button_inter_y,
                                     this.button_section_set_pos);
 
+    this.btn_part_close = new Button("部分平", this.button_width, this.button_height,
+                                     "部分平(中)", clrYellow, "部分平", clrBlack);
+    this.btn_ui_frame.AddUIComponent(3, 1, this.btn_part_close);
+
+    this.btn_at_add_buy = new Button("AT加多", this.button_width, this.button_height,
+                                     "AT加多(中)", clrFireBrick, "AT加多", clrBlack);
+    this.btn_ui_frame.AddUIComponent(2, 2, this.btn_at_add_buy);
+
+    this.btn_at_add_sell = new Button("AT加空", this.button_width, this.button_height,
+                                           "AT加空", clrFireBrick, "AT加空", clrBlack);
+    this.btn_ui_frame.AddUIComponent(3, 2, this.btn_at_add_sell);
+
     this.btn_at_open_buy_sig = new Button("AT买", this.button_width, this.button_height,
                                           "AT买(中)", clrFireBrick, "AT买", clrBlack);
     this.btn_ui_frame.AddUIComponent(2, 0, this.btn_at_open_buy_sig);
@@ -62,6 +74,18 @@ void AIRobotUI::InitButtons() {
 
 void AIRobotUI::OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out) {
     UIAutoInfo ui_auto_info;
+    if (this.btn_part_close.IsButtonPressed()) {
+        ui_auto_info.is_part_close_activated = true;
+        this.btn_part_close.UnPressButton();
+    }
+    if (this.btn_at_add_buy.IsButtonPressed()) {
+        ui_auto_info.is_add_buy_activated = true;
+        this.btn_at_add_buy.UnPressButton();
+    }
+    if (this.btn_at_add_sell.IsButtonPressed()) {
+        ui_auto_info.is_add_sell_activated = true;
+        this.btn_at_add_sell.UnPressButton();
+    }
     if(this.btn_at_open_buy_sig.IsButtonPressed()) {
         ui_auto_info.is_sig_buy_activated = true;
         this.btn_at_open_buy_sig.UnPressButton();

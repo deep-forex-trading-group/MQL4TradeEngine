@@ -1,15 +1,20 @@
 [PipStepParams]
-pip_step:5
+pip_step:7
 pip_step_max:10
-pip_factor:1.1
+pip_factor:1.0
 pip_step_exponent:1
 
 
 [LotsParams]
-start_lots:0.1
+start_lots:0.03
 lots_exponent:1.5
 lots_max:3.0
 
+[MaxLimit]
+max_num_orders:20
+
+[AddOrderManualParams]
+manul_lots_step_factor_arr:2,3,4,5,8,11,15,21,29,30
 
 [Auto]
 is_auto_sig:1

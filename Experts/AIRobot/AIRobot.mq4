@@ -25,7 +25,6 @@ UIRetData ui_ret_data();
 bool is_at_strategy_valid = false;
 
 int OnInit() {
-
     if (!allow_real_acct && !EAUtils::IsEARunOnDemoAccount()) {
         PrintFormat("EA is not allowed for real acct, please set the [allow_real_acct].");
         return INIT_FAILED;

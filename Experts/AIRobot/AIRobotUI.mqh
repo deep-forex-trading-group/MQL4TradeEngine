@@ -19,6 +19,9 @@ class AIRobotUI {
             SafeDeletePtr(comment_content_);
             SafeDeletePtr(this.btn_ui_frame);
             SafeDeletePtr(mt_manager);
+            SafeDeletePtr(this.btn_part_close);
+            SafeDeletePtr(this.btn_at_add_buy);
+            SafeDeletePtr(this.btn_at_add_sell);
             SafeDeletePtr(this.btn_at_open_buy_sig);
             SafeDeletePtr(this.btn_at_open_sell_sig);
             SafeDeletePtr(this.btn_is_show_comment);
@@ -61,6 +64,9 @@ class AIRobotUI {
         int button_width;
         int button_height;
 // AT Strategy Buttons
+        Button* btn_part_close;
+        Button* btn_at_add_buy;
+        Button* btn_at_add_sell;
         Button* btn_at_open_buy_sig;
         Button* btn_at_open_sell_sig;
 // Show Comments Controls
