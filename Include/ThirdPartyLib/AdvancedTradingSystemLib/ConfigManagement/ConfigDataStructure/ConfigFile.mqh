@@ -1,7 +1,6 @@
 #include <ThirdPartyLib/MqlExtendLib/Utils/File.mqh>
 #include <ThirdPartyLib/MqlExtendLib/Lang/Script.mqh>
-#include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
-
+#include <ThirdPartyLib/MqlExtendLib/Collection/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
 #include "ConfigSection.mqh"
 #include "ConfigDataStructureConstant.mqh"
@@ -9,9 +8,15 @@
 class ConfigFile : public ConfigFileBase {
     public:
         ConfigFile(string config_file_name) {
+            this.CommonConstructor(config_file_name, CONFIG_DIR_PATH);
+        }
+        ConfigFile(string config_dir, string config_file_name) {
+            this.CommonConstructor(config_dir, config_file_name);
+        }
+        void CommonConstructor(string config_dir, string config_file_name) {
             PrintFormat("Initialize the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
                          config_file_name, CONFIG_DIR_PATH);
-            StringAdd(this.file_path_, CONFIG_DIR_PATH);
+            StringAdd(this.file_path_, config_dir);
             StringAdd(this.file_path_, "/");
             StringAdd(this.file_path_, config_file_name);
             this.config_titles_map_ = new HashMap<string, ConfigSection*>;
@@ -19,15 +24,6 @@ class ConfigFile : public ConfigFileBase {
                 PrintFormat("Failed initializeing the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
                             config_file_name, CONFIG_DIR_PATH);
             }
-        }
-        ConfigFile(string config_dir, string config_file_name) {
-            PrintFormat("Initialize the ConfigFile(config_file_name=%s, CONFIG_DIR_PATH=%s)",
-                         config_file_name, CONFIG_DIR_PATH);
-            StringAdd(this.file_path_, config_dir);
-            StringAdd(this.file_path_, "/");
-            StringAdd(this.file_path_, config_file_name);
-            this.config_titles_map_ = new HashMap<string, ConfigSection*>;
-            this.RefreshConfigFile();
         }
         ~ConfigFile() {
             MapDeleteUtils<string, ConfigSection*>::SafeFreeHashMap(this.config_titles_map_);
@@ -43,10 +39,11 @@ class ConfigFile : public ConfigFileBase {
         int GetConfigFieldByTitleAndFieldName(string title, string field_name, string& res_out[]);
         void PrintAllConfigItems();
     private:
+        bool IsCommentString(const string line);
         bool IsTitleString(const string line);
         string ProcessTitleString(const string line);
         bool IsFieldString(const string line);
-        KVPair ProcessFiledString(const string line);
+        KVPair ProcessFieldString(const string line);
     private:
         string file_path_;
         HashMap<string, ConfigSection*>* config_titles_map_;

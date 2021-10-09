@@ -38,7 +38,7 @@ int ConfigFile::RefreshConfigFile() {
         }
         if (config_titles_map_.contains(cur_title) && this.IsFieldString(line)) {
 
-            KVPair kv_pair = this.ProcessFiledString(line);
+            KVPair kv_pair = this.ProcessFieldString(line);
             config_titles_map_[cur_title].AddConfigField(kv_pair.key, kv_pair.value);
         }
         line_idx++;
@@ -88,7 +88,9 @@ void ConfigFile::PrintAllConfigItems() {
     }
     Print("---------------------- Config Section Map End -------------------------\n");
 }
-
+bool ConfigFile::IsCommentString(const string line) {
+    return (StringFind(line, "##") == 0);
+}
 bool ConfigFile::IsTitleString(const string line) {
     return (StringFind(line, "[") != -1) && (StringFind(line, "]") != -1) &&
             // Except the case "[]" with empty title
@@ -101,7 +103,7 @@ string ConfigFile::ProcessTitleString(const string line) {
 bool ConfigFile::IsFieldString(const string line) {
     return StringFind(line , ":") != -1;
 }
-KVPair ConfigFile::ProcessFiledString(const string line) {
+KVPair ConfigFile::ProcessFieldString(const string line) {
     KVPair kv_pair;
     string words[];
     StringSplit(line,':',words);
