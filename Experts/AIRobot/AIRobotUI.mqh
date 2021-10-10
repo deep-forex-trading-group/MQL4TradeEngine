@@ -18,6 +18,7 @@ class AIRobotUI {
             PrintFormat("Deinitialize the AIRobotUI. ");
             SafeDeletePtr(comment_content_);
             SafeDeletePtr(this.btn_ui_frame);
+            SafeDeletePtr(this.at_ui_frame);
             SafeDeletePtr(mt_manager);
             SafeDeletePtr(this.btn_part_close);
             SafeDeletePtr(this.btn_at_add_buy);
