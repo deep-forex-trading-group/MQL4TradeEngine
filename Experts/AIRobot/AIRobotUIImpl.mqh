@@ -22,43 +22,43 @@ void AIRobotUI::InitButtons() {
                                      "部分平(中)", clrYellow, "部分平", clrBlack);
     this.at_ui_frame.AddUIComponent(1, 0, this.btn_part_close);
 
+    this.btn_close_profit_buy = new Button("平盈利多按钮", this.button_width, this.button_height,
+                                           "平盈利多", clrMediumSeaGreen, "平盈利多", clrBlack);
+    this.at_ui_frame.AddUIComponent(1, 1, this.btn_close_profit_buy);
+
+    this.btn_close_profit_sell = new Button("平盈利空按钮", this.button_width, this.button_height,
+                                            "平盈利空", clrChocolate, "平盈利空", clrBlack);
+    this.at_ui_frame.AddUIComponent(0, 1, this.btn_close_profit_sell);
+
     this.btn_close_buy = new Button("平多按钮", this.button_width, this.button_height,
                                     "平多", clrFireBrick, "平多", clrBlack);
-    this.at_ui_frame.AddUIComponent(1, 1, this.btn_close_buy);
+    this.at_ui_frame.AddUIComponent(1, 2, this.btn_close_buy);
 
     this.btn_close_sell = new Button("平空按钮", this.button_width, this.button_height,
                                      "平空", clrMediumVioletRed, "平空", clrBlack);
-    this.at_ui_frame.AddUIComponent(0, 1, this.btn_close_sell);
+    this.at_ui_frame.AddUIComponent(0, 2, this.btn_close_sell);
 
     this.btn_at_open_buy_sig = new Button("AT买", this.button_width, this.button_height,
                                           "AT买(中)", clrFireBrick, "AT买", clrBlack);
-    this.at_ui_frame.AddUIComponent(1, 2, this.btn_at_open_buy_sig);
+    this.at_ui_frame.AddUIComponent(1, 3, this.btn_at_open_buy_sig);
 
     this.btn_at_open_sell_sig = new Button("AT卖", this.button_width, this.button_height,
                                            "AT卖(中)", clrFireBrick, "AT卖", clrBlack);
-    this.at_ui_frame.AddUIComponent(0, 2, this.btn_at_open_sell_sig);
+    this.at_ui_frame.AddUIComponent(0, 3, this.btn_at_open_sell_sig);
 
     this.btn_at_add_buy = new Button("AT加多", this.button_width, this.button_height,
                                      "AT加多(中)", clrFireBrick, "AT加多", clrBlack);
-    this.at_ui_frame.AddUIComponent(1, 3, this.btn_at_add_buy);
+    this.at_ui_frame.AddUIComponent(1, 4, this.btn_at_add_buy);
 
     this.btn_at_add_sell = new Button("AT加空", this.button_width, this.button_height,
                                            "AT加空", clrFireBrick, "AT加空", clrBlack);
-    this.at_ui_frame.AddUIComponent(0, 3, this.btn_at_add_sell);
+    this.at_ui_frame.AddUIComponent(0, 4, this.btn_at_add_sell);
 
 // Other 按钮
 
     this.btn_is_show_comment = new Button("是否显示Comment按钮", this.button_width, this.button_height,
                                           "ShowComm", clrFireBrick, "HideComm", clrBlack);
     this.btn_ui_frame.AddUIComponent(1, 4, this.btn_is_show_comment);
-
-    this.btn_close_profit_buy = new Button("平盈利多按钮", this.button_width, this.button_height,
-                                           "平盈利多", clrMediumSeaGreen, "平盈利多", clrBlack);
-    this.btn_ui_frame.AddUIComponent(1, 2, this.btn_close_profit_buy);
-
-    this.btn_close_profit_sell = new Button("平盈利空按钮", this.button_width, this.button_height,
-                                            "平盈利空", clrChocolate, "平盈利空", clrBlack);
-    this.btn_ui_frame.AddUIComponent(0, 2, this.btn_close_profit_sell);
 
     this.btn_close_all = new Button("全平按钮", this.button_width, this.button_height,
                                     "全平",clrDarkViolet,"全平",clrBlack);
