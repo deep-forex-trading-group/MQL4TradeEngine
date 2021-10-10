@@ -55,7 +55,7 @@ class AIRobotUI {
         CommentContent* comment_content_;
 
         UIFrame* btn_ui_frame;
-        string btn_ui_frame_name;
+        UIFrame* at_ui_frame;
         int button_x;
         int button_y;
         int button_inter_x;
