@@ -30,7 +30,7 @@ class MarketInfoUtils {
                 return 10;
             }
             if (Symbol() == "EURAUD") {
-                return 10;
+                return 100;
             }
             return FAILED;
         }
