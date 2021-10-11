@@ -29,15 +29,22 @@ int AutoAdjustStrategy::OnTickExecute() {
 
 // Activates button buy or close
     if ((this.ui_auto_info_.is_sig_buy_activated
-        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0))
-         && this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
-        this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.start_lots);
+        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0))) {
+         if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
+            this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.start_lots);
+         } else {
+            this.auto_adjust_order_group_.CreateManulBuyOrder(this.GetCurrentManulLots());
+         }
+
         return SUCCEEDED;
     }
     if ((this.ui_auto_info_.is_sig_sell_activated
-        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 1))
-        && this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
-        this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.start_lots);
+        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 1))) {
+        if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
+            this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.start_lots);
+        } else {
+            this.auto_adjust_order_group_.CreateManulSellOrder(this.GetCurrentManulLots());
+        }
         return SUCCEEDED;
     }
     if (this.ui_auto_info_.is_part_close_activated) {
@@ -48,14 +55,6 @@ int AutoAdjustStrategy::OnTickExecute() {
             }
             this.IncNumPartClose();
         }
-    }
-    if (this.ui_auto_info_.is_add_buy_activated) {
-        this.auto_adjust_order_group_.CreateManulBuyOrder(this.GetCurrentManulLots());
-        return SUCCEEDED;
-    }
-    if (this.ui_auto_info_.is_add_sell_activated) {
-        this.auto_adjust_order_group_.CreateManulSellOrder(this.GetCurrentManulLots());
-        return SUCCEEDED;
     }
     if (this.ui_auto_info_.is_close_open_buy_activated) {
         if (this.auto_adjust_order_group_.CloseAllOrders(BUY_ORDER_SEND)) {

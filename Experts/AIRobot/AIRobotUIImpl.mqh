@@ -46,13 +46,13 @@ void AIRobotUI::InitButtons() {
                                            "AT卖(中)", clrFireBrick, "AT卖", clrBlack);
     this.at_ui_frame.AddUIComponent(0, 3, this.btn_at_open_sell_sig);
 
-    this.btn_at_add_buy = new Button("AT加多", this.button_width, this.button_height,
-                                     "AT加多(中)", clrFireBrick, "AT加多", clrBlack);
-    this.at_ui_frame.AddUIComponent(1, 4, this.btn_at_add_buy);
-
-    this.btn_at_add_sell = new Button("AT加空", this.button_width, this.button_height,
-                                           "AT加空", clrFireBrick, "AT加空", clrBlack);
-    this.at_ui_frame.AddUIComponent(0, 4, this.btn_at_add_sell);
+//    this.btn_at_add_buy = new Button("AT加多", this.button_width, this.button_height,
+//                                     "AT加多(中)", clrFireBrick, "AT加多", clrBlack);
+//    this.at_ui_frame.AddUIComponent(1, 4, this.btn_at_add_buy);
+//
+//    this.btn_at_add_sell = new Button("AT加空", this.button_width, this.button_height,
+//                                           "AT加空", clrFireBrick, "AT加空", clrBlack);
+//    this.at_ui_frame.AddUIComponent(0, 4, this.btn_at_add_sell);
 
 // Other 按钮
 
@@ -83,14 +83,14 @@ void AIRobotUI::OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out) {
         ui_auto_info.is_part_close_activated = true;
         this.btn_part_close.UnPressButton();
     }
-    if (this.btn_at_add_buy.IsButtonPressed()) {
-        ui_auto_info.is_add_buy_activated = true;
-        this.btn_at_add_buy.UnPressButton();
-    }
-    if (this.btn_at_add_sell.IsButtonPressed()) {
-        ui_auto_info.is_add_sell_activated = true;
-        this.btn_at_add_sell.UnPressButton();
-    }
+//    if (this.btn_at_add_buy.IsButtonPressed()) {
+//        ui_auto_info.is_add_buy_activated = true;
+//        this.btn_at_add_buy.UnPressButton();
+//    }
+//    if (this.btn_at_add_sell.IsButtonPressed()) {
+//        ui_auto_info.is_add_sell_activated = true;
+//        this.btn_at_add_sell.UnPressButton();
+//    }
     if(this.btn_at_open_buy_sig.IsButtonPressed()) {
         ui_auto_info.is_sig_buy_activated = true;
         this.btn_at_open_buy_sig.UnPressButton();
