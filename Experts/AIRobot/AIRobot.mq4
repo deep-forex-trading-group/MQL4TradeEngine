@@ -7,6 +7,7 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/SystemConfigUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/AutoAdjustStrategy/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/EAUtils/all.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/MarketInfoUtils.mqh>
 #include "AIRobotUI.mqh"
 #include "AIRobotUIImpl.mqh"
 #include "DataStructure.mqh"
@@ -27,6 +28,11 @@ bool is_at_strategy_valid = false;
 int OnInit() {
     if (!allow_real_acct && !EAUtils::IsEARunOnDemoAccount()) {
         PrintFormat("EA is not allowed for real acct, please set the [allow_real_acct].");
+        return INIT_FAILED;
+    }
+
+    if (!MarketInfoUtils::SetUp()) {
+        PrintFormat("MarketInfoUtils::SetUp() failed!");
         return INIT_FAILED;
     }
 

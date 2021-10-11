@@ -1,8 +1,14 @@
+#include <ThirdPartyLib/MqlExtendLib/Collection/HashMap.mqh>
+#include <ThirdPartyLib/AdvancedTradingSystemLib/Common/all.mqh>
+
 class MarketInfoUtils {
     public:
         MarketInfoUtils() {};
         ~MarketInfoUtils() {};
     public:
+        static bool SetUp() {
+            return MarketInfoUtils::GetPointFactor() != FAILED;
+        }
         static double NormalizeLotsDown (double lots_in) {
             if (lots_in <= 0.01) return 0.01;
             double lots_in_digit_3 = NormalizeDouble(lots_in, 3);
@@ -19,17 +25,20 @@ class MarketInfoUtils {
         static string GetSymbol() {
             return Symbol();
         }
-        static int GetEURPointFactor() {
-            return 10;
+        static int GetPointFactor() {
+            if (Symbol() == "EURUSD") {
+                return 10;
+            }
+            if (Symbol() == "EURAUD") {
+                return 10;
+            }
+            return FAILED;
         }
         static int GetDigits() {
             return (int) MarketInfo(Symbol(), MODE_DIGITS);
         };
         static double GetPoints() {
-            if (Symbol() == "EURUSD") {
-               return MarketInfoUtils::GetEURPointFactor() * MarketInfo(Symbol(), MODE_POINT);
-            }
-            return MarketInfo(Symbol(), MODE_POINT);
+            return MarketInfoUtils::GetPointFactor() * MarketInfo(Symbol(), MODE_POINT);
         }
         static double GetLotsStep() {
             return MarketInfo(Symbol(), MODE_LOTSTEP) ;
