@@ -26,26 +26,38 @@ int AutoAdjustStrategy::OnTickExecute() {
     int num_orders = this.auto_adjust_order_group_.GetNumOfAutoOrdersInTrades();
     double total_lots_cur = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
     double lots = GetCurrentAddLotsManual(num_orders);
-
-// Activates button buy or close
-    if ((this.ui_auto_info_.is_sig_buy_activated
-        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0))) {
-         if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
+// Checks auto signal trading
+    if (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0) {
+        if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
             this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.start_lots);
-         } else {
-            this.auto_adjust_order_group_.CreateManulBuyOrder(this.GetCurrentManulLots());
-         }
-
-        return SUCCEEDED;
+            return SUCCEEDED;
+        }
     }
-    if ((this.ui_auto_info_.is_sig_sell_activated
-        || (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 1))) {
+    if (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 1) {
         if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
             this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.start_lots);
+            return SUCCEEDED;
+        }
+    }
+// Activates button buy or close
+    if (this.ui_auto_info_.is_sig_buy_activated) {
+         if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
+            this.auto_adjust_order_group_.CreateSigBuyOrder(this.params_.start_lots);
+            return SUCCEEDED;
+         } else {
+            this.auto_adjust_order_group_.CreateManulBuyOrder(this.GetCurrentManulLots());
+            return SUCCEEDED;
+         }
+
+    }
+    if (this.ui_auto_info_.is_sig_sell_activated) {
+        if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
+            this.auto_adjust_order_group_.CreateSigSellOrder(this.params_.start_lots);
+            return SUCCEEDED;
         } else {
             this.auto_adjust_order_group_.CreateManulSellOrder(this.GetCurrentManulLots());
+            return SUCCEEDED;
         }
-        return SUCCEEDED;
     }
     if (this.ui_auto_info_.is_part_close_activated) {
         if (this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_close_factor)) {
@@ -103,7 +115,7 @@ int AutoAdjustStrategy::OnTickExecute() {
 //    double pip_step_add = NormalizeDouble(
 //                                this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
     double pip_step_add = NormalizeDouble(this.params_.pip_step * this.params_.pip_factor, 0);
-    if (pip_step_add > this.params_.pip_step_max) { pip_step_add = 10; }
+    if (pip_step_add > this.params_.pip_step_max) { pip_step_add = this.params_.pip_step_max; }
     double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
     double cur_float_profit = this.auto_adjust_order_group_.GetCurrentProfitInTrades();
 
