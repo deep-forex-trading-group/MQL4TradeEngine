@@ -18,14 +18,18 @@ class AutoAdjustStrategy : public Strategy {
             this.init_success_ = true;
             this.auto_adjust_order_group_ = new AutoAdjustOrderGroup(
                                                     "ad_group", this.auto_adjust_order_group_center_);
-            this.AutoAdjustStrategyCommonConstructor(strategy_name);
+            if (!this.AutoAdjustStrategyCommonConstructor(strategy_name)) {
+                this.init_success_ = false;
+            }
         };
         AutoAdjustStrategy(string strategy_name,
                            AutoAdjustOrderGroup* auto_adjust_order_group,
                            AutoAdjustOrderGroupCenter* auto_adjust_order_group_center)
                             : auto_adjust_order_group_(auto_adjust_order_group),
                               auto_adjust_order_group_center_(auto_adjust_order_group_center) {
-            this.AutoAdjustStrategyCommonConstructor(strategy_name);
+            if (!this.AutoAdjustStrategyCommonConstructor(strategy_name)) {
+                this.init_success_ = false;
+            }
         };
         ~AutoAdjustStrategy() {
             PrintFormat("Deinitialize AutoAdjustStrategy [%s].", this.strategy_name_);
