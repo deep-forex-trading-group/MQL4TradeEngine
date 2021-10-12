@@ -71,9 +71,15 @@ class AutoAdjustStrategy : public Strategy {
             }
             return SUCCEEDED;
         }
+        double GetCurrentAddLotsByFactor(double cur_total_lots);
         double GetCurrentAddLots(int num_orders);
         double GetCurrentAddLotsManual(int num_orders);
         double GetCurrentManulLots();
+        double GetLotsBase(double start_lots, double part_close_factor, int num_part_close) {
+            return MarketInfoUtils::NormalizeLotsUp(
+                                    start_lots / MathPow((1/part_close_factor), num_part_close));
+        }
+        bool CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit);
         void ResetNumPartClose() { this.num_part_close_ = 0; }
         void IncNumPartClose() { this.num_part_close_++; }
     private:

@@ -16,8 +16,11 @@ max_num_orders:15
 [AddOrderManualParams]
 manul_lots_step_factor_arr:2,3,4,5,8,11,15,21,29,30
 
+[AddOrderLotsFactorParams]
+add_lots_factor:1.3
+
 [Auto]
-is_auto_sig:0
+is_auto_sig:1
 auto_dir:0
 
 [Target]
@@ -25,5 +28,10 @@ target_profit_factor:20
 
 [Close]
 total_close_factor:0.5
-
+## 总体手数达到一定程度(基础手数的一定倍数)
+## && 亏损点数(金额达到一定程度) 则减仓一半
+## 渐入佳境了，挺住挺住，一定要坚持住!!
+is_auto_part_close:1
+close_part_lots_factor_threshold:10
+close_part_pips_threshold:5
 

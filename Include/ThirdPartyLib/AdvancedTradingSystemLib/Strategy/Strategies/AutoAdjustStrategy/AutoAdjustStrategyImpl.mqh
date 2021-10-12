@@ -25,7 +25,10 @@ int AutoAdjustStrategy::OnTickExecute() {
 // TODO: 增加python代码来计算每个品种的加仓间隔和手数
     int num_orders = this.auto_adjust_order_group_.GetNumOfAutoOrdersInTrades();
     double total_lots_cur = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
-    double lots = GetCurrentAddLotsManual(num_orders);
+    double lots = GetCurrentAddLotsByFactor(total_lots_cur);
+    double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
+    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
+    this.st_comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
 // Checks auto signal trading
     if (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0) {
         if (this.auto_adjust_order_group_.GetTotalNumOfOrdersInTrades() == 0) {
@@ -57,6 +60,16 @@ int AutoAdjustStrategy::OnTickExecute() {
         } else {
             this.auto_adjust_order_group_.CreateManulSellOrder(this.GetCurrentManulLots());
             return SUCCEEDED;
+        }
+    }
+    if (this.params_.is_auto_part_close == 1) {
+        if (this.CheckIfAutoPartClose(total_lots_cur, cur_total_profit)
+            && this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_close_factor)) {
+            UIUtils::Laber("部分平", clrDeepSkyBlue,0);
+            if (this.CheckMNUpdate() == FAILED) {
+                return FAILED;
+            }
+            this.IncNumPartClose();
         }
     }
     if (this.ui_auto_info_.is_part_close_activated) {
@@ -117,7 +130,6 @@ int AutoAdjustStrategy::OnTickExecute() {
 //                                this.params_.pip_step * MathPow(this.params_.pip_step_exponent, num_orders),0);
     double pip_step_add = NormalizeDouble(this.params_.pip_step * this.params_.pip_factor, 0);
     if (pip_step_add > this.params_.pip_step_max) { pip_step_add = this.params_.pip_step_max; }
-    double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
     double cur_float_profit = this.auto_adjust_order_group_.GetCurrentProfitInTrades();
 
 //    double target_profit_money =
@@ -201,10 +213,24 @@ void AutoAdjustStrategy::PrintStrategyInfo() const {
         this.config_file_.PrintAllConfigItems();;
     }
 }
+bool AutoAdjustStrategy::CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit) {
+//    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
+    double lots_base = this.params_.start_lots;
+    if (cur_total_lots < lots_base * this.params_.close_part_lots_factor_threshold) {
+        return false;
+    }
+    // TODO: 参数10提出来，检查所有的类似这种绝对值参数，都提出来
+    // TODO: 马上解决回测太慢的问题，用hashset模拟订单管理
+    double target_stop_loss_money = -this.params_.close_part_pips_threshold * lots_base * 10;
+    return cur_total_profit >= target_stop_loss_money + INVALID_SMALL_MONEY;
+}
+double AutoAdjustStrategy::GetCurrentAddLotsByFactor(double cur_total_lots) {
+    double add_lots = cur_total_lots * this.params_.add_lots_factor;
+    add_lots = MathMin(this.params_.lots_max, add_lots);
+    return add_lots;
+}
 double AutoAdjustStrategy::GetCurrentAddLotsManual(int num_orders) {
-    double lots_base = MarketInfoUtils::NormalizeLotsUp(
-                                        this.params_.start_lots / MathPow(2, this.num_part_close_));
-    this.st_comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
+    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
     int ml_size = ArraySize(this.params_.manul_lots_step_factor_arr);
     double lots_factor = num_orders >= ml_size ? this.params_.manul_lots_step_factor_arr[ml_size - 1]
                                                 : this.params_.manul_lots_step_factor_arr[num_orders];
@@ -214,9 +240,7 @@ double AutoAdjustStrategy::GetCurrentAddLotsManual(int num_orders) {
     return lots;
 }
 double AutoAdjustStrategy::GetCurrentAddLots(int num_orders) {
-    double lots_base = MarketInfoUtils::NormalizeLotsUp(
-                                        this.params_.start_lots / MathPow(2, this.num_part_close_));
-    this.st_comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
+    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
     double lots = NormalizeDouble(lots_base * MathPow(this.params_.lots_exponent, num_orders / 2), 2);
 
 //    double lots = NormalizeDouble(this.params_.start_lots * MathPow(this.params_.lots_exponent, num_orders / 3), 2);
