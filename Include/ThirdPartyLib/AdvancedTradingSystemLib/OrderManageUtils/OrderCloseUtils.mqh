@@ -75,12 +75,13 @@ bool OrderCloseUtils::ClosePartOrders(HashSet<int>* magic_number_set, double pro
               RefreshRates();
               double lots = NormalizeDouble(OrderLots()*prop_factor, 2);
               lots = norm_lots_up_or_down == NORM_LOTS_UP ?
-                                             MarketInfoUtils::NormalizeLotsDown(lots) :
-                                             MarketInfoUtils::NormalizeLotsUp(lots);
+                                             MarketInfoUtils::NormalizeLotsUp(lots) :
+                                             MarketInfoUtils::NormalizeLotsDown(lots);
               if (lots == 0) {
                 continue;
               }
               if (lots == OrderLots()) {
+                CloseOrderByOrderTicket(OrderTicket(), 0);
                 continue;
               }
               is_success = CloseOrderByOrderTicket(OrderTicket(), 0, lots);

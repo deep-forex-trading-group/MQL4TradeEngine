@@ -10,7 +10,7 @@ class MarketInfoUtils {
             return MarketInfoUtils::GetPointFactor() != FAILED;
         }
         static double NormalizeLotsDown (double lots_in) {
-            if (lots_in <= 0.01) return 0.01;
+            if (lots_in <= 0.01) return 0;
             double lots_in_digit_3 = NormalizeDouble(lots_in, 3);
             // Handles 0.01 to 0.10 cases
             if (NormalizeDouble(lots_in_digit_3, 1) <= 0.01) {
