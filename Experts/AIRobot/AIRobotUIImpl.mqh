@@ -59,6 +59,7 @@ void AIRobotUI::InitButtons() {
     this.btn_is_show_st_comment = new Button("是否显示st_comment按钮", this.button_width, this.button_height,
                                              "隐藏策略信息", clrFireBrick, "显示策略信息", clrBlack);
     this.btn_ui_frame.AddUIComponent(1, 3, this.btn_is_show_st_comment);
+    this.btn_is_show_st_comment.PressButton();
 
     this.btn_is_show_act_comment = new Button("是否显示act_comment按钮", this.button_width, this.button_height,
                                               "隐藏账户信息", clrFireBrick, "显示账户信息", clrBlack);
