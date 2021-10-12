@@ -83,12 +83,19 @@ class AutoAdjustStrategy : public Strategy {
             return MarketInfoUtils::NormalizeLotsUp(
                                     start_lots / MathPow((1/part_close_factor), num_part_close));
         }
-        bool CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit);
+        // Checks Current Level (for auto part close)
+        bool CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit,
+                                  bool is_cur_level_already_part_close);
         void ResetNumPartClose() { this.num_part_close_ = 0; }
+        // TODO:所有与组状态相关的变量，加上Set UnSet 和 Reset方法
+        void SetIsCurLevelAlreadyPartClose() { this.is_cur_level_already_part_close_ = true; }
+        void UnSetIsCurLevelAlreadyPartClose() { this.is_cur_level_already_part_close_ = false; }
+        void ResetIsCurLevelAlreadyPartClose() { this.UnSetIsCurLevelAlreadyPartClose(); }
         void IncNumPartClose() { this.num_part_close_++; }
     private:
         UIAutoInfo ui_auto_info_;
         int num_part_close_;
+        bool is_cur_level_already_part_close_;
     private:
         AutoAdjustOrderGroup* auto_adjust_order_group_;
         AutoAdjustOrderGroupCenter* auto_adjust_order_group_center_;

@@ -25,7 +25,8 @@ int AutoAdjustStrategy::OnTickExecute() {
 // TODO: 增加python代码来计算每个品种的加仓间隔和手数
     int num_orders = this.auto_adjust_order_group_.GetNumOfAutoOrdersInTrades();
     double total_lots_cur = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
-    double lots = GetCurrentAddLotsByFactor(total_lots_cur);
+//    double lots = GetCurrentAddLotsManual(total_lots_cur);
+    double lots = GetCurrentAddLotsManual(num_orders);
     double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
     double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
     this.st_comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
@@ -62,13 +63,27 @@ int AutoAdjustStrategy::OnTickExecute() {
             return SUCCEEDED;
         }
     }
+    if (cur_total_profit <= -this.params_.close_stop_loss_money) {
+        if (this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND)) {
+            UIUtils::Laber("止损平仓", clrLime,0);
+            if (this.CheckMNUpdate() == FAILED) {
+                return FAILED;
+            }
+            this.ResetIsCurLevelAlreadyPartClose();
+            this.ResetNumPartClose();
+            return SUCCEEDED;
+        }
+    }
+// Auto Part Close Orders
     if (this.params_.is_auto_part_close == 1) {
-        if (this.CheckIfAutoPartClose(total_lots_cur, cur_total_profit)
+        if (this.CheckIfAutoPartClose(total_lots_cur, cur_total_profit, 
+                                      this.is_cur_level_already_part_close_)
             && this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_part_close_factor)) {
             UIUtils::Laber("部分平", clrDeepSkyBlue,0);
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
+            this.SetIsCurLevelAlreadyPartClose();
             this.IncNumPartClose();
         }
     }
@@ -87,6 +102,7 @@ int AutoAdjustStrategy::OnTickExecute() {
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
+            this.ResetIsCurLevelAlreadyPartClose();
             this.ResetNumPartClose();
         }
     }
@@ -96,6 +112,7 @@ int AutoAdjustStrategy::OnTickExecute() {
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
+            this.ResetIsCurLevelAlreadyPartClose();
             this.ResetNumPartClose();
         }
     }
@@ -153,13 +170,15 @@ int AutoAdjustStrategy::OnTickExecute() {
                         this.strategy_name_);
             return FAILED;
         }
-        this.num_part_close_ = 0;
+        this.ResetIsCurLevelAlreadyPartClose();
+        this.ResetNumPartClose();
         UIUtils::Laber("盈利平仓",Red,0);
     }
 
     this.st_comment_content_.SetTitleToFieldDoubleTerm("加仓点数", pip_step_add);
-    this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(send_order_dir, pip_step_add, lots);
-
+    if (this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(send_order_dir, pip_step_add, lots)) {
+        ResetIsCurLevelAlreadyPartClose();
+    }
     return SUCCEEDED;
 }
 int AutoAdjustStrategy::AfterTickExecute() {
@@ -213,7 +232,11 @@ void AutoAdjustStrategy::PrintStrategyInfo() const {
         this.config_file_.PrintAllConfigItems();;
     }
 }
-bool AutoAdjustStrategy::CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit) {
+bool AutoAdjustStrategy::CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit,
+                                              bool is_cur_level_already_part_close) {
+    if (is_cur_level_already_part_close) {
+        return false;
+    }
 //    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
     double lots_base = this.params_.start_lots;
     if (cur_total_lots < lots_base * this.params_.close_part_lots_factor_threshold) {
