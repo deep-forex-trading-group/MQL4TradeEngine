@@ -27,7 +27,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     double total_lots_cur = this.auto_adjust_order_group_.GetCurrentTotalLotsInTrades();
     double lots = GetCurrentAddLotsByFactor(total_lots_cur);
     double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
-    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
+    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
     this.st_comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
 // Checks auto signal trading
     if (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0) {
@@ -64,7 +64,7 @@ int AutoAdjustStrategy::OnTickExecute() {
     }
     if (this.params_.is_auto_part_close == 1) {
         if (this.CheckIfAutoPartClose(total_lots_cur, cur_total_profit)
-            && this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_close_factor)) {
+            && this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_part_close_factor)) {
             UIUtils::Laber("部分平", clrDeepSkyBlue,0);
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
@@ -73,7 +73,7 @@ int AutoAdjustStrategy::OnTickExecute() {
         }
     }
     if (this.ui_auto_info_.is_part_close_activated) {
-        if (this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_close_factor)) {
+        if (this.auto_adjust_order_group_.ClosePartOrders(this.params_.total_part_close_factor)) {
             UIUtils::Laber("部分平", clrDeepSkyBlue,0);
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
@@ -214,7 +214,7 @@ void AutoAdjustStrategy::PrintStrategyInfo() const {
     }
 }
 bool AutoAdjustStrategy::CheckIfAutoPartClose(double cur_total_lots, double cur_total_profit) {
-//    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
+//    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
     double lots_base = this.params_.start_lots;
     if (cur_total_lots < lots_base * this.params_.close_part_lots_factor_threshold) {
         return false;
@@ -230,7 +230,7 @@ double AutoAdjustStrategy::GetCurrentAddLotsByFactor(double cur_total_lots) {
     return add_lots;
 }
 double AutoAdjustStrategy::GetCurrentAddLotsManual(int num_orders) {
-    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
+    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
     int ml_size = ArraySize(this.params_.manul_lots_step_factor_arr);
     double lots_factor = num_orders >= ml_size ? this.params_.manul_lots_step_factor_arr[ml_size - 1]
                                                 : this.params_.manul_lots_step_factor_arr[num_orders];
@@ -240,7 +240,7 @@ double AutoAdjustStrategy::GetCurrentAddLotsManual(int num_orders) {
     return lots;
 }
 double AutoAdjustStrategy::GetCurrentAddLots(int num_orders) {
-    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_close_factor, this.num_part_close_);
+    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
     double lots = NormalizeDouble(lots_base * MathPow(this.params_.lots_exponent, num_orders / 2), 2);
 
 //    double lots = NormalizeDouble(this.params_.start_lots * MathPow(this.params_.lots_exponent, num_orders / 3), 2);
