@@ -102,8 +102,9 @@ int AutoAdjustStrategy::OnTickExecute() {
             }
         }
     }
+    this.st_comment_content.SetTitleToFieldDoubleTerm("当前账户总盈亏", AccountInfoUtils::GetCurrentAccountTotalProfit());
     double profit_history = this.auto_adjust_order_group_.GetCurrentProfitInHistory();
-    this.comment_content_.SetTitleToFieldDoubleTerm("历史获利", profit_history);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("历史获利", profit_history);
 
     OrderInMarket res[1];
     bool is_sig_exist = OrderGetUtils::GetOrderInTrade(this.auto_adjust_order_group_.GetGroupSigMagicNumber(), res);
@@ -122,15 +123,15 @@ int AutoAdjustStrategy::OnTickExecute() {
 //    double target_profit_money =
 //                    NormalizeDouble(this.params_.start_lots * num_orders * this.params_.target_profit_factor  * this.params_.lots_exponent, 2);
 
-    this.comment_content_.SetTitleToFieldDoubleTerm("总头寸", total_lots_cur);
-    this.comment_content_.SetTitleToFieldDoubleTerm("目标利润(因子)", this.params_.target_profit_factor);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("总头寸", total_lots_cur);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("目标利润(因子)", this.params_.target_profit_factor);
 // TODO: 紧紧结合Frero，不要轻言放弃,核心是每一波利润拿到最大浮亏的一定比例再走，马丁倍数放小一点，时间换空间
     double target_profit_money =
                     NormalizeDouble(total_lots_cur * this.params_.target_profit_factor, 2);
 
-    this.comment_content_.SetTitleToFieldDoubleTerm("当前组(总)利润", cur_total_profit);
-    this.comment_content_.SetTitleToFieldDoubleTerm("当前浮动盈亏", cur_float_profit);
-    this.comment_content_.SetTitleToFieldDoubleTerm("目标利润(钱)", target_profit_money);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("当前组(总)利润", cur_total_profit);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("当前浮动盈亏", cur_float_profit);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("目标利润(钱)", target_profit_money);
     if (target_profit_money + INVALID_SMALL_MONEY <= cur_total_profit) {
         this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND);
         // Close all orders and the state of the group changes
@@ -144,7 +145,7 @@ int AutoAdjustStrategy::OnTickExecute() {
         UIUtils::Laber("盈利平仓",Red,0);
     }
 
-    this.comment_content_.SetTitleToFieldDoubleTerm("加仓点数", pip_step_add);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("加仓点数", pip_step_add);
     this.auto_adjust_order_group_.AddOneOrderByStepPipReverse(send_order_dir, pip_step_add, lots);
 
     return SUCCEEDED;
@@ -155,19 +156,19 @@ int AutoAdjustStrategy::AfterTickExecute() {
 }
 void AutoAdjustStrategy::BeforeTickShowBasicInfo() {
     // Base Information to show.
-//    this.comment_content_.SetTitleToFieldDoubleTerm(
+//    this.st_comment_content.SetTitleToFieldDoubleTerm(
 //                                "cur_group_auto_mn", this.auto_adjust_order_group_.GetGroupAutoMagicNumber());
-//    this.comment_content_.SetTitleToFieldDoubleTerm(
+//    this.st_comment_content.SetTitleToFieldDoubleTerm(
 //                                "cur_group_sig_mn", this.auto_adjust_order_group_.GetGroupSigMagicNumber());
-//    this.comment_content_.SetTitleToFieldDoubleTerm(
+//    this.st_comment_content.SetTitleToFieldDoubleTerm(
 //                                "cur_group_manul_mn", this.auto_adjust_order_group_.GetGroupManualMagicNumber());
-//    this.comment_content_.SetTitleToFieldDoubleTerm(
+//    this.st_comment_content.SetTitleToFieldDoubleTerm(
 //                                "cur_group_id", this.auto_adjust_order_group_.GetGroupId());
-    this.comment_content_.SetTitleToFieldDoubleTerm(
+    this.st_comment_content.SetTitleToFieldDoubleTerm(
                                 "最大浮亏", this.auto_adjust_order_group_.GetMaxFloatingLoss());
-    this.comment_content_.SetTitleToFieldDoubleTerm(
+    this.st_comment_content.SetTitleToFieldDoubleTerm(
                                 "最大浮盈", this.auto_adjust_order_group_.GetMaxFloatingProfit());
-    this.comment_content_.SetTitleToFieldDoubleTerm(
+    this.st_comment_content.SetTitleToFieldDoubleTerm(
                                 "当前订单利润", this.auto_adjust_order_group_.GetCurrentProfitOrdersInTradesProfit());
 }
 int AutoAdjustStrategy::OnActionExecute() {
@@ -203,7 +204,7 @@ void AutoAdjustStrategy::PrintStrategyInfo() const {
 double AutoAdjustStrategy::GetCurrentAddLotsManual(int num_orders) {
     double lots_base = MarketInfoUtils::NormalizeLotsUp(
                                         this.params_.start_lots / MathPow(2, this.num_part_close_));
-    this.comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("基础手数", lots_base);
     int ml_size = ArraySize(this.params_.manul_lots_step_factor_arr);
     double lots_factor = num_orders >= ml_size ? this.params_.manul_lots_step_factor_arr[ml_size - 1]
                                                 : this.params_.manul_lots_step_factor_arr[num_orders];
@@ -215,7 +216,7 @@ double AutoAdjustStrategy::GetCurrentAddLotsManual(int num_orders) {
 double AutoAdjustStrategy::GetCurrentAddLots(int num_orders) {
     double lots_base = MarketInfoUtils::NormalizeLotsUp(
                                         this.params_.start_lots / MathPow(2, this.num_part_close_));
-    this.comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
+    this.st_comment_content.SetTitleToFieldDoubleTerm("基础手数", lots_base);
     double lots = NormalizeDouble(lots_base * MathPow(this.params_.lots_exponent, num_orders / 2), 2);
 
 //    double lots = NormalizeDouble(this.params_.start_lots * MathPow(this.params_.lots_exponent, num_orders / 3), 2);

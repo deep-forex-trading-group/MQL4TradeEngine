@@ -9,6 +9,9 @@ class AccountInfoUtils {
         AccountInfoUtils() {};
         ~AccountInfoUtils() {};
     public:
+       static double GetCurrentAccountTotalProfit();
+       static double GetCurrentAccountEquity();
+       static double GetCurrentAccountBalance();
        static double GetCurrentTotalProfit(int magic_number, int mode_trade_or_history);
        static double GetCurrentTotalProfit(HashSet<int>* magic_number, int mode_trade_or_history);
        static double GetCurrentTotalLots(int magic_number, int mode_trade_or_history);
@@ -24,6 +27,15 @@ class AccountInfoUtils {
        static double GetCurrentSellFloatingProfit(HashSet<int>* magic_number_set);
 };
 
+double AccountInfoUtils::GetCurrentAccountTotalProfit() {
+    return AccountInfoDouble(ACCOUNT_PROFIT);
+}
+double AccountInfoUtils::GetCurrentAccountEquity() {
+    return AccountInfoDouble(ACCOUNT_EQUITY);
+}
+double AccountInfoUtils::GetCurrentAccountBalance() {
+    return AccountInfoDouble(ACCOUNT_BALANCE);
+}
 double AccountInfoUtils::GetCurrentTotalProfit(int magic_number, int mode_trade_or_history) {
     double TotalProfit = 0;
     if (mode_trade_or_history == IN_TRADES || mode_trade_or_history == IN_TRADES_OR_HISTORY) {

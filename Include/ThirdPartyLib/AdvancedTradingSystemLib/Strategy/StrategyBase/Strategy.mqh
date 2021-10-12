@@ -22,7 +22,7 @@ class Strategy {
             return this.strategy_name_;
         }
         int SetConfigFile(ConfigFile* config_file);
-        bool SetCommentContent(CommentContent* cc_in);
+        bool SetStrategyCommentContent(CommentContent* cc_in);
         void RefreshConfigFile() const;
     protected:
         bool CheckConfigFileValid() const;
@@ -31,7 +31,7 @@ class Strategy {
         bool init_success_;
     protected:
         ConfigFile* config_file_;
-        CommentContent* comment_content_;
+        CommentContent* st_comment_content;
 };
 
 int Strategy::SetConfigFile(ConfigFile* config_file) {
@@ -45,13 +45,13 @@ int Strategy::SetConfigFile(ConfigFile* config_file) {
     return SUCCEEDED;
 }
 
-bool Strategy::SetCommentContent(CommentContent* cc_in) {
+bool Strategy::SetStrategyCommentContent(CommentContent* cc_in) {
     if (IsPtrInvalid(cc_in)) {
         PrintFormat("CommentContent is invalid for %s. ", this.strategy_name_);
         return false;
     }
-    SafeDeletePtr(this.comment_content_);
-    this.comment_content_ = cc_in;
+    SafeDeletePtr(this.st_comment_content);
+    this.st_comment_content = cc_in;
     return true;
 }
 

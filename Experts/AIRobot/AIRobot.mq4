@@ -49,7 +49,7 @@ int OnInit() {
         return INIT_FAILED;
     }
     is_at_strategy_valid = true;
-    if (!at_strategy.SetCommentContent(comment_content_ea)) {
+    if (!at_strategy.SetStrategyCommentContent(comment_content_ea)) {
         PrintFormat("Sets the comment content for at_strategy [%s] failed!", 
                     at_strategy.GetStrategyName());
         return INIT_FAILED;
