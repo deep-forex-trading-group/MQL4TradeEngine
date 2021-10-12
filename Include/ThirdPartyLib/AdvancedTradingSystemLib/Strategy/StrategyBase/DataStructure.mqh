@@ -17,10 +17,21 @@ class StrategyParams {
 
     protected:
         ConfigFile* config_file_;
+        bool AssignConfigItemDoubleArray(string title, string field_name, double& res[]);
         string AssignConfigItem(string title, string field_name);
         bool AssignConfigItem(string title, string field_name, string& res[]);
 };
 
+bool StrategyParams::AssignConfigItemDoubleArray(string title, string field_name, double& res[]) {
+    string res_str[100];
+    if (!AssignConfigItem(title, field_name, res_str)) {
+        return false;
+    }
+    if (ArrayTransformUtils::TransformStringToDouble(res_str, res) == FAILED) {
+        return false;
+    }
+    return true;
+}
 string StrategyParams::AssignConfigItem(string title, string field_name) {
     string res[1];
     this.config_file_.GetConfigFieldByTitleAndFieldName(title, field_name, res);
@@ -29,5 +40,4 @@ string StrategyParams::AssignConfigItem(string title, string field_name) {
 bool StrategyParams::AssignConfigItem(string title, string field_name, string& res[]) {
     return this.config_file_.GetConfigFieldByTitleAndFieldName(
                              title, field_name, res) == SUCCEEDED;
-
 }
