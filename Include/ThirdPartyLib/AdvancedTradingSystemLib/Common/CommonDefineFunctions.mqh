@@ -69,5 +69,5 @@ if (ArraySize(arr) <= ARR_DEFAULT_SIZE) { \
 }
 
 #define PrintIsPtrValid(ptr) { \
-    PrintBool(IsPtrInvalid(ptr)) \
+    PrintBool(!IsPtrInvalid(ptr)) \
 }
