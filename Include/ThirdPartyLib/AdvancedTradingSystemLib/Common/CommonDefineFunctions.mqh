@@ -63,3 +63,11 @@ ArrayFree(arr); \
 if (ArraySize(arr) <= ARR_DEFAULT_SIZE) { \
     ArrayResize(arr, ARR_DEFAULT_SIZE); \
 }
+
+#define PrintBool(bool_val) { \
+    PrintFormat("%s", bool_val ? "true" : "false"); \
+}
+
+#define PrintIsPtrValid(ptr) { \
+    PrintBool(IsPtrInvalid(ptr)) \
+}
