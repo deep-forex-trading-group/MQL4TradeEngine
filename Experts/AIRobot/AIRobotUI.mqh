@@ -16,16 +16,18 @@ class AIRobotUI {
         }
         ~AIRobotUI() {
             PrintFormat("Deinitialize the AIRobotUI. ");
-            SafeDeletePtr(comment_content_);
+            SafeDeletePtr(this.st_comment_content_);
+            SafeDeletePtr(this.act_comment_content_);
             SafeDeletePtr(this.btn_ui_frame);
             SafeDeletePtr(this.at_ui_frame);
-            SafeDeletePtr(mt_manager);
+            SafeDeletePtr(this.mt_manager);
             SafeDeletePtr(this.btn_part_close);
             SafeDeletePtr(this.btn_at_add_buy);
             SafeDeletePtr(this.btn_at_add_sell);
             SafeDeletePtr(this.btn_at_open_buy_sig);
             SafeDeletePtr(this.btn_at_open_sell_sig);
-            SafeDeletePtr(this.btn_is_show_comment);
+            SafeDeletePtr(this.btn_is_show_st_comment);
+            SafeDeletePtr(this.btn_is_show_act_comment);
             SafeDeletePtr(this.btn_close_buy);
             SafeDeletePtr(this.btn_close_sell);
             SafeDeletePtr(this.btn_close_profit_buy);
@@ -40,20 +42,25 @@ class AIRobotUI {
             this.btn_ui_frame.OnTickCheckUIStates();
             this.OnTickRefreshButtonsStates(ui_ret_data_out);
         }
-        CommentContent* GetCommentContent() {
-            return this.comment_content_;
+        CommentContent* GetStrategyCommentContent() {
+            return this.st_comment_content_;
+        }
+        CommentContent* GetAccountCommentContent() {
+            return this.act_comment_content_;
         }
     private:
         void OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out);
         void InitGraphItems() {
-            this.comment_content_ = new CommentContent();
+            this.st_comment_content_ = new CommentContent();
+            this.act_comment_content_ = new CommentContent();
             this.InitButtons();
         }
         void InitButtons();
 
     private:
         ModuleTestManager* mt_manager;
-        CommentContent* comment_content_;
+        CommentContent* st_comment_content_;
+        CommentContent* act_comment_content_;
 
         UIFrame* btn_ui_frame;
         UIFrame* at_ui_frame;
@@ -71,7 +78,8 @@ class AIRobotUI {
         Button* btn_at_open_buy_sig;
         Button* btn_at_open_sell_sig;
 // Show Comments Controls
-        Button* btn_is_show_comment;
+        Button* btn_is_show_st_comment;
+        Button* btn_is_show_act_comment;
         Button* btn_close_buy;
         Button* btn_close_sell;
         Button* btn_close_profit_buy;

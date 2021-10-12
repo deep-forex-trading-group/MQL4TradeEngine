@@ -56,9 +56,13 @@ void AIRobotUI::InitButtons() {
 
 // Other 按钮
 
-    this.btn_is_show_comment = new Button("是否显示Comment按钮", this.button_width, this.button_height,
-                                          "ShowComm", clrFireBrick, "HideComm", clrBlack);
-    this.btn_ui_frame.AddUIComponent(1, 4, this.btn_is_show_comment);
+    this.btn_is_show_st_comment = new Button("是否显示st_comment按钮", this.button_width, this.button_height,
+                                             "隐藏策略信息", clrFireBrick, "显示策略信息", clrBlack);
+    this.btn_ui_frame.AddUIComponent(1, 3, this.btn_is_show_st_comment);
+
+    this.btn_is_show_act_comment = new Button("是否显示act_comment按钮", this.button_width, this.button_height,
+                                              "隐藏账户信息", clrFireBrick, "显示账户信息", clrBlack);
+    this.btn_ui_frame.AddUIComponent(0, 3, this.btn_is_show_act_comment);
 
     this.btn_close_all = new Button("全平按钮", this.button_width, this.button_height,
                                     "全平",clrDarkViolet,"全平",clrBlack);
@@ -100,10 +104,13 @@ void AIRobotUI::OnTickRefreshButtonsStates(UIRetData* ui_ret_data_out) {
         this.btn_at_open_sell_sig.UnPressButton();
     }
 
-    if (this.btn_is_show_comment.IsButtonPressed()) {
-        this.comment_content_.HideCommentContent();
-    } else {
-        this.comment_content_.ShowCommentContent();
+    if (this.btn_is_show_st_comment.IsButtonPressed()) {
+        this.st_comment_content_.ShowCommentContent();
+        this.act_comment_content_.HideCommentContent();
+    }
+    if (this.btn_is_show_act_comment.IsButtonPressed()) {
+        this.act_comment_content_.ShowCommentContent();
+        this.st_comment_content_.HideCommentContent();
     }
 
     if (this.btn_close_buy.IsButtonPressed()) {

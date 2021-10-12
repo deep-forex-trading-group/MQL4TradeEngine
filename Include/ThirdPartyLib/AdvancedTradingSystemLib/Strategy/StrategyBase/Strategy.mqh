@@ -23,6 +23,7 @@ class Strategy {
         }
         int SetConfigFile(ConfigFile* config_file);
         bool SetStrategyCommentContent(CommentContent* cc_in);
+        bool SetAccountCommentContent(CommentContent* cc_in);
         void RefreshConfigFile() const;
     protected:
         bool CheckConfigFileValid() const;
@@ -31,7 +32,8 @@ class Strategy {
         bool init_success_;
     protected:
         ConfigFile* config_file_;
-        CommentContent* st_comment_content;
+        CommentContent* st_comment_content_;
+        CommentContent* act_comment_content_;
 };
 
 int Strategy::SetConfigFile(ConfigFile* config_file) {
@@ -47,11 +49,21 @@ int Strategy::SetConfigFile(ConfigFile* config_file) {
 
 bool Strategy::SetStrategyCommentContent(CommentContent* cc_in) {
     if (IsPtrInvalid(cc_in)) {
-        PrintFormat("CommentContent is invalid for %s. ", this.strategy_name_);
+        PrintFormat("StrategyCommentContent is invalid for %s. ", this.strategy_name_);
         return false;
     }
-    SafeDeletePtr(this.st_comment_content);
-    this.st_comment_content = cc_in;
+    SafeDeletePtr(this.st_comment_content_);
+    this.st_comment_content_ = cc_in;
+    return true;
+}
+
+bool Strategy::SetAccountCommentContent(CommentContent* cc_in) {
+    if (IsPtrInvalid(cc_in)) {
+        PrintFormat("AccountCommentContent is invalid for %s. ", this.strategy_name_);
+        return false;
+    }
+    SafeDeletePtr(this.act_comment_content_);
+    this.act_comment_content_ = cc_in;
     return true;
 }
 

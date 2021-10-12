@@ -20,7 +20,8 @@ extern bool allow_real_acct = false;
 AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
 AutoAdjustStrategy* at_strategy;
-CommentContent* comment_content_ea;
+CommentContent* st_comment_content;
+CommentContent* act_comment_content;
 UIRetData ui_ret_data();
 
 bool is_at_strategy_valid = false;
@@ -38,9 +39,10 @@ int OnInit() {
 
 // Initializes Config File for system_mode
     system_mode_config = new ConfigFile("system_mode_config.txt");
-// Initializes comment_content_ea
-    comment_content_ea = ai_robot_ui.GetCommentContent();
-    comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "YES");
+// Initializes st_comment_content
+    st_comment_content = ai_robot_ui.GetStrategyCommentContent();
+    act_comment_content = ai_robot_ui.GetAccountCommentContent();
+    act_comment_content.SetTitleToFieldStringTerm("IsRunNorm", "YES");
 
 // Initialized at_strategy
     at_strategy = new AutoAdjustStrategy("at_strategy");
@@ -49,12 +51,16 @@ int OnInit() {
         return INIT_FAILED;
     }
     is_at_strategy_valid = true;
-    if (!at_strategy.SetStrategyCommentContent(comment_content_ea)) {
-        PrintFormat("Sets the comment content for at_strategy [%s] failed!", 
+    if (!at_strategy.SetStrategyCommentContent(st_comment_content)) {
+        PrintFormat("Sets the strategy comment content for at_strategy [%s] failed!",
                     at_strategy.GetStrategyName());
         return INIT_FAILED;
     }
-    
+    if (!at_strategy.SetAccountCommentContent(act_comment_content)) {
+        PrintFormat("Sets the account comment content for at_strategy [%s] failed!",
+                    at_strategy.GetStrategyName());
+        return INIT_FAILED;
+    }
 
     if (!system_mode_config.CheckConfigFileValid()) {
         PrintFormat("System Config File is invalid, makes sure the path as %s" ,
@@ -80,15 +86,15 @@ void OnTick() {
     }
     at_strategy.OnTickSetUIAutoInfo(ui_ret_data.ui_auto_info);
     if (at_strategy.BeforeTickExecute() == FAILED) {
-        comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT_BEF");
+        act_comment_content.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT_BEF");
         is_at_strategy_valid = false;
     }
     if (at_strategy.OnTickExecute() == FAILED) {
-        comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
+        act_comment_content.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
         is_at_strategy_valid = false;
     }
     if (at_strategy.AfterTickExecute() == FAILED) {
-        comment_content_ea.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
+        act_comment_content.SetTitleToFieldStringTerm("IsRunNorm", "ATS_NOT");
         is_at_strategy_valid = false;
     }
 }
