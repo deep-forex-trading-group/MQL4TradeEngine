@@ -1,5 +1,5 @@
 [PipStepParams]
-pip_step:10
+pip_step:20
 pip_step_max:10
 pip_factor:1.0
 pip_step_exponent:1
@@ -24,18 +24,21 @@ is_auto_sig:1
 auto_dir:0
 
 [Target]
-target_profit_factor:20
+target_profit_factor:50
 
 [Close]
 ## 整体平仓平总仓位的百分比
 total_part_close_factor:0.5
+
 ## 总体手数达到一定程度(基础手数的一定倍数)
 ## && 亏损点数(金额达到一定程度) 则减仓一半
 ## 渐入佳境了，挺住挺住，一定要坚持住!!
+## 减仓过度容易导致没有利润，这块儿还是要注意看看
 is_auto_part_close:1
-close_part_lots_factor_threshold:10
-close_part_pips_threshold:5
+close_part_lots_factor_threshold:15
+close_part_pips_threshold:10
+close_part_target_profit_factor:5
 
 ## 全平仓金额
-close_stop_loss_money:1000
+close_stop_loss_money:50000
 
