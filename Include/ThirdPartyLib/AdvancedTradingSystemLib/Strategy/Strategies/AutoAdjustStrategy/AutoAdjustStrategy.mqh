@@ -91,11 +91,15 @@ class AutoAdjustStrategy : public Strategy {
         void SetIsCurLevelAlreadyPartClose() { this.is_cur_level_already_part_close_ = true; }
         void UnSetIsCurLevelAlreadyPartClose() { this.is_cur_level_already_part_close_ = false; }
         void ResetIsCurLevelAlreadyPartClose() { this.UnSetIsCurLevelAlreadyPartClose(); }
+        void SetIsInPartCloseState() { this.is_in_part_close_state_ = true; }
+        void UnSetIsInPartCloseState() { this.is_in_part_close_state_ = false; }
+        void ResetIsInPartCloseState() { this.UnSetIsInPartCloseState(); }
         void IncNumPartClose() { this.num_part_close_++; }
     private:
         UIAutoInfo ui_auto_info_;
         int num_part_close_;
         bool is_cur_level_already_part_close_;
+        bool is_in_part_close_state_;
     private:
         AutoAdjustOrderGroup* auto_adjust_order_group_;
         AutoAdjustOrderGroupCenter* auto_adjust_order_group_center_;

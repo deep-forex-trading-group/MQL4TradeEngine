@@ -10,6 +10,8 @@ int AutoAdjustStrategy::BeforeTickExecute() {
     }
     return SUCCEEDED;
 }
+
+// TODO: 迫在眉睫，Decouple BeforeTick和AfterTick
 // 凡是平仓都要CheckMN, 凡是加仓都要return
 int AutoAdjustStrategy::OnTickExecute() {
 // TODO:加动态盈亏比
@@ -28,7 +30,12 @@ int AutoAdjustStrategy::OnTickExecute() {
 //    double lots = GetCurrentAddLotsManual(total_lots_cur);
     double lots = GetCurrentAddLotsManual(num_orders);
     double cur_total_profit = this.auto_adjust_order_group_.GetCurrentProfitInTradesAndHistory();
-    double lots_base = this.GetLotsBase(this.params_.start_lots, this.params_.total_part_close_factor, this.num_part_close_);
+    double lots_base = this.GetLotsBase(this.params_.start_lots,
+                                        this.params_.total_part_close_factor, this.num_part_close_);
+    double target_profit_money =
+                NormalizeDouble(total_lots_cur * this.params_.target_profit_factor, 2);
+    double target_part_close_profit_money =
+                NormalizeDouble(total_lots_cur * this.params_.close_part_target_profit_factor, 2);
     this.st_comment_content_.SetTitleToFieldDoubleTerm("基础手数", lots_base);
 // Checks auto signal trading
     if (this.params_.is_auto_sig == 1 && this.params_.auto_dir == 0) {
@@ -84,7 +91,24 @@ int AutoAdjustStrategy::OnTickExecute() {
                 return FAILED;
             }
             this.SetIsCurLevelAlreadyPartClose();
+            this.SetIsInPartCloseState();
             this.IncNumPartClose();
+        }
+        this.st_comment_content_.SetTitleToFieldDoubleTerm("是否在部分平仓状态",
+                                                           this.is_cur_level_already_part_close_ ? 1 : 0);
+        if (cur_total_profit >= target_part_close_profit_money + INVALID_SMALL_MONEY
+            && this.is_cur_level_already_part_close_) {
+            this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND);
+            // Close all orders and the state of the group changes
+            // So we just refresh the state, to update the magic number for the group
+
+            if (this.CheckMNUpdate() == FAILED) {
+                return FAILED;
+            }
+            this.ResetIsInPartCloseState();
+            this.ResetIsCurLevelAlreadyPartClose();
+            this.ResetNumPartClose();
+            UIUtils::Laber("亏损盈利平仓",clrMediumOrchid,0);
         }
     }
     if (this.ui_auto_info_.is_part_close_activated) {
@@ -102,6 +126,7 @@ int AutoAdjustStrategy::OnTickExecute() {
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
+            this.ResetIsInPartCloseState();
             this.ResetIsCurLevelAlreadyPartClose();
             this.ResetNumPartClose();
         }
@@ -112,6 +137,7 @@ int AutoAdjustStrategy::OnTickExecute() {
             if (this.CheckMNUpdate() == FAILED) {
                 return FAILED;
             }
+            this.ResetIsInPartCloseState();
             this.ResetIsCurLevelAlreadyPartClose();
             this.ResetNumPartClose();
         }
@@ -155,8 +181,6 @@ int AutoAdjustStrategy::OnTickExecute() {
     this.st_comment_content_.SetTitleToFieldDoubleTerm("总头寸", total_lots_cur);
     this.st_comment_content_.SetTitleToFieldDoubleTerm("目标利润(因子)", this.params_.target_profit_factor);
 // TODO: 紧紧结合Frero，不要轻言放弃,核心是每一波利润拿到最大浮亏的一定比例再走，马丁倍数放小一点，时间换空间
-    double target_profit_money =
-                    NormalizeDouble(total_lots_cur * this.params_.target_profit_factor, 2);
 
     this.st_comment_content_.SetTitleToFieldDoubleTerm("当前组(总)利润", cur_total_profit);
     this.st_comment_content_.SetTitleToFieldDoubleTerm("当前浮动盈亏", cur_float_profit);
@@ -165,11 +189,10 @@ int AutoAdjustStrategy::OnTickExecute() {
         this.auto_adjust_order_group_.CloseAllOrders(BUY_AND_SELL_SEND);
         // Close all orders and the state of the group changes
         // So we just refresh the state, to update the magic number for the group
-        if (!this.auto_adjust_order_group_.UpdateMagicNumbersAll()) {
-            PrintFormat("UpdatedMagicNumber failed, Strategy[%s] BANNED.",
-                        this.strategy_name_);
+        if (this.CheckMNUpdate() == FAILED) {
             return FAILED;
         }
+        this.ResetIsInPartCloseState();
         this.ResetIsCurLevelAlreadyPartClose();
         this.ResetNumPartClose();
         UIUtils::Laber("盈利平仓",Red,0);
@@ -244,7 +267,7 @@ bool AutoAdjustStrategy::CheckIfAutoPartClose(double cur_total_lots, double cur_
     }
     // TODO: 参数10提出来，检查所有的类似这种绝对值参数，都提出来
     // TODO: 马上解决回测太慢的问题，用hashset模拟订单管理
-    double target_stop_loss_money = -this.params_.close_part_pips_threshold * lots_base * 10;
+    double target_stop_loss_money = -this.params_.close_part_pips_threshold * cur_total_lots * 10;
     return cur_total_profit >= target_stop_loss_money + INVALID_SMALL_MONEY;
 }
 double AutoAdjustStrategy::GetCurrentAddLotsByFactor(double cur_total_lots) {
