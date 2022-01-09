@@ -15,7 +15,7 @@
 // Testing Mode and Production Mode switch
 // if Production Mode, comments the code snippets
 extern SYSTEM_MODE system_mode = PRODUCTION_MODE;
-extern bool allow_real_acct = false;
+extern bool allow_real_acct = true;
 
 AIRobotUI ai_robot_ui;
 ConfigFile* system_mode_config;
