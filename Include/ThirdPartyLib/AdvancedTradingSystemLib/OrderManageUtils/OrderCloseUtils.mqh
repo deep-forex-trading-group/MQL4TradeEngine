@@ -37,13 +37,13 @@ bool OrderCloseUtils::CloseAllOrders(int magic_number) {
         RefreshRates();
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
             && OrderType() == OP_BUY
-            && (magic_number <= -1 || magic_number == OrderMagicNumber()) ) {
+            && (magic_number == OrderMagicNumber()) ) {
               RefreshRates();
               is_success = CloseOrderByOrderTicket(OrderTicket(), 0);
         }
         if (OrderSelect(i, SELECT_BY_POS, MODE_TRADES) && OrderSymbol() == Symbol()
                         && OrderType() == OP_SELL
-                        && (magic_number <= -1 || magic_number == OrderMagicNumber())) {
+                        && (magic_number == OrderMagicNumber())) {
               RefreshRates();
               is_success = CloseOrderByOrderTicket(OrderTicket(), 1);
         }

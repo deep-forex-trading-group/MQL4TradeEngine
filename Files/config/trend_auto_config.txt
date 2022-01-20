@@ -1,0 +1,4 @@
+## trend_auto config file
+[TrendAutoParamTitle]
+param_1:12
+param_2:14

@@ -1,0 +1,4 @@
+## trending config file
+[TrendingParamTitle]
+param_1:12
+param_2:14

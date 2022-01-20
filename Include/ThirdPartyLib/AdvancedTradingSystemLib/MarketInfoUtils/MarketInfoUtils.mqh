@@ -30,7 +30,16 @@ class MarketInfoUtils {
                 return 10;
             }
             if (Symbol() == "EURAUD") {
-                return 100;
+                return 10;
+            }
+            if (Symbol() == "GBPCAD") {
+                return 10;
+            }
+            if (Symbol() == "GBPUSD") {
+                return 10;
+            }
+            if (Symbol() == "USDJPY") {
+                return 10;
             }
             return FAILED;
         }

@@ -1,0 +1,4 @@
+## template config file
+[TemplateParamTitle]
+param_1:12
+param_2:14

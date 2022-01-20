@@ -51,7 +51,6 @@ bool OrderSendUtils::AddOneOrderByStepPipReverse(int magic_number, int magic_num
                 }
             }
          }
-
         if (highest_price != -1
             && NormalizeDouble(Bid, Digits) - highest_price >= step_pip*MarketInfoUtils::GetPoints()) {
             return CreateSellOrder(magic_number_new_order,Lot,0,0,comm) >= 0;

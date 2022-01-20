@@ -1,0 +1,24 @@
+## testing comment
+## shua dan, fan xiang N bei diaodeng
+[SwitchOff]
+# 1 buy, -1 sell, 0 both
+buy_or_sell:0
+
+[PipStepParams]
+pip_step:6
+pip_step_max:10
+pip_factor:1.0
+pip_step_exponent:1
+
+[LotsParams]
+start_lots:0.02
+lots_exponent:1.5
+lots_max:0.51
+
+[TargetMoneyParams]
+target_factor:5
+
+[BigLotsReverse]
+big_lots_exponent:20
+big_lots_order_num:6
+big_lots_on_factor:0.2
