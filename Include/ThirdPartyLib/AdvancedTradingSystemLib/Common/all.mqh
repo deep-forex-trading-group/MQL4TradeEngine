@@ -2,3 +2,4 @@
 #include "CommonConstant.mqh"
 #include "CommonDataStructure.mqh"
 #include "CommonSystemConfig.mqh"
+#include "CommonUtils.mqh"

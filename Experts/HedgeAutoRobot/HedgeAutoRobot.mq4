@@ -6,7 +6,6 @@
 #include <ThirdPartyLib/AdvancedTradingSystemLib/ConfigManagement/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/SystemConfigUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/HedgeAutoStrategy/all.mqh>
-#include <ThirdPartyLib/AdvancedTradingSystemLib/Strategy/Strategies/TrendAutoStrategy/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/EAUtils/all.mqh>
 #include <ThirdPartyLib/AdvancedTradingSystemLib/MarketInfoUtils/MarketInfoUtils.mqh>
 #include "DataStructure.mqh"
@@ -18,7 +17,6 @@ extern bool allow_real_acct = true;
 
 ConfigFile* system_mode_config;
 HedgeAutoStrategy* ha_strategy;
-TrendAutoStrategy* ta_strategy;
 
 bool is_ha_strategy_valid = false;
 
@@ -62,7 +60,6 @@ TESTING_CODE_END(system_mode)
 }
 
 void OnTick() {
-    ta_strategy.OnTickExecute();
     if (!is_ha_strategy_valid) {
         return;
     }

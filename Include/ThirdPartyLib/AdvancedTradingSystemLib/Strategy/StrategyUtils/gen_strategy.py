@@ -68,10 +68,10 @@ st_all_mqh_content = template_all_mqh_content.replace("Template", args.st_name)
 write_file(st_all_mqh_content, st_path, "all.mqh")
 
 st_all_mqh_content = read_file(st_base_path, "all.mqh")
-st_all_mqh_content.replace("#include \"" + args.st_name + "Strategy/all.mqh\"", "")
+st_all_mqh_content = st_all_mqh_content.replace("#include \"" + args.st_name + "Strategy\\all.mqh\"", "")
 st_all_mqh_content = st_all_mqh_content.strip()
 st_all_mqh_content += "\n"
-st_all_mqh_content += "#include \"" + args.st_name + "Strategy/all.mqh\""
+st_all_mqh_content += "#include \"" + args.st_name + "Strategy\\all.mqh\""
 write_file(st_all_mqh_content, st_base_path, "all.mqh")
 
 

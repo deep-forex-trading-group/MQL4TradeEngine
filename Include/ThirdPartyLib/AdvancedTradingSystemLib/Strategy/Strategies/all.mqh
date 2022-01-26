@@ -2,4 +2,4 @@
 #include "AutoAdjustStrategy\all.mqh"
 #include "HedgeAutoStrategy\all.mqh"
 #include "TemplateStrategy\all.mqh"
-#include "TrendingStrategy/all.mqh"
+#include "TrendingStrategy\all.mqh"

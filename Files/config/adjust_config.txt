@@ -1,5 +1,5 @@
 [PipStepParams]
-pip_step:20
+pip_step:10
 pip_step_max:10
 pip_factor:1.0
 pip_step_exponent:1

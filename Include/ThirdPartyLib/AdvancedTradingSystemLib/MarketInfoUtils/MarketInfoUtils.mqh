@@ -41,6 +41,12 @@ class MarketInfoUtils {
             if (Symbol() == "USDJPY") {
                 return 10;
             }
+            if (Symbol() == "USDCAD") {
+                return 10;
+            }
+            if (Symbol() == "XAUUSD") {
+                return 10;
+            }
             return FAILED;
         }
         static int GetDigits() {
