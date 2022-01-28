@@ -35,7 +35,7 @@ DataFrame* df;
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
 int OnInit() {
-    string path = "records/whmg_eb.csv";
+    string path = "records/260eu_eb.csv";
     df = new DataFrame(path, ",", 0);
 //    df.PrintDataFrame();
 
