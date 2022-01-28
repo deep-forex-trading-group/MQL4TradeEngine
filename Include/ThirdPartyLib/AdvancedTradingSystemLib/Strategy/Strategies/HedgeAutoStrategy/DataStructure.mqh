@@ -17,6 +17,8 @@ class HedgeAutoStrategyParams : StrategyParams {
 			this.lots_max = INTEGER_MIN_INT;
 // TargetMoneyParams
 			this.target_factor = INTEGER_MIN_INT;
+			this.first_batch_target_factor = INTEGER_MIN_INT;
+			this.first_batch_order_num = INTEGER_MIN_INT;
 // BigLotsReverse
 			this.big_lots_exponent = INTEGER_MIN_INT;
 			this.big_lots_order_num = INTEGER_MIN_INT;
@@ -43,6 +45,8 @@ class HedgeAutoStrategyParams : StrategyParams {
 			double lots_max;
 // TargetMoneyParams
 			double target_factor;
+			double first_batch_target_factor;
+			double first_batch_order_num;
 // BigLotsReverse
 			double big_lots_exponent;
 			double big_lots_order_num;
@@ -67,6 +71,8 @@ void HedgeAutoStrategyParams::PrintAllParams() {
 	PrintFormat("HedgeAutoStrategyParams [%s:%.4f]", "lots_max", this.lots_max);
 // TargetMoneyParams
 	PrintFormat("HedgeAutoStrategyParams [%s:%.4f]", "target_factor", this.target_factor);
+	PrintFormat("HedgeAutoStrategyParams [%s:%.4f]", "first_batch_target_factor", this.first_batch_target_factor);
+	PrintFormat("HedgeAutoStrategyParams [%s:%.4f]", "first_batch_order_num", this.first_batch_order_num);
 // BigLotsReverse
 	PrintFormat("HedgeAutoStrategyParams [%s:%.4f]", "big_lots_exponent", this.big_lots_exponent);
 	PrintFormat("HedgeAutoStrategyParams [%s:%.4f]", "big_lots_order_num", this.big_lots_order_num);
@@ -88,6 +94,8 @@ void HedgeAutoStrategyParams::RefreshStrategyParams() {
 	this.lots_max = StringToDouble(this.AssignConfigItem("LotsParams", "lots_max"));
 // TargetMoneyParams
 	this.target_factor = StringToDouble(this.AssignConfigItem("TargetMoneyParams", "target_factor"));
+	this.first_batch_target_factor = StringToDouble(this.AssignConfigItem("TargetMoneyParams", "first_batch_target_factor"));
+	this.first_batch_order_num = StringToDouble(this.AssignConfigItem("TargetMoneyParams", "first_batch_order_num"));
 // BigLotsReverse
 	this.big_lots_exponent = StringToDouble(this.AssignConfigItem("BigLotsReverse", "big_lots_exponent"));
 	this.big_lots_order_num = StringToDouble(this.AssignConfigItem("BigLotsReverse", "big_lots_order_num"));

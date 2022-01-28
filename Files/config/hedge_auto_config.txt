@@ -5,18 +5,20 @@
 buy_or_sell:0
 
 [PipStepParams]
-pip_step:25
+pip_step:10
 pip_step_max:10
 pip_factor:1.0
 pip_step_exponent:1
 
 [LotsParams]
 start_lots:0.02
-lots_exponent:1
+lots_exponent:1.15
 lots_max:0.51
 
 [TargetMoneyParams]
-target_factor:20
+target_factor:2
+first_batch_target_factor:5
+first_batch_order_num:1
 
 [BigLotsReverse]
 big_lots_exponent:20
